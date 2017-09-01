@@ -9,6 +9,7 @@ Research on creating interactive content using Python.
 pip install -U ipywidgets
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
+# Clone this into a sibling folder to this one
 git clone https://github.com/jupyter-widgets/ipywidgets
 cd ipywidgets
 npm install
