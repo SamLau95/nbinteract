@@ -8,7 +8,7 @@ import { Kernel } from '@jupyterlab/services';
 
 import { HTMLManager } from '@jupyter-widgets/html-manager';
 
-import "@jupyter-widgets/controls/css/widgets.css";
+import '@jupyter-widgets/controls/css/widgets.css';
 
 let requirePromise = function(module) {
     return new Promise((resolve, reject) => {

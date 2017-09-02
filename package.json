@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "serve": "webpack --watch"
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SamLau95/nb-interact.git"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2
   },
   "keywords": [
     "jupyter",

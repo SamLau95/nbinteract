@@ -9,11 +9,7 @@ Research on creating interactive content using Python.
 pip install -U ipywidgets
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
-# Clone this into a sibling folder to this one
-git clone https://github.com/jupyter-widgets/ipywidgets
-cd ipywidgets
-npm install
-npm run build:examples
-
-# Now you can go to the examples/ folder and open one of the example HTML files
+brew install yarn
+yarn install
+make serve
 ```
