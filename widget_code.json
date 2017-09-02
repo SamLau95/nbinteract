@@ -1,0 +1,7 @@
+[
+    "from ipywidgets import interact",
+    "def hello(num):",
+    "    return num ** 2",
+    "",
+    "interact(hello, num=(0, 100))"
+]
