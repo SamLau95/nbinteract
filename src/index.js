@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
       // Run backend code to create the widgets.  You could also create the
       // widgets in the frontend, like the other widget examples demonstrate.
       let execution = kernel.requestExecute({ code: code });
+      debugger;
       execution.onIOPub = msg => {
         // If we have a display message, display the widget.
         if (KernelMessage.isDisplayDataMsg(msg)) {
@@ -60,6 +61,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
             }
           }
         }
+      };
+      execution.onReply = msg => {
+        debugger;
+      };
+      execution.onStdin = msg => {
+        debugger;
       };
     });
 });

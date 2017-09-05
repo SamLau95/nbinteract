@@ -11,5 +11,5 @@ jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
 brew install yarn
 yarn install
-make serve
+make -j2 serve
 ```
