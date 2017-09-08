@@ -1,12 +1,9 @@
-import * as controls from "@jupyter-widgets/controls";
-import * as base from "@jupyter-widgets/base";
+import { HTMLManager } from "@jupyter-widgets/html-manager";
 import * as pWidget from "@phosphor/widgets";
 
-import { IDisposable } from "@phosphor/disposable";
-
-import { Kernel } from "@jupyterlab/services";
-
-import { HTMLManager } from "@jupyter-widgets/html-manager";
+import * as controls from "@jupyter-widgets/controls";
+import * as base from "@jupyter-widgets/base";
+import outputWidgets from "./outputWidgets";
 
 import "@jupyter-widgets/controls/css/widgets.css";
 
@@ -70,5 +67,30 @@ export class WidgetManager extends HTMLManager {
     return this.kernel
       .requestCommInfo({ target: this.comm_target_name })
       .then(reply => reply.content.comms);
+  }
+
+  /**
+   * Load a class and return a promise to the loaded object.
+   */
+  loadClass(className, moduleName, moduleVersion) {
+    if (moduleName === "@jupyter-widgets/controls") {
+      return Promise.resolve(controls[className]);
+    } else if (moduleName === "@jupyter-widgets/base") {
+      return Promise.resolve(base[className]);
+    } else if (moduleName == "@jupyter-widgets/output") {
+      return Promise.resolve(outputWidgets[className]);
+    } else {
+      return new Promise(function(resolve, reject) {
+        window.require([moduleName], resolve, reject);
+      }).then(function(mod) {
+        if (mod[className]) {
+          return mod[className];
+        } else {
+          return Promise.reject(
+            "Class " + className + " not found in module " + moduleName
+          );
+        }
+      });
+    }
   }
 }
