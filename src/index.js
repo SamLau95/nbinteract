@@ -1,72 +1,62 @@
-import * as CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/python/python';
 import 'font-awesome/css/font-awesome.css';
 import { WidgetManager } from './manager';
 
 import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services';
 
-let BASEURL = prompt('Notebook BASEURL', 'http://localhost:8888');
-let WSURL =
+const BASE_URL = prompt('Notebook BASEURL', 'http://localhost:8889');
+const WS_URL =
   'ws:' +
-  BASEURL.split(':')
+  BASE_URL.split(':')
     .slice(1)
     .join(':');
 
-document.addEventListener('DOMContentLoaded', function(event) {
+const WIDGET_MSG = 'application/vnd.jupyter.widget-view+json';
+
+document.addEventListener('DOMContentLoaded', event => {
   // Connect to the notebook webserver.
-  let connectionInfo = ServerConnection.makeSettings({
-    baseUrl: BASEURL,
-    wsUrl: WSURL,
+  const serverSettings = ServerConnection.makeSettings({
+    baseUrl: BASE_URL,
+    wsUrl: WS_URL,
   });
-  Kernel.getSpecs(connectionInfo)
+
+  Kernel.getSpecs(serverSettings)
     .then(kernelSpecs => {
       return Kernel.startNew({
         name: kernelSpecs.default,
-        serverSettings: connectionInfo,
+        serverSettings,
       });
     })
     .then(kernel => {
-      // Create a codemirror instance
-      let code = require('../widget_code.json').join('\n');
-      let inputarea = document.getElementsByClassName('inputarea')[0];
-      let editor = CodeMirror(inputarea, {
-        value: code,
-        mode: 'python',
-        tabSize: 4,
-        showCursorWhenSelecting: true,
-        viewportMargin: Infinity,
-        readOnly: true,
-      });
+      const $code = $('.code_cell .input_area');
 
       // Create the widget area and widget manager
-      let widgetarea = document.getElementsByClassName('widgetarea')[0];
-      let manager = new WidgetManager(kernel, widgetarea);
+      const $widgetAreas = $('.output_widget_view');
+      const manager = new WidgetManager(kernel, $widgetAreas);
 
       // Run backend code to create the widgets.  You could also create the
       // widgets in the frontend, like the other widget examples demonstrate.
-      let execution = kernel.requestExecute({ code: code });
-      debugger;
-      execution.onIOPub = msg => {
-        // If we have a display message, display the widget.
-        if (KernelMessage.isDisplayDataMsg(msg)) {
-          let widgetData =
-            msg.content.data['application/vnd.jupyter.widget-view+json'];
-          if (widgetData !== undefined && widgetData.version_major === 2) {
-            let model = manager.get_model(widgetData.model_id);
-            if (model !== undefined) {
-              model.then(model => {
-                manager.display_model(msg, model);
-              });
+
+      const codeLines = $code.map((index, cell) => cell.textContent).get();
+
+      codeLines.forEach((code, i) => {
+        // This might break because of out-of-order code execution...
+        const execution = kernel.requestExecute({ code });
+
+        execution.onIOPub = msg => {
+          // If we have a display message, display the widget.
+          console.log(i, msg);
+          if (KernelMessage.isDisplayDataMsg(msg)) {
+            let widgetData = msg.content.data[WIDGET_MSG];
+            if (widgetData !== undefined && widgetData.version_major === 2) {
+              let model = manager.get_model(widgetData.model_id);
+              if (model !== undefined) {
+                model.then(model => {
+                  manager.display_model(msg, model);
+                });
+              }
             }
           }
-        }
-      };
-      execution.onReply = msg => {
-        debugger;
-      };
-      execution.onStdin = msg => {
-        debugger;
-      };
+        };
+      });
     });
 });

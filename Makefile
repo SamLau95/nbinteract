@@ -8,7 +8,7 @@ help:
 build: ## Build Javascript bundle
 	yarn run build
 
-serve: start_notebook start_webpack ## Start Python and webpack watch (run with make -j2)
+serve: start_notebook start_webpack ## Start Python and webpack watch (must run with make -j2)
 	@echo "Serving..."
 
 start_notebook:

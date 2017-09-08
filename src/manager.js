@@ -20,11 +20,11 @@ let requirePromise = function(module) {
 };
 
 export class WidgetManager extends HTMLManager {
-  constructor(kernel, el) {
+  constructor(kernel, widgetAreas) {
     super();
     this.kernel = kernel;
     this.newKernel(kernel);
-    this.el = el;
+    this.widgetAreas = widgetAreas;
   }
 
   newKernel(kernel) {
@@ -44,7 +44,7 @@ export class WidgetManager extends HTMLManager {
 
   display_view(msg, view, options) {
     return Promise.resolve(view).then(view => {
-      pWidget.Widget.attach(view.pWidget, this.el);
+      pWidget.Widget.attach(view.pWidget, this.widgetAreas[0]);
       view.on('remove', function() {
         console.log('view removed', view);
       });
