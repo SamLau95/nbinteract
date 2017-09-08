@@ -1,30 +1,30 @@
-import * as controls from '@jupyter-widgets/controls';
-import * as base from '@jupyter-widgets/base';
-import * as pWidget from '@phosphor/widgets';
+import * as controls from "@jupyter-widgets/controls";
+import * as base from "@jupyter-widgets/base";
+import * as pWidget from "@phosphor/widgets";
 
-import { IDisposable } from '@phosphor/disposable';
+import { IDisposable } from "@phosphor/disposable";
 
-import { Kernel } from '@jupyterlab/services';
+import { Kernel } from "@jupyterlab/services";
 
-import { HTMLManager } from '@jupyter-widgets/html-manager';
+import { HTMLManager } from "@jupyter-widgets/html-manager";
 
-import '@jupyter-widgets/controls/css/widgets.css';
+import "@jupyter-widgets/controls/css/widgets.css";
 
 let requirePromise = function(module) {
   return new Promise((resolve, reject) => {
     if (window.require) {
-      reject('requirejs not loaded');
+      reject("requirejs not loaded");
     }
     window.require([module], resolve, reject);
   });
 };
 
 export class WidgetManager extends HTMLManager {
-  constructor(kernel, widgetAreas) {
+  constructor(kernel, $cells) {
     super();
     this.kernel = kernel;
     this.newKernel(kernel);
-    this.widgetAreas = widgetAreas;
+    this.$cells = $cells;
   }
 
   newKernel(kernel) {
@@ -38,15 +38,15 @@ export class WidgetManager extends HTMLManager {
       this.comm_target_name,
       (comm, msg) => {
         this.handle_comm_open(new base.shims.services.Comm(comm), msg);
-      },
+      }
     );
   }
 
-  display_view(msg, view, options) {
+  display_view(msg, view, { el }) {
     return Promise.resolve(view).then(view => {
-      pWidget.Widget.attach(view.pWidget, this.widgetAreas[0]);
-      view.on('remove', function() {
-        console.log('view removed', view);
+      pWidget.Widget.attach(view.pWidget, el);
+      view.on("remove", function() {
+        console.log("view removed", view);
       });
       return view;
     });
