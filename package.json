@@ -13,7 +13,7 @@
     "url": "git+https://github.com/SamLau95/nb-interact.git"
   },
   "prettier": {
-    "trailingComma": "es5",
+    "trailingComma": "all",
     "tabWidth": 2
   },
   "keywords": [
@@ -39,10 +39,17 @@
     "codemirror": "^5.9.0",
     "font-awesome": "^4.7.0",
     "http-server": "^0.10.0",
+    "jquery": "^3.2.1",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "@types/requirejs": "^2.1.28",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-runtime": "^6.26.0",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
     "fs-extra": "^0.30.0",
@@ -51,7 +58,7 @@
     "prettier": "^1.6.1",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.9",
-    "webpack": "^3.5.5",
+    "webpack": "^3.5.6",
     "webpack-dev-server": "^2.7.1"
   }
 }

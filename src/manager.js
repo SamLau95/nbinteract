@@ -1,20 +1,10 @@
 import { HTMLManager } from "@jupyter-widgets/html-manager";
-import * as pWidget from "@phosphor/widgets";
 
 import * as controls from "@jupyter-widgets/controls";
 import * as base from "@jupyter-widgets/base";
 import outputWidgets from "./outputWidgets";
 
 import "@jupyter-widgets/controls/css/widgets.css";
-
-let requirePromise = function(module) {
-  return new Promise((resolve, reject) => {
-    if (window.require) {
-      reject("requirejs not loaded");
-    }
-    window.require([module], resolve, reject);
-  });
-};
 
 export class WidgetManager extends HTMLManager {
   constructor(kernel, $cells) {
@@ -39,21 +29,15 @@ export class WidgetManager extends HTMLManager {
     );
   }
 
-  display_view(msg, view, { el }) {
-    return Promise.resolve(view).then(view => {
-      pWidget.Widget.attach(view.pWidget, el);
-      view.on("remove", function() {
-        console.log("view removed", view);
-      });
-      return view;
-    });
+  display_view(msg, view, options) {
+    return Promise.resolve(view.pWidget);
   }
 
   /**
    * Create a comm.
    */
   _create_comm(target_name, model_id, data = undefined, metadata = undefined) {
-    let comm = this.kernel.connectToComm(target_name, model_id);
+    const comm = this.kernel.connectToComm(target_name, model_id);
     if (data || metadata) {
       comm.open(data, metadata);
     }

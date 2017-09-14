@@ -1,9 +1,11 @@
 import "font-awesome/css/font-awesome.css";
-import { WidgetManager } from "./manager";
+import $ from 'jquery';
 
 import { Kernel, ServerConnection, KernelMessage } from "@jupyterlab/services";
 
-const BASE_URL = prompt("Notebook BASEURL", "http://localhost:8889");
+import { WidgetManager } from "./manager";
+
+const BASE_URL = "http://localhost:8889";
 const WS_URL =
   "ws:" +
   BASE_URL.split(":")
@@ -16,11 +18,8 @@ const cellToCode = cell =>
   $(cell)
     .find(".input_area")
     .text();
-const cellToWidgetOutput = cell =>
-  $(cell)
-    .find(".output_widget_view")
-    .get();
-const isWidgetCell = cell => cellToWidgetOutput(cell).length !== 0;
+const isWidgetCell = cell => $(cell).find(".output_widget_view").length !== 0;
+const cellToWidgetOutput = cell => $(cell).find(".output_widget_view")[0];
 
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
@@ -57,19 +56,17 @@ document.addEventListener("DOMContentLoaded", event => {
 
       codeCells.forEach((cell, i) => {
         const code = cellToCode(cell);
-
         const execution = kernel.requestExecute({ code });
 
         execution.onIOPub = msg => {
           // If we have a display message, display the widget.
-          const test = cell;
           if (!isWidgetCell(cell)) {
             return;
           }
 
           const model = msgToModel(msg, manager);
           if (model !== undefined) {
-            const outputEl = cellToWidgetOutput(cell)[0];
+            const outputEl = cellToWidgetOutput(cell);
             model.then(model => {
               manager.display_model(msg, model, { el: outputEl });
             });

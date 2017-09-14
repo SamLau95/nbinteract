@@ -1,7 +1,23 @@
-import outputBase from "@jupyter-widgets/output";
 import _ from "underscore";
+import * as outputBase from "@jupyter-widgets/output";
+import { OutputAreaModel, OutputArea } from "@jupyterlab/outputarea";
+import { KernelMessage } from "@jupyterlab/services";
+import { Panel } from "@phosphor/widgets";
 
-import outputArea from "./outputArea";
+const DISPLAY_DATA = "display_data";
+const CLEAR_OUTPUT = "clear_output";
+
+const WIDGET_MSG = "application/vnd.jupyter.widget-view+json";
+const V_MAJOR = 2;
+
+const isMsgForModel = ({ content }, model_id) => {
+  const data = content.data;
+  if (!data) {
+    return false;
+  }
+
+  return data.version_major == V_MAJOR && data.model_id == model_id;
+}
 
 const OutputModel = outputBase.OutputModel.extend({
   defaults: _.extend({}, outputBase.OutputModel.prototype.defaults(), {
@@ -9,147 +25,76 @@ const OutputModel = outputBase.OutputModel.extend({
     outputs: []
   }),
 
-  initialize: function(attributes, options) {
+  initialize(attributes, options) {
     OutputModel.__super__.initialize.apply(this, arguments);
-    this.listenTo(this, "change:msg_id", this.reset_msg_id);
 
-    if (this.comm && this.comm.kernel) {
-      this.kernel = this.comm.kernel;
-      this.kernel.set_callbacks_for_msg(this.model_id, this.callbacks(), false);
-    }
-
-    // Create an output area to handle the data model part
-    debugger;
-    this.output_area = new outputArea.OutputArea({
-      selector: document.createElement("div"),
-      config: { data: { OutputArea: {} } },
-      prompt_area: false,
-      events: this.widget_manager.notebook.events,
-      keyboard_manager: this.widget_manager.keyboard_manager
+    this._outputs = new OutputAreaModel({
+      values: attributes.outputs,
+      // Widgets (including this output widget) are only rendered in
+      // trusted contexts
+      trusted: true
     });
-    this.listenTo(
-      this,
-      "new_message",
-      function(msg) {
-        this.output_area.handle_output(msg);
-        this.set("outputs", this.output_area.toJSON(), {
-          newMessage: true
-        });
-        this.save_changes();
-      },
-      this
-    );
-    this.listenTo(this, "clear_output", function(msg) {
-      this.output_area.handle_clear_output(msg);
-      this.set("outputs", [], { newMessage: true });
-      this.save_changes();
-    });
-    this.listenTo(this, "change:outputs", this.setOutputs);
-    this.setOutputs();
-  },
 
-  // make callbacks
-  callbacks: function() {
-    // Merge our callbacks with the base class callbacks.
-    var cb = OutputModel.__super__.callbacks.apply(this, arguments);
-    var iopub = cb.iopub || {};
-    var iopubCallbacks = _.extend({}, iopub, {
-      output: function(msg) {
-        this.trigger("new_message", msg);
-        if (iopub.output) {
-          iopub.output.apply(this, arguments);
+    this._outputs.add({
+      output_type: DISPLAY_DATA,
+      data: { "text/plain": "Hello world" }
+    });
+
+    const kernel = options.widget_manager.kernel;
+    if (this.comm && kernel) {
+      this.kernel = kernel;
+      this.kernel.iopubMessage.connect((kernel, msg) => {
+        if (KernelMessage.isDisplayDataMsg(msg)) {
+          // if (!isMsgForModel(msg, this.model_id)) {
+          //   return;
+          // }
+          console.log(msg);
+          // this._outputs.add({
+          //   output_type: msg.msg_type,
+          //   data: msg.content.data,
+          //   metadata: msg.content.metadata,
+          // });
+        } else if (KernelMessage.isClearOutputMsg(msg)) {
+          if (!isMsgForModel(msg, this.model_id)) {
+            return;
+          }
+          console.log('Clear output');
+          // this._outputs.clear();
         }
-      }.bind(this),
-      clear_output: function(msg) {
-        this.trigger("clear_output", msg);
-        if (iopub.clear_output) {
-          iopub.clear_output.apply(this, arguments);
-        }
-      }.bind(this)
-    });
-    return _.extend({}, cb, { iopub: iopubCallbacks });
-  },
-
-  reset_msg_id: function() {
-    var kernel = this.kernel;
-    // Pop previous message id
-    var prev_msg_id = this.previous("msg_id");
-    if (prev_msg_id && kernel) {
-      var previous_callback = kernel.output_callback_overrides_pop(prev_msg_id);
-      if (previous_callback !== this.model_id) {
-        console.error(
-          "Popped wrong message (" +
-            previous_callback +
-            " instead of " +
-            this.model_id +
-            ") - likely the stack was not maintained in kernel."
-        );
-      }
-    }
-    var msg_id = this.get("msg_id");
-    if (msg_id && kernel) {
-      kernel.output_callback_overrides_push(msg_id, this.model_id);
-    }
-  },
-
-  setOutputs: function(model, value, options) {
-    if (!(options && options.newMessage)) {
-      // fromJSON does not clear the existing output
-      this.output_area.clear_output();
-      // fromJSON does not copy the message, so we make a deep copy
-      this.output_area.fromJSON(
-        JSON.parse(JSON.stringify(this.get("outputs")))
-      );
+      });
     }
   }
 });
 
 const OutputView = outputBase.OutputView.extend({
-  render: function() {
-    this.el.classList.add("jupyter-widgets-output-area");
-
-    this.output_area = new outputArea.OutputArea({
-      selector: this.el,
-      // use default values for the output area config
-      config: { data: { OutputArea: {} } },
-      prompt_area: false,
-      events: this.model.widget_manager.notebook.events,
-      keyboard_manager: this.model.widget_manager.keyboard_manager
-    });
-    this.listenTo(
-      this.model,
-      "new_message",
-      function(msg) {
-        this.output_area.handle_output(msg);
-      },
-      this
-    );
-    this.listenTo(this.model, "clear_output", function(msg) {
-      this.output_area.handle_clear_output(msg);
-      // fake the event on the output area element. This can be
-      // deleted when we can rely on
-      // https://github.com/jupyter/notebook/pull/2411 being
-      // available.
-      this.output_area.element.trigger("clearing", {
-        output_area: this
-      });
-    });
-    // Render initial contents from the current model
-    this.listenTo(this.model, "change:outputs", this.setOutputs);
-    this.setOutputs();
-
-    OutputView.__super__.render.apply(this, arguments);
+  _createElement(tagName) {
+    this.pWidget = new Panel();
+    return this.pWidget.node;
   },
 
-  setOutputs: function(model, value, options) {
-    if (!(options && options.newMessage)) {
-      // fromJSON does not clear the existing output
-      this.output_area.clear_output();
-      // fromJSON does not copy the message, so we make a deep copy
-      this.output_area.fromJSON(
-        JSON.parse(JSON.stringify(this.model.get("outputs")))
-      );
+  _setElement(el) {
+    if (this.el || el !== this.pWidget.node) {
+      // Boxes don't allow setting the element beyond the initial creation.
+      throw new Error("Cannot reset the DOM element.");
     }
+    this.el = this.pWidget.node;
+    this.$el = $(this.pWidget.node);
+  },
+
+  render() {
+    this.el.classList.add("jupyter-widgets-output-area");
+
+    this._outputView = new OutputArea({
+      rendermime: this.model.widget_manager.renderMime,
+      // Hack to get at the model's OutputAreaModel...
+      model: this.model._outputs
+    });
+
+    this.pWidget.insertWidget(0, this._outputView);
+    this.pWidget.addClass("jupyter-widgets");
+    this.pWidget.addClass("widget-output");
+
+    // OutputView.__super__.render.apply(this, arguments);
   }
 });
 
