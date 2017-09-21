@@ -1,65 +1,77 @@
-import * as CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/mode/python/python';
-import 'font-awesome/css/font-awesome.css';
-import { WidgetManager } from './manager';
+import "font-awesome/css/font-awesome.css";
+import $ from 'jquery';
 
-import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services';
+import { Kernel, ServerConnection, KernelMessage } from "@jupyterlab/services";
 
-let BASEURL = prompt('Notebook BASEURL', 'http://localhost:8888');
-let WSURL =
-  'ws:' +
-  BASEURL.split(':')
+import { WidgetManager } from "./manager";
+
+const BASE_URL = "http://localhost:8889";
+const WS_URL =
+  "ws:" +
+  BASE_URL.split(":")
     .slice(1)
-    .join(':');
+    .join(":");
 
-document.addEventListener('DOMContentLoaded', function(event) {
+const WIDGET_MSG = "application/vnd.jupyter.widget-view+json";
+
+const cellToCode = cell =>
+  $(cell)
+    .find(".input_area")
+    .text();
+const isWidgetCell = cell => $(cell).find(".output_widget_view").length !== 0;
+const cellToWidgetOutput = cell => $(cell).find(".output_widget_view")[0];
+
+const msgToModel = (msg, manager) => {
+  if (!KernelMessage.isDisplayDataMsg(msg)) {
+    return;
+  }
+
+  const widgetData = msg.content.data[WIDGET_MSG];
+  if (widgetData === undefined || widgetData.version_major !== 2) {
+    return;
+  }
+
+  const model = manager.get_model(widgetData.model_id);
+  return model;
+};
+
+document.addEventListener("DOMContentLoaded", event => {
   // Connect to the notebook webserver.
-  let connectionInfo = ServerConnection.makeSettings({
-    baseUrl: BASEURL,
-    wsUrl: WSURL,
+  const serverSettings = ServerConnection.makeSettings({
+    baseUrl: BASE_URL,
+    wsUrl: WS_URL
   });
-  Kernel.getSpecs(connectionInfo)
+
+  Kernel.getSpecs(serverSettings)
     .then(kernelSpecs => {
       return Kernel.startNew({
         name: kernelSpecs.default,
-        serverSettings: connectionInfo,
+        serverSettings
       });
     })
     .then(kernel => {
-      // Create a codemirror instance
-      let code = require('../widget_code.json').join('\n');
-      let inputarea = document.getElementsByClassName('inputarea')[0];
-      let editor = CodeMirror(inputarea, {
-        value: code,
-        mode: 'python',
-        tabSize: 4,
-        showCursorWhenSelecting: true,
-        viewportMargin: Infinity,
-        readOnly: true,
-      });
+      const codeCells = $(".code_cell").get();
 
-      // Create the widget area and widget manager
-      let widgetarea = document.getElementsByClassName('widgetarea')[0];
-      let manager = new WidgetManager(kernel, widgetarea);
+      const manager = new WidgetManager(kernel, codeCells);
 
-      // Run backend code to create the widgets.  You could also create the
-      // widgets in the frontend, like the other widget examples demonstrate.
-      let execution = kernel.requestExecute({ code: code });
-      execution.onIOPub = msg => {
-        // If we have a display message, display the widget.
-        if (KernelMessage.isDisplayDataMsg(msg)) {
-          let widgetData =
-            msg.content.data['application/vnd.jupyter.widget-view+json'];
-          if (widgetData !== undefined && widgetData.version_major === 2) {
-            let model = manager.get_model(widgetData.model_id);
-            if (model !== undefined) {
-              model.then(model => {
-                manager.display_model(msg, model);
-              });
-            }
+      codeCells.forEach((cell, i) => {
+        const code = cellToCode(cell);
+        const execution = kernel.requestExecute({ code });
+
+        execution.onIOPub = msg => {
+          // If we have a display message, display the widget.
+          if (!isWidgetCell(cell)) {
+            return;
           }
-        }
-      };
+
+          const model = msgToModel(msg, manager);
+          if (model !== undefined) {
+            const outputEl = cellToWidgetOutput(cell);
+            model.then(model => {
+              manager.display_model(msg, model, { el: outputEl });
+            });
+          }
+        };
+      });
     });
 });
