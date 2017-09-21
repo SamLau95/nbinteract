@@ -1,8 +1,10 @@
 import { HTMLManager } from "@jupyter-widgets/html-manager";
-
 import * as controls from "@jupyter-widgets/controls";
+import { Widget } from '@phosphor/widgets';
 import * as base from "@jupyter-widgets/base";
-import outputWidgets from "./outputWidgets";
+import { RenderMime, defaultRendererFactories } from "@jupyterlab/rendermime";
+
+import * as outputWidgets from "./outputWidgets";
 
 import "@jupyter-widgets/controls/css/widgets.css";
 
@@ -12,6 +14,9 @@ export class WidgetManager extends HTMLManager {
     this.kernel = kernel;
     this.newKernel(kernel);
     this.$cells = $cells;
+    this.rendermime = new RenderMime({
+      initialFactories: defaultRendererFactories
+    });
   }
 
   newKernel(kernel) {
@@ -29,8 +34,15 @@ export class WidgetManager extends HTMLManager {
     );
   }
 
-  display_view(msg, view, options) {
-    return Promise.resolve(view.pWidget);
+  display_view(msg, view, { el }) {
+    return Promise.resolve(view).then((view) => {
+        Widget.attach(view.pWidget, el);
+        view.on('remove', () => {
+            console.log('View removed', view);
+        });
+        return view;
+    });
+    // return Promise.resolve(view.pWidget);
   }
 
   /**
