@@ -1,23 +1,7 @@
 import _ from "underscore";
 import * as outputBase from "@jupyter-widgets/output";
 import { OutputAreaModel, OutputArea } from "@jupyterlab/outputarea";
-import { KernelMessage } from "@jupyterlab/services";
 import { Panel } from "@phosphor/widgets";
-
-const DISPLAY_DATA = "display_data";
-const CLEAR_OUTPUT = "clear_output";
-
-const WIDGET_MSG = "application/vnd.jupyter.widget-view+json";
-const V_MAJOR = 2;
-
-const isMsgForModel = ({ content }, model_id) => {
-  const data = content.data;
-  if (!data) {
-    return false;
-  }
-
-  return data.version_major == V_MAJOR && data.model_id == model_id;
-};
 
 export const OUTPUT_WIDGET_VERSION = outputBase.OUTPUT_WIDGET_VERSION;
 
