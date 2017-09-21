@@ -10,3 +10,10 @@
 :root {
     --jp-widgets-border-width: 2px;
 }
+
+/**
+ * This prevents double prompt margins for widgets
+ */
+.jp-OutputPrompt {
+  display: none;
+}
