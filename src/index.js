@@ -1,5 +1,5 @@
 import "font-awesome/css/font-awesome.css";
-import $ from 'jquery';
+import $ from "jquery";
 
 import { Kernel, ServerConnection, KernelMessage } from "@jupyterlab/services";
 

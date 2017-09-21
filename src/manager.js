@@ -1,6 +1,6 @@
 import { HTMLManager } from "@jupyter-widgets/html-manager";
 import * as controls from "@jupyter-widgets/controls";
-import { Widget } from '@phosphor/widgets';
+import { Widget } from "@phosphor/widgets";
 import * as base from "@jupyter-widgets/base";
 import { RenderMime, defaultRendererFactories } from "@jupyterlab/rendermime";
 
@@ -35,14 +35,13 @@ export class WidgetManager extends HTMLManager {
   }
 
   display_view(msg, view, { el }) {
-    return Promise.resolve(view).then((view) => {
-        Widget.attach(view.pWidget, el);
-        view.on('remove', () => {
-            console.log('View removed', view);
-        });
-        return view;
+    return Promise.resolve(view).then(view => {
+      Widget.attach(view.pWidget, el);
+      view.on("remove", () => {
+        console.log("View removed", view);
+      });
+      return view;
     });
-    // return Promise.resolve(view.pWidget);
   }
 
   /**

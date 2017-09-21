@@ -30,7 +30,8 @@ export class OutputModel extends outputBase.OutputModel {
 
   initialize(attributes, options) {
     super.initialize(attributes, options);
-    // The output area model is trusted since widgets are only rendered in trusted contexts.
+    // The output area model is trusted since widgets are only rendered in
+    // trusted contexts.
     this._outputs = new OutputAreaModel({ trusted: true });
     this.listenTo(this, "change:msg_id", this.reset_msg_id);
     this.reset_msg_id();
@@ -78,10 +79,6 @@ export class OutputModel extends outputBase.OutputModel {
   get outputs() {
     return this._outputs;
   }
-  // widget_manager: WidgetManager;
-
-  // private _msgHook: IDisposable = null;
-  // private _outputs: OutputAreaModel;
 }
 
 export class OutputView extends outputBase.OutputView {
@@ -109,10 +106,7 @@ export class OutputView extends outputBase.OutputView {
       contentFactory: OutputArea.defaultContentFactory,
       model: this.model.outputs
     });
-    // TODO: why is this a readonly property now?
-    //this._outputView.model = this.model.outputs;
-    // TODO: why is this on the model now?
-    //this._outputView.trusted = true;
+
     this.pWidget.insertWidget(0, this._outputView);
 
     this.pWidget.addClass("jupyter-widgets");
@@ -134,92 +128,4 @@ export class OutputView extends outputBase.OutputView {
     this._outputView.dispose();
     return super.remove();
   }
-
-  // model: OutputModel;
-  // _outputView: OutputArea;
-  // pWidget: Panel
 }
-
-// const OutputModel = outputBase.OutputModel.extend({
-//   defaults: _.extend({}, outputBase.OutputModel.prototype.defaults(), {
-//     msg_id: "",
-//     outputs: []
-//   }),
-
-//   initialize(attributes, options) {
-//     OutputModel.__super__.initialize.apply(this, arguments);
-
-//     this._outputs = new OutputAreaModel({
-//       values: attributes.outputs,
-//       // Widgets (including this output widget) are only rendered in
-//       // trusted contexts
-//       trusted: true
-//     });
-
-//     this._outputs.add({
-//       output_type: DISPLAY_DATA,
-//       data: { "text/plain": "Hello world" }
-//     });
-
-//     const kernel = options.widget_manager.kernel;
-//     if (this.comm && kernel) {
-//       this.kernel = kernel;
-//       this.kernel.iopubMessage.connect((kernel, msg) => {
-//         if (KernelMessage.isDisplayDataMsg(msg)) {
-//           // if (!isMsgForModel(msg, this.model_id)) {
-//           //   return;
-//           // }
-//           console.log(msg);
-//           // this._outputs.add({
-//           //   output_type: msg.msg_type,
-//           //   data: msg.content.data,
-//           //   metadata: msg.content.metadata,
-//           // });
-//         } else if (KernelMessage.isClearOutputMsg(msg)) {
-//           if (!isMsgForModel(msg, this.model_id)) {
-//             return;
-//           }
-//           console.log('Clear output');
-//           // this._outputs.clear();
-//         }
-//       });
-//     }
-//   }
-// });
-
-// const OutputView = outputBase.OutputView.extend({
-//   _createElement(tagName) {
-//     this.pWidget = new Panel();
-//     return this.pWidget.node;
-//   },
-
-//   _setElement(el) {
-//     if (this.el || el !== this.pWidget.node) {
-//       // Boxes don't allow setting the element beyond the initial creation.
-//       throw new Error("Cannot reset the DOM element.");
-//     }
-//     this.el = this.pWidget.node;
-//     this.$el = $(this.pWidget.node);
-//   },
-
-//   render() {
-//     this.el.classList.add("jupyter-widgets-output-area");
-
-//     this._outputView = new OutputArea({
-//       rendermime: this.model.widget_manager.renderMime,
-//       // Hack to get at the model's OutputAreaModel...
-//       model: this.model._outputs
-//     });
-
-//     this.pWidget.insertWidget(0, this._outputView);
-//     this.pWidget.addClass("jupyter-widgets");
-//     this.pWidget.addClass("widget-output");
-
-//     // OutputView.__super__.render.apply(this, arguments);
-//   }
-// });
-
-// export default {
-//   OutputView,
-//   OutputModel
-// };
