@@ -45,7 +45,10 @@ setup(
     keywords='jupyter nbconvert interact',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['nbconvert'],
+    install_requires=[
+        'nbconvert',
+        'nbformat',
+    ],
 
     extras_require={
         'dev': ['check-manifest'],
