@@ -3,9 +3,9 @@ include README.md
 include MANIFEST.in
 include Makefile
 
-# exclude Javascript
 exclude js
 exclude node_modules
+exclude notebooks
 
 # Patterns to exclude from any directory
 global-exclude *~
