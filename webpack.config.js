@@ -1,11 +1,11 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './js/src/index.js',
   output: {
     filename: 'index.built.js',
-    path: path.resolve(__dirname, 'built'),
-    publicPath: 'built/',
+    path: path.resolve(__dirname, 'js', 'built'),
+    publicPath: 'js/built/',
   },
   devtool: 'eval-source-map',
   module: {
