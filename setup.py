@@ -1,5 +1,5 @@
 """
-A Jupyter subcommand to export notebooks and their widgets to publicly
+A Jupyter nbconvert exporter to convert notebooks and their widgets to publicly
 runnable HTML files.
 """
 
@@ -17,7 +17,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='nbinteract',
-    version='0.0.2',
+    version='0.0.3',
     description='Jupyter subcommand to export interactive HTML pages',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
