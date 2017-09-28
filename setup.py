@@ -45,19 +45,21 @@ setup(
     keywords='jupyter nbconvert interact',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=['nbconvert'],
+    install_requires=[
+        'nbconvert',
+        'traitlets',
+    ],
 
     extras_require={
         'dev': ['check-manifest'],
         'test': ['coverage'],
     },
 
-    # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # pip to create the appropriate form of executable for the target platform.
+    # Add exporter to nbconvert CLI:
+    # https://nbconvert.readthedocs.io/en/latest/external_exporters.html
     entry_points={
-        'console_scripts': [
-            'jupyter-nbinteract = nbinteract.nbinteractapp:main',
+        'nbconvert.exporters': [
+            'interact = nbinteract:InteractExporter',
         ],
     },
 )
