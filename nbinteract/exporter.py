@@ -1,7 +1,12 @@
 """NbInteract is a utility to convert .ipynb files and their widgets to
 publicly viewable, interact HTML pages.
 
-This file defines the Exporter for the NbInteract conversion utility.
+This file defines the Exporter for the NbInteract conversion utility. After
+installing this package, the user can run
+
+    jupyter nbconvert --to interact SomeNotebook.ipynb
+
+To export their notebook.
 
 Reference: https://nbconvert.readthedocs.io/en/latest/external_exporters.html
 """
