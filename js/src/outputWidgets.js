@@ -1,85 +1,85 @@
-import $ from 'jquery';
-import _ from "underscore";
-import * as outputBase from "@jupyter-widgets/output";
-import { OutputAreaModel, OutputArea } from "@jupyterlab/outputarea";
-import { Panel } from "@phosphor/widgets";
+import $ from 'jquery'
+import _ from 'underscore'
+import * as outputBase from '@jupyter-widgets/output'
+import { OutputAreaModel, OutputArea } from '@jupyterlab/outputarea'
+import { Panel } from '@phosphor/widgets'
 
-export const OUTPUT_WIDGET_VERSION = outputBase.OUTPUT_WIDGET_VERSION;
+export const OUTPUT_WIDGET_VERSION = outputBase.OUTPUT_WIDGET_VERSION
 
 export class OutputModel extends outputBase.OutputModel {
   defaults() {
     return _.extend(super.defaults(), {
-      msg_id: ""
-    });
+      msg_id: '',
+    })
   }
 
   initialize(attributes, options) {
-    super.initialize(attributes, options);
+    super.initialize(attributes, options)
     // The output area model is trusted since widgets are only rendered in
     // trusted contexts.
-    this._outputs = new OutputAreaModel({ trusted: true });
-    this.listenTo(this, "change:msg_id", this.reset_msg_id);
-    this.reset_msg_id();
+    this._outputs = new OutputAreaModel({ trusted: true })
+    this.listenTo(this, 'change:msg_id', this.reset_msg_id)
+    this.reset_msg_id()
   }
 
   reset_msg_id() {
     if (this._msgHook) {
-      this._msgHook.dispose();
+      this._msgHook.dispose()
     }
-    this._msgHook = null;
+    this._msgHook = null
 
-    let kernel = this.widget_manager.kernel;
-    let msgId = this.get("msg_id");
+    let kernel = this.widget_manager.kernel
+    let msgId = this.get('msg_id')
     if (msgId && kernel) {
-      this._msgHook = kernel.registerMessageHook(this.get("msg_id"), msg => {
-        this.add(msg);
-        return false;
-      });
+      this._msgHook = kernel.registerMessageHook(this.get('msg_id'), msg => {
+        this.add(msg)
+        return false
+      })
     }
   }
 
   add(msg) {
-    let msgType = msg.header.msg_type;
+    let msgType = msg.header.msg_type
     switch (msgType) {
-      case "execute_result":
-      case "display_data":
-      case "stream":
-      case "error":
-        let model = msg.content;
-        model.output_type = msgType;
-        this._outputs.add(model);
-        break;
-      case "clear_output":
-        this.clear_output(msg.content.wait);
-        break;
+      case 'execute_result':
+      case 'display_data':
+      case 'stream':
+      case 'error':
+        let model = msg.content
+        model.output_type = msgType
+        this._outputs.add(model)
+        break
+      case 'clear_output':
+        this.clear_output(msg.content.wait)
+        break
       default:
-        break;
+        break
     }
   }
 
   clear_output(wait = false) {
-    this._outputs.clear(wait);
+    this._outputs.clear(wait)
   }
 
   get outputs() {
-    return this._outputs;
+    return this._outputs
   }
 }
 
 export class OutputView extends outputBase.OutputView {
   _createElement(tagName) {
-    this.pWidget = new Panel();
-    return this.pWidget.node;
+    this.pWidget = new Panel()
+    return this.pWidget.node
   }
 
   _setElement(el) {
     if (this.el || el !== this.pWidget.node) {
       // Boxes don't allow setting the element beyond the initial creation.
-      throw new Error("Cannot reset the DOM element.");
+      throw new Error('Cannot reset the DOM element.')
     }
 
-    this.el = this.pWidget.node;
-    this.$el = $(this.pWidget.node);
+    this.el = this.pWidget.node
+    this.$el = $(this.pWidget.node)
   }
 
   /**
@@ -89,14 +89,14 @@ export class OutputView extends outputBase.OutputView {
     this._outputView = new OutputArea({
       rendermime: this.model.widget_manager.rendermime,
       contentFactory: OutputArea.defaultContentFactory,
-      model: this.model.outputs
-    });
+      model: this.model.outputs,
+    })
 
-    this.pWidget.insertWidget(0, this._outputView);
+    this.pWidget.insertWidget(0, this._outputView)
 
-    this.pWidget.addClass("jupyter-widgets");
-    this.pWidget.addClass("widget-output");
-    this.update(); // Set defaults.
+    this.pWidget.addClass('jupyter-widgets')
+    this.pWidget.addClass('widget-output')
+    this.update() // Set defaults.
   }
 
   /**
@@ -106,11 +106,11 @@ export class OutputView extends outputBase.OutputView {
    * changed by another view or by a state update from the back-end.
    */
   update() {
-    return super.update();
+    return super.update()
   }
 
   remove() {
-    this._outputView.dispose();
-    return super.remove();
+    this._outputView.dispose()
+    return super.remove()
   }
 }

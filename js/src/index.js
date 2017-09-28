@@ -1,77 +1,77 @@
-import "font-awesome/css/font-awesome.css";
-import $ from "jquery";
+import 'font-awesome/css/font-awesome.css'
+import $ from 'jquery'
 
-import { Kernel, ServerConnection, KernelMessage } from "@jupyterlab/services";
+import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services'
 
-import { WidgetManager } from "./manager";
+import { WidgetManager } from './manager'
 
-const BASE_URL = "http://localhost:8889";
+const BASE_URL = 'http://localhost:8889'
 const WS_URL =
-  "ws:" +
-  BASE_URL.split(":")
+  'ws:' +
+  BASE_URL.split(':')
     .slice(1)
-    .join(":");
+    .join(':')
 
-const WIDGET_MSG = "application/vnd.jupyter.widget-view+json";
+const WIDGET_MSG = 'application/vnd.jupyter.widget-view+json'
 
 const cellToCode = cell =>
   $(cell)
-    .find(".input_area")
-    .text();
-const isWidgetCell = cell => $(cell).find(".output_widget_view").length !== 0;
-const cellToWidgetOutput = cell => $(cell).find(".output_widget_view")[0];
+    .find('.input_area')
+    .text()
+const isWidgetCell = cell => $(cell).find('.output_widget_view').length !== 0
+const cellToWidgetOutput = cell => $(cell).find('.output_widget_view')[0]
 
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
-    return;
+    return
   }
 
-  const widgetData = msg.content.data[WIDGET_MSG];
+  const widgetData = msg.content.data[WIDGET_MSG]
   if (widgetData === undefined || widgetData.version_major !== 2) {
-    return;
+    return
   }
 
-  const model = manager.get_model(widgetData.model_id);
-  return model;
-};
+  const model = manager.get_model(widgetData.model_id)
+  return model
+}
 
-document.addEventListener("DOMContentLoaded", event => {
+document.addEventListener('DOMContentLoaded', event => {
   // Connect to the notebook webserver.
   const serverSettings = ServerConnection.makeSettings({
     baseUrl: BASE_URL,
-    wsUrl: WS_URL
-  });
+    wsUrl: WS_URL,
+  })
 
   Kernel.getSpecs(serverSettings)
     .then(kernelSpecs => {
       return Kernel.startNew({
         name: kernelSpecs.default,
-        serverSettings
-      });
+        serverSettings,
+      })
     })
     .then(kernel => {
-      const codeCells = $(".code_cell").get();
+      const codeCells = $('.code_cell').get()
 
-      const manager = new WidgetManager(kernel, codeCells);
+      const manager = new WidgetManager(kernel, codeCells)
 
       codeCells.forEach((cell, i) => {
-        const code = cellToCode(cell);
-        const execution = kernel.requestExecute({ code });
+        const code = cellToCode(cell)
+        const execution = kernel.requestExecute({ code })
 
         execution.onIOPub = msg => {
           // If we have a display message, display the widget.
           if (!isWidgetCell(cell)) {
-            return;
+            return
           }
 
-          const model = msgToModel(msg, manager);
+          const model = msgToModel(msg, manager)
           if (model !== undefined) {
-            const outputEl = cellToWidgetOutput(cell);
+            const outputEl = cellToWidgetOutput(cell)
             model.then(model => {
-              manager.display_model(msg, model, { el: outputEl });
-            });
+              manager.display_model(msg, model, { el: outputEl })
+            })
           }
-        };
-      });
-    });
-});
+        }
+      })
+    })
+})
