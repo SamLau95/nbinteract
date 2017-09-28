@@ -1,6 +1,6 @@
 {
   "name": "nbinteract",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Package to allow public interactive Jupyter notebooks",
   "main": "js/src/index.js",
   "scripts": {
