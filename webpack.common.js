@@ -1,13 +1,12 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
   entry: './js/src/index.js',
   output: {
-    filename: 'index.built.js',
+    filename: 'index.bundle.js',
     path: path.resolve(__dirname, 'js', 'built'),
-    publicPath: 'js/built/',
+    publicPath: 'built/',
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {

@@ -34,8 +34,8 @@ class InteractExporter(HTMLExporter):
         config : config
             User configuration instance.
         extra_loaders : list[of Jinja Loaders]
-            ordered list of Jinja loader to find templates. Will be tried in order
-            before the default FileSystem ones.
+            ordered list of Jinja loader to find templates. Will be tried in
+            order before the default FileSystem ones.
         template : str (optional, kw arg)
             Template to use when exporting.
         """
