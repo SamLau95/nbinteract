@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import _ from "underscore";
 import * as outputBase from "@jupyter-widgets/output";
 import { OutputAreaModel, OutputArea } from "@jupyterlab/outputarea";

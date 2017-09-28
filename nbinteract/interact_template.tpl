@@ -1,6 +1,19 @@
 {% extends "full.tpl" %}
 
 <!--
+Overwrite the widget output blocks since they were using jQuery uselessly.
+-->
+{%- block data_javascript scoped %}
+{% set div_id = uuid4() %}
+<div id="{{ div_id }}"></div>
+<div class="output_subarea output_javascript {{ extra_class }}">
+<script type="text/javascript">
+{{ output.data['application/javascript'] }}
+</script>
+</div>
+{%- endblock -%}
+
+<!--
 Overwrite head tag in HTML. This is directly copied from nbinteract's
 full.tpl file and thus will have to updated when the full.tpl file changes.
 

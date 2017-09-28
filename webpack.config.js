@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'js', 'built'),
     publicPath: 'js/built/',
   },
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   module: {
     rules: [
       {

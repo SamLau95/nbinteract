@@ -44,14 +44,6 @@ class InteractExporter(HTMLExporter):
         # Add current dir to template_path so we can find the template
         self.template_path.append(os.path.dirname(__file__))
 
-
-    @property
-    def template_path(self):
-        """
-        Appends current directory to the template search path.
-        """
-        return [os.path.dirname(__file__)] + super().template_path
-
     @default('template_file')
     def _template_file_default(self):
         return 'interact_template.tpl'
