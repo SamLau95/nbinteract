@@ -1,10 +1,10 @@
 {
-  "name": "nb-interact",
+  "name": "nbinteract",
   "version": "0.0.1",
-  "description": "Interactive public Jupyter notebooks",
+  "description": "Package to allow public interactive Jupyter notebooks",
   "main": "js/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack",
     "watch": "webpack --watch"
   },
@@ -24,7 +24,7 @@
     "widgets"
   ],
   "author": "Sam Lau",
-  "license": "ISC",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/SamLau95/nb-interact/issues"
   },

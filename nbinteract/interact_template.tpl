@@ -11,7 +11,8 @@ we need to change so we're overwriting the whole thing.
 <meta charset="utf-8" />
 <title>{{resources['metadata']['name']}}</title>
 
-<!-- TODO(sam): Add script tag for widget bundle -->
+<!-- This line contains the JS to run the widget code -->
+<script src="https://unpkg.com/nbinteract@*/js/built/index.built.js"></script>
 
 {% for css in resources.inlining.css -%}
     <style type="text/css">
