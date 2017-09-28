@@ -74,4 +74,7 @@ document.addEventListener('DOMContentLoaded', event => {
         }
       })
     })
+    .catch(err => {
+      console.error('Error in kernel initialization:', err)
+    })
 })

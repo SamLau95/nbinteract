@@ -18,7 +18,8 @@ start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
 start_webpack:
-	yarn run watch
+	# yarn run watch
+	yarn run serve
 
 build_py: ## Build python package
 	python setup.py bdist_wheel
