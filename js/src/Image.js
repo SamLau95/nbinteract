@@ -1,6 +1,8 @@
 /*
   Implements the BinderHub API.
 
+  Don't use this class directly; instead, use the BinderHub class
+
   State transitions that are valid are:
   start -> waiting
   start -> built
@@ -14,6 +16,7 @@
 */
 
 function Image(provider, spec) {
+  this.baseUrl = 'https://beta.mybinder.org'
   this.provider = provider
   this.spec = spec
   this.callbacks = {}
@@ -45,7 +48,7 @@ Image.prototype.changeState = function(state, data) {
 }
 
 Image.prototype.fetch = function() {
-  var apiUrl = '/build/' + this.provider + '/' + this.spec
+  var apiUrl = this.baseUrl + '/build/' + this.provider + '/' + this.spec
   this.eventSource = new EventSource(apiUrl)
   var that = this
   this.eventSource.onerror = function(err) {
