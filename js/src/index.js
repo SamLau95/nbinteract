@@ -3,6 +3,7 @@ import $ from 'jquery'
 
 import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services'
 
+import BinderHub from './BinderHub';
 import { WidgetManager } from './manager'
 
 const BASE_URL = 'http://localhost:8889'
@@ -41,6 +42,11 @@ document.addEventListener('DOMContentLoaded', event => {
     baseUrl: BASE_URL,
     wsUrl: WS_URL,
   })
+
+  const binder = new BinderHub()
+  binder.start_server().then((data) => {
+    debugger;
+  });
 
   Kernel.getSpecs(serverSettings)
     .then(kernelSpecs => {
