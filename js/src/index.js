@@ -3,13 +3,13 @@ import $ from 'jquery'
 
 import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services'
 
-import BinderHub from './BinderHub';
+import BinderHub from './BinderHub'
 import { WidgetManager } from './manager'
 
-const BASE_URL = 'http://localhost:8889'
-const WS_URL =
+const baseToWsUrl = baseUrl =>
   'ws:' +
-  BASE_URL.split(':')
+  baseUrl
+    .split(':')
     .slice(1)
     .join(':')
 
@@ -37,50 +37,52 @@ const msgToModel = (msg, manager) => {
 }
 
 document.addEventListener('DOMContentLoaded', event => {
-  // Connect to the notebook webserver.
-  const serverSettings = ServerConnection.makeSettings({
-    baseUrl: BASE_URL,
-    wsUrl: WS_URL,
-  })
-
   const binder = new BinderHub()
-  binder.start_server().then((data) => {
-    debugger;
-  });
+  binder.start_server().then(({ url, token }) => {
+    // Connect to the notebook webserver.
+    const serverSettings = ServerConnection.makeSettings({
+      baseUrl: url,
+      wsUrl: baseToWsUrl(url),
+      token: token,
+    })
+    debugger
 
-  Kernel.getSpecs(serverSettings)
-    .then(kernelSpecs => {
-      return Kernel.startNew({
-        name: kernelSpecs.default,
-        serverSettings,
+    Kernel.getSpecs(serverSettings)
+      .then(kernelSpecs => {
+        debugger
+        return Kernel.startNew({
+          name: kernelSpecs.default,
+          serverSettings,
+        })
       })
-    })
-    .then(kernel => {
-      const codeCells = $('.code_cell').get()
+      .then(kernel => {
+        const codeCells = $('.code_cell').get()
 
-      const manager = new WidgetManager(kernel, codeCells)
+        const manager = new WidgetManager(kernel, codeCells)
 
-      codeCells.forEach((cell, i) => {
-        const code = cellToCode(cell)
-        const execution = kernel.requestExecute({ code })
+        codeCells.forEach((cell, i) => {
+          const code = cellToCode(cell)
+          const execution = kernel.requestExecute({ code })
 
-        execution.onIOPub = msg => {
-          // If we have a display message, display the widget.
-          if (!isWidgetCell(cell)) {
-            return
+          execution.onIOPub = msg => {
+            // If we have a display message, display the widget.
+            if (!isWidgetCell(cell)) {
+              return
+            }
+
+            const model = msgToModel(msg, manager)
+            if (model !== undefined) {
+              const outputEl = cellToWidgetOutput(cell)
+              model.then(model => {
+                manager.display_model(msg, model, { el: outputEl })
+              })
+            }
           }
-
-          const model = msgToModel(msg, manager)
-          if (model !== undefined) {
-            const outputEl = cellToWidgetOutput(cell)
-            model.then(model => {
-              manager.display_model(msg, model, { el: outputEl })
-            })
-          }
-        }
+        })
       })
-    })
-    .catch(err => {
-      console.error('Error in kernel initialization:', err)
-    })
+      .catch(err => {
+        debugger
+        console.error('Error in kernel initialization:', err)
+      })
+  })
 })

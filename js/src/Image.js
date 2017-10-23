@@ -15,8 +15,9 @@
   pushing -> failed
 */
 
+const BASE_URL = 'https://beta.mybinder.org'
+
 function Image(provider, spec) {
-  this.baseUrl = 'https://beta.mybinder.org'
   this.provider = provider
   this.spec = spec
   this.callbacks = {}
@@ -32,23 +33,24 @@ Image.prototype.onStateChange = function(state, cb) {
 }
 
 Image.prototype.changeState = function(state, data) {
-  if (this.callbacks[state] !== undefined) {
-    for (var i = 0; i < this.callbacks[state].length; i++) {
-      this.callbacks[state][i](this.state, state, data)
+  var that = this
+  ;[state, '*'].map(function(key) {
+    var callbacks = that.callbacks[key]
+    if (callbacks) {
+      for (var i = 0; i < callbacks.length; i++) {
+        callbacks[i](that.state, state || that.state, data)
+      }
     }
-  }
-  if (this.callbacks['*'] !== undefined) {
-    for (var i = 0; i < this.callbacks['*'].length; i++) {
-      this.callbacks['*'][i](this.state, state, data)
-    }
-  }
+  })
 
   // FIXME: Make sure this this is a valid state transition!
-  this.state = state
+  if (state) {
+    this.state = state
+  }
 }
 
 Image.prototype.fetch = function() {
-  var apiUrl = this.baseUrl + '/build/' + this.provider + '/' + this.spec
+  var apiUrl = `${BASE_URL}/build/${this.provider}/${this.spec}`
   this.eventSource = new EventSource(apiUrl)
   var that = this
   this.eventSource.onerror = function(err) {
@@ -61,7 +63,10 @@ Image.prototype.fetch = function() {
     var data = JSON.parse(event.data)
     // FIXME: Rename 'phase' to 'state' upstream
     // FIXME: fix case of phase/state upstream
-    var state = data.phase.toLowerCase()
+    var state = null
+    if (data.phase) {
+      state = data.phase.toLowerCase()
+    }
     that.changeState(state, data)
   })
 }
@@ -94,26 +99,6 @@ function v2url(repository, ref, filepath) {
   if (filepath && filepath.length > 0) {
     url = url + '?filepath=' + encodeURIComponent(filepath)
   }
-  return url
-}
-
-function updateUrl() {
-  // update URLs and links (badges, etc.)
-  var repo = $('#repository')
-    .val()
-    .trim()
-  repo = repo.replace(/^(https?:\/\/)?github.com\//, '')
-  // trim trailing or leading '/' on repo
-  repo = repo.replace(/(^\/)|(\/?$)/g, '')
-  var ref = $('#ref')
-    .val()
-    .trim()
-  var filepath = $('#filepath')
-    .val()
-    .trim()
-  var url = v2url(repo, ref, filepath)
-  // update URL references
-  $('#badge-link').attr('href', url)
   return url
 }
 
