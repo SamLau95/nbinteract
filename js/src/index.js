@@ -7,7 +7,7 @@ import BinderHub from './BinderHub'
 import { WidgetManager } from './manager'
 
 const baseToWsUrl = baseUrl =>
-  'ws:' +
+  'wss:' +
   baseUrl
     .split(':')
     .slice(1)
@@ -38,6 +38,7 @@ const msgToModel = (msg, manager) => {
 
 document.addEventListener('DOMContentLoaded', event => {
   const binder = new BinderHub()
+  console.time('start_server')
   binder.start_server().then(({ url, token }) => {
     // Connect to the notebook webserver.
     const serverSettings = ServerConnection.makeSettings({
@@ -45,22 +46,24 @@ document.addEventListener('DOMContentLoaded', event => {
       wsUrl: baseToWsUrl(url),
       token: token,
     })
-    debugger
+    console.timeEnd('start_server')
 
+    console.time('start_kernel')
     Kernel.getSpecs(serverSettings)
       .then(kernelSpecs => {
-        debugger
         return Kernel.startNew({
           name: kernelSpecs.default,
           serverSettings,
         })
       })
       .then(kernel => {
+        console.timeEnd('start_kernel')
         const codeCells = $('.code_cell').get()
 
         const manager = new WidgetManager(kernel, codeCells)
 
         codeCells.forEach((cell, i) => {
+          console.time(`cell_${i}`)
           const code = cellToCode(cell)
           const execution = kernel.requestExecute({ code })
 
@@ -75,6 +78,7 @@ document.addEventListener('DOMContentLoaded', event => {
               const outputEl = cellToWidgetOutput(cell)
               model.then(model => {
                 manager.display_model(msg, model, { el: outputEl })
+                console.timeEnd(`cell_${i}`)
               })
             }
           }
