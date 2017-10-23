@@ -30,6 +30,7 @@ start_webpack:
 	yarn run serve
 
 build_py: ## Build python package
+	rm -rf dist/*
 	python setup.py bdist_wheel
 
 build_js: ## Build Javascript bundle
@@ -39,4 +40,4 @@ publish_py: build_py ## Publish nbinteract to PyPi
 	twine upload dist/*
 
 publish_js: build_js ## Publish nbinteract to npm
-	yarn publish
+	npm publish
