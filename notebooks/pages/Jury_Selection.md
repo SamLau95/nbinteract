@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Jury_Selection.html"
+{% include "../notebooks-html/Jury_Selection.html" %}

@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Correlation.html"
+{% include "../notebooks-html/Correlation.html" %}

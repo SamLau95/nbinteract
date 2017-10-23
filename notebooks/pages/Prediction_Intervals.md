@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Prediction_Intervals.html"
+{% include "../notebooks-html/Prediction_Intervals.html" %}

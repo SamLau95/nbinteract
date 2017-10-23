@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Empirical_Distributions.html"
+{% include "../notebooks-html/Empirical_Distributions.html" %}

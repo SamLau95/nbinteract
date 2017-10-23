@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Sampling_from_a_Population.html"
+{% include "../notebooks-html/Sampling_from_a_Population.html" %}

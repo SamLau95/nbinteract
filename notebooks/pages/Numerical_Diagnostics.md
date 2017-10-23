@@ -1,1 +1,1 @@
-!INCLUDE "../textbook/Numerical_Diagnostics.html"
+{% include "../notebooks-html/Numerical_Diagnostics.html" %}
