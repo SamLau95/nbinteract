@@ -24,9 +24,6 @@ export default class BinderHub {
 
       image.onStateChange('ready', (oldState, newState, data) => {
         image.close()
-        const hi = Kernel
-        const test = ServerConnection
-        debugger
         resolve(data)
       })
 

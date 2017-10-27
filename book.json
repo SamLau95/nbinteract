@@ -1,0 +1,4 @@
+{
+  "root": "notebooks",
+  "plugins": ["include-html", "katex"]
+}

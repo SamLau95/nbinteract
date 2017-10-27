@@ -1,4 +1,4 @@
-.PHONY: help build serve start_notebook start_webpack
+.PHONY: help serve build publish book install
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -14,6 +14,14 @@ build: build_py build_js ## Build python package and JS bundle
 publish: publish_py publish_js ## Build python package and JS bundle
 	@echo "Published python package and JS bundle"
 
+install: ## Installs Python package locally
+	pip install -e .
+
+book: ## Convert notebooks to HTML for Gitbooks
+	cd notebooks && python convert_notebooks_to_html_partial.py
+	git add notebooks
+	git commit -m "Convert notebooks"
+
 start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
@@ -22,6 +30,7 @@ start_webpack:
 	yarn run serve
 
 build_py: ## Build python package
+	rm -rf dist/*
 	python setup.py bdist_wheel
 
 build_js: ## Build Javascript bundle
@@ -30,5 +39,5 @@ build_js: ## Build Javascript bundle
 publish_py: build_py ## Publish nbinteract to PyPi
 	twine upload dist/*
 
-publish_js: ## Publish nbinteract to npm
-	yarn publish
+publish_js: build_js ## Publish nbinteract to npm
+	npm publish

@@ -38,7 +38,7 @@ we need to change so we're overwriting the whole thing.
 <title>{{resources['metadata']['name']}}</title>
 
 <!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*/js/built/index.built.js"></script>
+<script src="https://unpkg.com/nbinteract@*"></script>
 
 {% for css in resources.inlining.css -%}
     <style type="text/css">
