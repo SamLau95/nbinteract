@@ -1,4 +1,4 @@
-.PHONY: help serve build publish html install
+.PHONY: help serve build publish book install
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -17,9 +17,9 @@ publish: publish_py publish_js ## Build python package and JS bundle
 install: ## Installs Python package locally
 	pip install -e .
 
-html: ## Convert notebooks to interactive HTML
-	cd notebooks/textbook && jupyter nbconvert --to interact *.ipynb
-	git add notebooks/textbook
+book: ## Convert notebooks to HTML for Gitbooks
+	cd notebooks && python convert_notebooks_to_html_partial.py
+	git add notebooks
 	git commit -m "Convert notebooks"
 
 start_notebook:
