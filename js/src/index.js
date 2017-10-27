@@ -36,57 +36,55 @@ const msgToModel = (msg, manager) => {
   return model
 }
 
-document.addEventListener('DOMContentLoaded', event => {
-  const binder = new BinderHub()
-  console.time('start_server')
-  binder.start_server().then(({ url, token }) => {
-    // Connect to the notebook webserver.
-    const serverSettings = ServerConnection.makeSettings({
-      baseUrl: url,
-      wsUrl: baseToWsUrl(url),
-      token: token,
-    })
-    console.timeEnd('start_server')
-
-    console.time('start_kernel')
-    Kernel.getSpecs(serverSettings)
-      .then(kernelSpecs => {
-        return Kernel.startNew({
-          name: kernelSpecs.default,
-          serverSettings,
-        })
-      })
-      .then(kernel => {
-        console.timeEnd('start_kernel')
-        const codeCells = $('.code_cell').get()
-
-        const manager = new WidgetManager(kernel, codeCells)
-
-        codeCells.forEach((cell, i) => {
-          console.time(`cell_${i}`)
-          const code = cellToCode(cell)
-          const execution = kernel.requestExecute({ code })
-
-          execution.onIOPub = msg => {
-            // If we have a display message, display the widget.
-            if (!isWidgetCell(cell)) {
-              return
-            }
-
-            const model = msgToModel(msg, manager)
-            if (model !== undefined) {
-              const outputEl = cellToWidgetOutput(cell)
-              model.then(model => {
-                manager.display_model(msg, model, { el: outputEl })
-                console.timeEnd(`cell_${i}`)
-              })
-            }
-          }
-        })
-      })
-      .catch(err => {
-        debugger
-        console.error('Error in kernel initialization:', err)
-      })
+const binder = new BinderHub()
+console.time('start_server')
+binder.start_server().then(({ url, token }) => {
+  // Connect to the notebook webserver.
+  const serverSettings = ServerConnection.makeSettings({
+    baseUrl: url,
+    wsUrl: baseToWsUrl(url),
+    token: token,
   })
+  console.timeEnd('start_server')
+
+  console.time('start_kernel')
+  Kernel.getSpecs(serverSettings)
+    .then(kernelSpecs => {
+      return Kernel.startNew({
+        name: kernelSpecs.default,
+        serverSettings,
+      })
+    })
+    .then(kernel => {
+      console.timeEnd('start_kernel')
+      const codeCells = $('.code_cell').get()
+
+      const manager = new WidgetManager(kernel, codeCells)
+
+      codeCells.forEach((cell, i) => {
+        console.time(`cell_${i}`)
+        const code = cellToCode(cell)
+        const execution = kernel.requestExecute({ code })
+
+        execution.onIOPub = msg => {
+          // If we have a display message, display the widget.
+          if (!isWidgetCell(cell)) {
+            return
+          }
+
+          const model = msgToModel(msg, manager)
+          if (model !== undefined) {
+            const outputEl = cellToWidgetOutput(cell)
+            model.then(model => {
+              manager.display_model(msg, model, { el: outputEl })
+              console.timeEnd(`cell_${i}`)
+            })
+          }
+        }
+      })
+    })
+    .catch(err => {
+      debugger
+      console.error('Error in kernel initialization:', err)
+    })
 })
