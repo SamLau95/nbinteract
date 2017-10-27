@@ -139,7 +139,7 @@ def _extract_cells(html):
     doc = bs4.BeautifulSoup(html, 'html5lib')
 
     def is_cell(classes):
-        return classes and ('inner_cell' in classes or 'output_subarea' in classes)
+        return classes and 'cell' in classes
 
     divs = doc.find_all('div', class_=is_cell)
     visible = [div for div in divs if '# HIDDEN' not in str(div)]
