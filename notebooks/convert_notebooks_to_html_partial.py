@@ -138,10 +138,7 @@ def _extract_cells(html):
     """Return a html partial of divs with cell contents."""
     doc = bs4.BeautifulSoup(html, 'html5lib')
 
-    def is_cell(classes):
-        return classes and 'cell' in classes
-
-    divs = doc.find_all('div', class_=is_cell)
+    divs = doc.find_all('div', class_='cell')
     visible = [div for div in divs if '# HIDDEN' not in str(div)]
 
     def remove_empty_spans_and_prompts(tag):
