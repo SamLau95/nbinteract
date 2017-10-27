@@ -139,14 +139,17 @@ def _extract_cells(html):
     doc = bs4.BeautifulSoup(html, 'html5lib')
 
     divs = doc.find_all('div', class_='cell')
-    visible = [div for div in divs if '# HIDDEN' not in str(div)]
+    for div in divs:
+        if '# HIDDEN' in str(div):
+            div['class'].append('hidden')
 
     def remove_empty_spans_and_prompts(tag):
-        map(lambda t: t.decompose(), tag.find_all('div', class_='prompt'))
-        map(lambda t: t.decompose(), tag.find_all('span', text='None'))
-    [remove_empty_spans_and_prompts(div) for div in visible]
+        for t in (tag.find_all('div', class_='prompt')
+                  + tag.find_all('span', text='None')):
+            t.decompose()
+    [remove_empty_spans_and_prompts(div) for div in divs]
 
-    return '\n'.join(map(str, visible))
+    return '\n'.join(map(str, divs))
 
 
 if __name__ == '__main__':

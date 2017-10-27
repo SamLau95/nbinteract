@@ -11,23 +11,37 @@
 </script>
 <!-- This line contains the JS to run the widget code -->
 <script src="https://unpkg.com/nbinteract@*"></script>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="kn">from</span> <span class="nn">datascience</span> <span class="k">import</span> <span class="o">*</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'fivethirtyeight'</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Jury-Selection">Jury Selection<a class="anchor-link" href="#Jury-Selection">¶</a></h3><p>In 2010, the ACLU presented a report on jury selection in Alameda County, California. The report concluded that certain ethnic groups are underrepresented among jury panelists in Alameda County, and suggested some reforms of the process by which eligible jurors are assigned to panels. In this section, we will perform our own analysis of the data and examine some questions that arise as a result.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Jury-Panels">Jury Panels<a class="anchor-link" href="#Jury-Panels">¶</a></h3><p>A jury panel is a group of people chosen to be prospective jurors; the final trial jury is selected from among them. Jury panels can consist of a few dozen people or several thousand, depending on the trial. By law, a jury panel is supposed to be representative of the community in which the trial is taking place. Section 197 of California's Code of Civil Procedure says, "All persons selected for jury service shall be selected at random, from a source or sources inclusive of a representative cross section of the population of the area served by the court."</p>
 <p>The final jury is selected from the panel by deliberate inclusion or exclusion. The law allows potential jurors to be excused for medical reasons; lawyers on both sides may strike a certain number of potential jurors from the list in what are called "peremptory challenges"; the trial judge might make a selection based on questionnaires filled out by the panel; and so on. But the initial panel is supposed to resemble a random sample of the population of eligible jurors.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Composition-of-Panels-in-Alameda-County">Composition of Panels in Alameda County<a class="anchor-link" href="#Composition-of-Panels-in-Alameda-County">¶</a></h3><p>The focus of the study by the ACLU of Northern California was the ethnic composition of jury panels in Alameda County. The ACLU compiled data on the ethnic composition of the jury panels in 11 felony trials in Alameda County in the years 2009 and 2010. In those panels, the total number of poeple who reported for jury service was 1453. The ACLU gathered demographic data on all of these prosepctive jurors, and compared those data with the composition of all eligible jurors in the county.</p>
 <p>The data are tabulated below in a table called <code>jury</code>. For each ethnicity, the first value is the proportion of all eligible juror candidates of that ethnicity. The second value is the proportion of people of that ethnicity among those who appeared for the process of selection into the jury.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">jury</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
@@ -45,7 +59,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[6]:</div>
+
 
 
 
@@ -78,13 +92,13 @@
         </tr>
     </tbody>
 </table></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Some ethnicities are overrepresented and some are underrepresented on the jury panels in the study. A bar chart is helpful for visualizing the differences.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">jury</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="s1">'Ethnicity'</span><span class="p">)</span>
@@ -96,14 +110,14 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_6_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Distance-between-Two-Distributions">Distance between Two Distributions<a class="anchor-link" href="#Distance-between-Two-Distributions">¶</a></h3><p>Visualizations give us a quick sense of the similarities and differences between two distributions. To say something more precise about those differences, we must first quantify the difference between two distributions. This will allow our analyses to be based on more than the assessements that we are able to make by eye.</p>
@@ -111,7 +125,7 @@
 <p>To compute the total variation distance, we first take the difference between the two proportions in each category.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Augment the table with a column of differences between proportions</span>
@@ -128,7 +142,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[8]:</div>
+
 
 
 
@@ -161,7 +175,7 @@
         </tr>
     </tbody>
 </table></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Take a look at the column <code>Difference</code> and notice that the sum of its entries is 0: the positive entries add up to 0.14, exactly canceling the total of the negative entries which is -0.14.</p>
@@ -169,7 +183,7 @@
 <p>To avoid the cancellation, we drop the negative signs and then add all the entries. But this gives us two times the total of the positive entries (equivalently, two times the total of the negative entries, with the sign removed). So we divide the sum by 2.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">jury_with_diffs</span> <span class="o">=</span> <span class="n">jury_with_diffs</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
@@ -185,7 +199,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[9]:</div>
+
 
 
 
@@ -220,7 +234,7 @@
 </table></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [10]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">jury_with_diffs</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Abs. Difference'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
@@ -232,37 +246,37 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.14000000000000001</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This quantity 0.14 is the <em>total variation distance</em> (TVD) between the distribution of ethnicities in the eligible juror population and the distribution in the panels.</p>
 <p>We could have obtained the same result by just adding the positive differences. But our method of including all the absolute differences eliminates the need to keep track of which differences are positive and which are not.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Functions-for-Computing-Total-Variation-Distance">Functions for Computing Total Variation Distance<a class="anchor-link" href="#Functions-for-Computing-Total-Variation-Distance">¶</a></h3><p>The function <code>total_variation_distance</code> returns the TVD between distributions in two arrays.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [11]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">total_variation_distance</span><span class="p">(</span><span class="n">distribution_1</span><span class="p">,</span> <span class="n">distribution_2</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">distribution_1</span> <span class="o">-</span> <span class="n">distribution_2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The function <code>table_tvd</code> uses the function <code>total_variation_distance</code> to return the TVD between distributions in two columns of a table.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [12]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">table_tvd</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -277,23 +291,23 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[12]:</div>
+
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.14000000000000001</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Are-the-panels-representative-of-the-population?">Are the panels representative of the population?<a class="anchor-link" href="#Are-the-panels-representative-of-the-population?">¶</a></h3><p>We will now turn to the numerical value of the total variation distance between the eligible jurors and the panels. How can we interpret the distance of 0.14? To answer this, recall that the panels are supposed to be selected at random. It will therefore be informative to compare the value of 0.14 with the total variation distance between the eligible jurors and a randomly selected panel.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To do this, we will employ our skills at simulation. There were 1453 prosepective jurors in the panels in the study. So let us take a random sample of size 1453 from the population of eligible jurors.</p>
 <p><strong>Technical note.</strong> Random samples of prospective jurors would be selected without replacement. However, when the size of a sample is small relative to the size of the population, sampling without replacement resembles sampling with replacement; the proportions in the population don't change much between draws. The population of eligible jurors in Alameda County is over a million, and compared to that, a sample size of about 1500 is quite small. We will therefore sample with replacement.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Sampling-at-Random-from-the-Eligible-Population">Sampling at Random from the Eligible Population<a class="anchor-link" href="#Sampling-at-Random-from-the-Eligible-Population">¶</a></h3><p>Thus far, we have used <code>np.random.choice</code> to sample at random from elements of an array, and <code>sample</code> to sample rows of a table. But now we have to sample from a distribution: a set of ethnicities along with their proportions.</p>
@@ -304,20 +318,20 @@
 <li>sample size</li>
 </ul>
 <p>The function draws at random with replacement and returns a new table which is the old table augmented with a column labeled <code>Random Sample</code>. The column contains the proportions that appeared in the random sample.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The total size of all the panels was 1453, so let's assign that number to a name and then call <code>proportions_from_distribution</code>.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [13]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">panel_size</span> <span class="o">=</span> <span class="mi">1453</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [14]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">panels_and_sample</span> <span class="o">=</span> <span class="n">proportions_from_distribution</span><span class="p">(</span><span class="n">jury</span><span class="p">,</span> <span class="s1">'Eligible'</span><span class="p">,</span> <span class="n">panel_size</span><span class="p">)</span>
@@ -330,7 +344,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[14]:</div>
+
 
 
 
@@ -363,17 +377,17 @@
         </tr>
     </tbody>
 </table></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is clear from the results that the distribution of the random sample is quite close to the distribution of the eligible population, unlike the distribution of the panels.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As always, it helps to visualize.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [15]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">panels_and_sample</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="s1">'Ethnicity'</span><span class="p">)</span>
@@ -385,24 +399,24 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_25_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The grey bars are a lot closer in size to the blue bars than the gold bars are. The random sample resembles the eligible population, but the panels don't.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can quantify this observation by calculating the total variation distance between the distribution of the eligible population and the random sample.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [16]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">table_tvd</span><span class="p">(</span><span class="n">panels_and_sample</span><span class="p">,</span> <span class="s1">'Eligible'</span><span class="p">,</span> <span class="s1">'Random Sample'</span><span class="p">)</span>
@@ -414,25 +428,25 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[16]:</div>
+
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.011748107364074285</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Comparing this to the distance of 0.14 for the panel puts a numerical value on what we saw in the bar chart. The TVD between the eligible population and the panels was 0.14, but the TVD between the eligible population and the random sample is much smaller.</p>
 <p>Of course, the distance between the distributions of the random sample and the eligible jurors depends on the sample. Sampling again might give a different result.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="By-How-Much-Do-Random-Samples-Differ-from-the-Population?">By How Much Do Random Samples Differ from the Population?<a class="anchor-link" href="#By-How-Much-Do-Random-Samples-Differ-from-the-Population?">¶</a></h3><p>The total variation distance between the distributions of the random sample and the eligible jurors is the statistic that we are using to measure the distance between the two distributions. By repeating the process of sampling, we can see how much the statistic varies across different random samples. The code below computes the empirical distribution of the statistic based on a large number of replications of the sampling process.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [17]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute empirical distribution of TVDs</span>
@@ -457,7 +471,7 @@
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[17]:</div>
+
 
 
 
@@ -511,7 +525,7 @@
     </tbody>
 </table>
 <p>... (4990 rows omitted)</p></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Each row of the column above contains the total variation distance between a random sample of size 1453 (the size of the panels) and the population of eligible jurors.</p>
@@ -519,10 +533,10 @@
 <p>Dragging the slider shows the histogram being built one sample at a time. Remember that each value added to the histogram is a single TVD value calculated by taking a sample at random from the population.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [30]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hist_n_samples</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hist_n_samples</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">):</span>
     <span class="sd">'''Draws histogram of first n rows of first column in tbl.'''</span>
     <span class="n">tbl</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">53</span><span class="p">)</span>
@@ -530,7 +544,7 @@
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [31]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">hist_n_samples</span><span class="p">,</span> <span class="n">tbl</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
@@ -544,7 +558,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -552,17 +566,17 @@
 
  
  
-<div id="c4457cbb-8969-4a6b-a064-e4761194b6a7"></div>
+<div id="c814307a-4fae-4354-905d-6a4cf119f232"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
+var element = $('#c814307a-4fae-4354-905d-6a4cf119f232');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "34fd7b406f214799967a1931149d71d3", "version_minor": 0, "version_major": 2}
+{"model_id": "34fd7b406f214799967a1931149d71d3", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [18]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Here's the complete histogram of the null distribution</span>
@@ -575,20 +589,20 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_35_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="How-do-the-panels-compare-with-random-samples?">How do the panels compare with random samples?<a class="anchor-link" href="#How-do-the-panels-compare-with-random-samples?">¶</a></h3><p>The panels in the study, however, were not quite so similar to the eligible population. The total variation distance between the panels and the population was 0.14, which is far out in the tail of the histogram above. It does not look like a typical distance between a random sample and the eligible population.</p>
 <p>So our analysis supports the ACLU's calculation that the panels were not representative of the distribution provided for the eligible jurors. As with most such analyses, however, it does not say <em>why</em> the distributions are different or what the difference might imply.</p>
 <p>The ACLU report discusses several possible reasons for the discrepancies. For example, some minority groups were underrepresented on the records of voter registration and of the Department of Motor Vehicles, the two main sources from which jurors are selected. At the time of the study, the county did not have an effective process for following up on prospective jurors who had been called but had failed to appear. The ACLU listed several other reasons as well. Whatever the reasons, it seems clear that the composition of the jury panels was different from what we would have expected in a random sample from the distribution in the <code>Eligible</code> column.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Questions-about-the-Data">Questions about the Data<a class="anchor-link" href="#Questions-about-the-Data">¶</a></h3><p>We have developed a powerful technique that helps decide whether one distribution looks like a random sample from another. But data science is about more than techniques. In particular, data science always involves a thoughtful examination of how the data were gathered.</p>
@@ -600,7 +614,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 <p>All of this raises complex questions about how to accurately estimate the ethnic composition of eligible jurors in Alameda County.</p>
 <p>It is not clear exactly how the 1453 panelists were classified into the different ethnic categories (the ACLU report says that "attorneys ... cooperated in collecting jury pool data"). There are serious social, cultural, and political factors that affect who gets classified or self-classifies into each ethnic category. We also don't know whether the definitions of those categories in the panels are the same as those used by Professor Weeks who in turn used Census categories in his estimation process. Thus there are also questions about the correspondence between the two distributions being compared.</p>
 <p>Thus, while we have a clear conclusion about the data in our table – the panels do not look like a random sample from the distribution provided for eligible jurors – questions about the nature of the data prevent us from concluding anything broader.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="U.S.-Supreme-Court,-1965:-Swain-vs.-Alabama">U.S. Supreme Court, 1965: Swain vs. Alabama<a class="anchor-link" href="#U.S.-Supreme-Court,-1965:-Swain-vs.-Alabama">¶</a></h3><p>In the early 1960's, in Talladega County in Alabama, a black man called Robert Swain was convicted of raping a white woman and was sentenced to death. He appealed his sentence, citing among other factors the all-white jury. At the time, only men aged 21 or older were allowed to serve on juries in Talladega County. In the county, 26% of the eligible jurors were black, but there were only 8 black men among the 100 selected for the jury panel in Swain's trial. No black man was selected for the trial jury.</p>
@@ -608,7 +622,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 <p>Let's use the methods we have developed to examine the disparity between 8 out of 100 black men in the panel and the distribution of the eligible jurors.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [35]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">swain_jury</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
@@ -626,7 +640,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[35]:</div>
+
 
 
 
@@ -649,7 +663,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 </table></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [36]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">table_tvd</span><span class="p">(</span><span class="n">swain_jury</span><span class="p">,</span> <span class="s1">'Eligible'</span><span class="p">,</span> <span class="s1">'Panel'</span><span class="p">)</span>
@@ -661,21 +675,21 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[36]:</div>
+
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.18000000000000002</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The total variation distance between the two distributions is 0.18. How does this compare with the TVD between the distributions of the eligible population and a random sample?</p>
 <p>To answer this, we can simulate the TVD computed from a random sample.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [38]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute empirical distribution of TVDs</span>
@@ -700,20 +714,20 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_42_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The random samples typically have a much smaller TVD than the value of 0.18 that we got for the panel and the eligible jurors.</p>
 <p>In this analysis, the data are not clouded by questions as in our previous analysis – the total numbers of people involved were relatively small, and the counting was done carefully for the Supreme Court case.</p>
 <p>Thus our analysis has a clear conclusion, which is that the panel was not representative of the population. It is hard to accept the Supreme Court's judgment that "the overall percentage disparity has been small."</p></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Each row of the column above contains the total variation distance between a random sample of size 1453 (the size of the panels) and the population of eligible jurors.</p>
@@ -721,10 +735,10 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 <p>Dragging the slider shows the histogram being built one sample at a time. Remember that each value added to the histogram is a single TVD value calculated by taking a sample at random from the population.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [30]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hist_n_samples</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hist_n_samples</span><span class="p">(</span><span class="n">tbl</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">):</span>
     <span class="sd">'''Draws histogram of first n rows of first column in tbl.'''</span>
     <span class="n">tbl</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">53</span><span class="p">)</span>
@@ -732,7 +746,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [31]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">hist_n_samples</span><span class="p">,</span> <span class="n">tbl</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">results</span><span class="p">),</span>
@@ -746,7 +760,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -754,17 +768,17 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
  
  
-<div id="c4457cbb-8969-4a6b-a064-e4761194b6a7"></div>
+<div id="c814307a-4fae-4354-905d-6a4cf119f232"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
+var element = $('#c814307a-4fae-4354-905d-6a4cf119f232');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "34fd7b406f214799967a1931149d71d3", "version_minor": 0, "version_major": 2}
+{"model_id": "34fd7b406f214799967a1931149d71d3", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [18]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Here's the complete histogram of the null distribution</span>
@@ -777,20 +791,20 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_35_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="How-do-the-panels-compare-with-random-samples?">How do the panels compare with random samples?<a class="anchor-link" href="#How-do-the-panels-compare-with-random-samples?">¶</a></h3><p>The panels in the study, however, were not quite so similar to the eligible population. The total variation distance between the panels and the population was 0.14, which is far out in the tail of the histogram above. It does not look like a typical distance between a random sample and the eligible population.</p>
 <p>So our analysis supports the ACLU's calculation that the panels were not representative of the distribution provided for the eligible jurors. As with most such analyses, however, it does not say <em>why</em> the distributions are different or what the difference might imply.</p>
 <p>The ACLU report discusses several possible reasons for the discrepancies. For example, some minority groups were underrepresented on the records of voter registration and of the Department of Motor Vehicles, the two main sources from which jurors are selected. At the time of the study, the county did not have an effective process for following up on prospective jurors who had been called but had failed to appear. The ACLU listed several other reasons as well. Whatever the reasons, it seems clear that the composition of the jury panels was different from what we would have expected in a random sample from the distribution in the <code>Eligible</code> column.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Questions-about-the-Data">Questions about the Data<a class="anchor-link" href="#Questions-about-the-Data">¶</a></h3><p>We have developed a powerful technique that helps decide whether one distribution looks like a random sample from another. But data science is about more than techniques. In particular, data science always involves a thoughtful examination of how the data were gathered.</p>
@@ -802,7 +816,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 <p>All of this raises complex questions about how to accurately estimate the ethnic composition of eligible jurors in Alameda County.</p>
 <p>It is not clear exactly how the 1453 panelists were classified into the different ethnic categories (the ACLU report says that "attorneys ... cooperated in collecting jury pool data"). There are serious social, cultural, and political factors that affect who gets classified or self-classifies into each ethnic category. We also don't know whether the definitions of those categories in the panels are the same as those used by Professor Weeks who in turn used Census categories in his estimation process. Thus there are also questions about the correspondence between the two distributions being compared.</p>
 <p>Thus, while we have a clear conclusion about the data in our table – the panels do not look like a random sample from the distribution provided for eligible jurors – questions about the nature of the data prevent us from concluding anything broader.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="U.S.-Supreme-Court,-1965:-Swain-vs.-Alabama">U.S. Supreme Court, 1965: Swain vs. Alabama<a class="anchor-link" href="#U.S.-Supreme-Court,-1965:-Swain-vs.-Alabama">¶</a></h3><p>In the early 1960's, in Talladega County in Alabama, a black man called Robert Swain was convicted of raping a white woman and was sentenced to death. He appealed his sentence, citing among other factors the all-white jury. At the time, only men aged 21 or older were allowed to serve on juries in Talladega County. In the county, 26% of the eligible jurors were black, but there were only 8 black men among the 100 selected for the jury panel in Swain's trial. No black man was selected for the trial jury.</p>
@@ -810,7 +824,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 <p>Let's use the methods we have developed to examine the disparity between 8 out of 100 black men in the panel and the distribution of the eligible jurors.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [35]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">swain_jury</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
@@ -828,7 +842,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[35]:</div>
+
 
 
 
@@ -851,7 +865,7 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 </table></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [36]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">table_tvd</span><span class="p">(</span><span class="n">swain_jury</span><span class="p">,</span> <span class="s1">'Eligible'</span><span class="p">,</span> <span class="s1">'Panel'</span><span class="p">)</span>
@@ -863,21 +877,21 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[36]:</div>
+
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.18000000000000002</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The total variation distance between the two distributions is 0.18. How does this compare with the TVD between the distributions of the eligible population and a random sample?</p>
 <p>To answer this, we can simulate the TVD computed from a random sample.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [38]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compute empirical distribution of TVDs</span>
@@ -902,14 +916,14 @@ var element = $('#c4457cbb-8969-4a6b-a064-e4761194b6a7');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Jury_Selection_42_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The random samples typically have a much smaller TVD than the value of 0.18 that we got for the panel and the eligible jurors.</p>

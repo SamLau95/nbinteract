@@ -11,9 +11,30 @@
 </script>
 <!-- This line contains the JS to run the widget code -->
 <script src="https://unpkg.com/nbinteract@*"></script>
+<div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+
+<span class="kn">from</span> <span class="nn">datascience</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plots</span>
+<span class="n">plots</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'fivethirtyeight'</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Interaction</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+</pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
@@ -28,7 +49,7 @@
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -36,22 +57,22 @@
 
  
  
-<div id="1bcae5df-cea3-4965-a83e-68444bf0b6af"></div>
+<div id="bc606cff-6066-404a-bd9f-ae1dafe539ef"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#1bcae5df-cea3-4965-a83e-68444bf0b6af');
+var element = $('#bc606cff-6066-404a-bd9f-ae1dafe539ef');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "aa1f831503fe46559f3847b594f5ff76", "version_minor": 0, "version_major": 2}
+{"model_id": "aa1f831503fe46559f3847b594f5ff76", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Empirical-Distributions">Empirical Distributions<a class="anchor-link" href="#Empirical-Distributions">¶</a></h3><p>Much of data science involves data from large random samples. In this section we will examine some properties of such samples.</p>
 <p>We will start with a simple experiment: rolling a die multiple times and keeping track of which face appears. The table <code>die</code> contains the numbers of spots on the faces of a die. All the numbers appear exactly once, as we are assuming that the die is fair.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">die</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">'Face'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -64,7 +85,7 @@ var element = $('#1bcae5df-cea3-4965-a83e-68444bf0b6af');
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[4]:</div>
+
 
 
 
@@ -101,13 +122,13 @@ var element = $('#1bcae5df-cea3-4965-a83e-68444bf0b6af');
         </tr>
     </tbody>
 </table></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="A-Probability-Distribution">A Probability Distribution<a class="anchor-link" href="#A-Probability-Distribution">¶</a></h3><p>The histogram below helps us visualize the fact that every face appears with probability 1/6. We say that the histogram shows the <em>distribution</em> of probabilities over all the possible faces. Since all the bars represent the same percent chance, the distribution is called <em>uniform on the integers 1 through 6.</em></p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">die_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -120,20 +141,20 @@ var element = $('#1bcae5df-cea3-4965-a83e-68444bf0b6af');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
 
 <div class="output_png output_subarea ">
 <img src="/notebooks-images/Empirical_Distributions_5_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Variables whose successive values are separated by the same fixed amount, such as the values on rolls of a die (successive values separated by 1), are called <em>discrete</em>. The histogram above is called a <em>discrete</em> histogram. Its bins are specified by the array <code>die_bins</code> and ensure that each bar is centered over the corresponding integer value.</p>
 <p>It is important to remember that the die can't show 1.3 spots, or 5.2 spots – it always shows an integer number of spots. But our visualization spreads the probability of each value over the area of a bar. While this might seem a bit arbitrary at this stage of the course, it will become important later when we overlay smooth curves over discrete histograms.</p>
 <p>Before going further, let's make sure that the numbers on the axes make sense. The probability of each face is 1/6, which is 16.67% when rounded to two decimal places. The width of each bin is 1 unit. So the height of each bar is 16.67% per unit. This agrees with the horizontal and vertical scales of the graph.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Empirical-Distributions">Empirical Distributions<a class="anchor-link" href="#Empirical-Distributions">¶</a></h3><p>The distribution above consists of the theoretical probability of each face. It is not based on data. It can be studied and understood without any dice being rolled.</p>
@@ -143,7 +164,7 @@ var element = $('#1bcae5df-cea3-4965-a83e-68444bf0b6af');
 to see different samples.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">die_sample_10</span><span class="p">(</span><span class="n">sample_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -158,7 +179,7 @@ to see different samples.</p></div></div></div>
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -166,34 +187,34 @@ to see different samples.</p></div></div></div>
 
  
  
-<div id="582e0140-8de7-4dc1-8071-db2ab66a2021"></div>
+<div id="d98a3449-6662-4c6e-aa82-4896972a4d7b"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#582e0140-8de7-4dc1-8071-db2ab66a2021');
+var element = $('#d98a3449-6662-4c6e-aa82-4896972a4d7b');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "996080d7b6434e7d865c357505f97743", "version_minor": 0, "version_major": 2}
+{"model_id": "996080d7b6434e7d865c357505f97743", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can use the same method to simulate as many rolls as we like, and then draw empirical histograms of the results. Because we are going to do this repeatedly, we define a function <code>empirical_hist_die</code> that takes as its argument the sample size; the function rolls the die as many times as its argument and then draws a histogram.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">empirical_hist_die</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">die</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Empirical-Histograms">Empirical Histograms<a class="anchor-link" href="#Empirical-Histograms">¶</a></h3><p>Here is an empirical histogram of 10 rolls. It doesn't look very much like the probability histogram above. Drag the slider to look at different sets of 10 rolls.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [10]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">empirical_hist_die</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
@@ -205,7 +226,7 @@ var element = $('#582e0140-8de7-4dc1-8071-db2ab66a2021');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -213,21 +234,21 @@ var element = $('#582e0140-8de7-4dc1-8071-db2ab66a2021');
 
  
  
-<div id="38e66de4-cace-493d-8d0a-7c17bba53b2d"></div>
+<div id="a99a83d5-70d1-4389-9aa2-eebdae19ef8e"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#38e66de4-cace-493d-8d0a-7c17bba53b2d');
+var element = $('#a99a83d5-70d1-4389-9aa2-eebdae19ef8e');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "b617b76a613541a294a39751f7b96578", "version_minor": 0, "version_major": 2}
+{"model_id": "b617b76a613541a294a39751f7b96578", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When the sample size increases, the empirical histogram begins to look more like the histogram of theoretical probabilities. Try it out!</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [11]:</div>
+
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">empirical_hist_die</span><span class="p">,</span>
@@ -241,7 +262,7 @@ var element = $('#38e66de4-cace-493d-8d0a-7c17bba53b2d');
 
 <div class="output_area">
 
-<div class="prompt"></div>
+
 
 
 
@@ -249,15 +270,15 @@ var element = $('#38e66de4-cace-493d-8d0a-7c17bba53b2d');
 
  
  
-<div id="db3b03cd-c1c6-40e5-8412-3626421f4f39"></div>
+<div id="edc40f29-8454-4bea-b3fc-be4c107942c7"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#db3b03cd-c1c6-40e5-8412-3626421f4f39');
+var element = $('#edc40f29-8454-4bea-b3fc-be4c107942c7');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "d113db6d60b0489c95fa8f12c50dea70", "version_minor": 0, "version_major": 2}
+{"model_id": "d113db6d60b0489c95fa8f12c50dea70", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
+<div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As we increase the number of rolls in the simulation, the area of each bar gets closer to 16.67%, which is the area of each bar in the probability histogram.</p>
