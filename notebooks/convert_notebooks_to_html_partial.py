@@ -19,7 +19,7 @@ import nbformat
 from nbconvert import HTMLExporter
 from traitlets.config import Config
 
-preamble = """
+scripts = """
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -98,10 +98,10 @@ def convert_notebooks_to_html_partial(notebook_paths):
         }
 
         notebook = nbformat.read(notebook_path, 4)
-        raw_html, resources = html_exporter.from_notebook_node(notebook,
-            resources=extract_output_config)
+        raw_html, resources = html_exporter.from_notebook_node(
+            notebook, resources=extract_output_config)
 
-        html = preamble + _extract_cells(raw_html)
+        html = _extract_cells(raw_html) + scripts
 
         # Get dependencies from notebook
         matches = list(DATASET_REGEX.finditer(
