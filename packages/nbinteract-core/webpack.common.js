@@ -4,8 +4,9 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'index.bundle.js',
-    path: path.resolve(__dirname, 'built'),
-    publicPath: 'built/',
+    path: path.resolve(__dirname, 'lib'),
+    library: 'nbinteract-core',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
