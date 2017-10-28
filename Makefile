@@ -27,17 +27,17 @@ start_notebook:
 
 start_webpack:
 	# yarn run watch
-	yarn run serve
+	lerna run serve --stream
 
 build_py: ## Build python package
 	rm -rf dist/*
 	python setup.py bdist_wheel
 
 build_js: ## Build Javascript bundle
-	yarn run build
+	lerna run build --stream
 
 publish_py: build_py ## Publish nbinteract to PyPi
 	twine upload dist/*
 
 publish_js: build_js ## Publish nbinteract to npm
-	npm publish
+	lerna run clean && lerna run build --stream && lerna publish --force-publish=* -m "Publish js %sj"
