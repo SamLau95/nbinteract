@@ -1,12 +1,13 @@
 {
   "name": "gitbook-plugin-nbinteract",
+  "version": "0.0.9",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "engines": {
     "gitbook": ">=2.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no tests available\" && exit 1",
+    "test": "echo \"Error: no tests available\" && exit 1"
   },
   "repository": {
     "type": "git",
