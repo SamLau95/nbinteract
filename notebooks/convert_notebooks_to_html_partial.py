@@ -28,8 +28,6 @@ scripts = """
     }
   });
 </script>
-<!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*"></script>
 """
 
 # Use ExtractOutputPreprocessor to extract the images to separate files

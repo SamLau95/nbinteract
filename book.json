@@ -1,4 +1,4 @@
 {
   "root": "notebooks",
-  "plugins": ["include-html", "katex"]
+  "plugins": ["nbinteract", "katex"]
 }
