@@ -1,12 +1,12 @@
 {
-  "name": "nbinteract",
-  "description": "Script to allow public interactive Jupyter notebooks",
-  "main": "js/built/index.bundle.js",
+  "name": "gitbook-plugin-nbinteract",
+  "description": "Gitbook plugin for nbinteract",
+  "main": "index.js",
+  "engines": {
+    "gitbook": ">=2.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "serve": "webpack-dev-server --config webpack.dev.js --open"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
     "notebook",
     "html",
     "interactive",
-    "widgets"
+    "widgets",
+    "gitbook"
   ],
   "author": "Sam Lau",
   "license": "BSD-3-Clause",

@@ -40,4 +40,4 @@ publish_py: build_py ## Publish nbinteract to PyPi
 	twine upload dist/*
 
 publish_js: build_js ## Publish nbinteract to npm
-	lerna run clean && lerna run build --stream && lerna publish --force-publish=* -m "Publish js %sj"
+	lerna run clean && lerna run build --stream && lerna publish --force-publish=* -m "Publish js %s"
