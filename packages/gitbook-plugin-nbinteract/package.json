@@ -2,14 +2,15 @@
   "name": "gitbook-plugin-nbinteract",
   "version": "0.0.12",
   "description": "Gitbook plugin for nbinteract",
-  "main": "built/index.bundle.js",
+  "main": "index.js",
   "engines": {
     "gitbook": ">=2.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js"
+    "watch": "webpack --watch --config webpack.dev.js",
+    "load": "cp ../nbinteract/built/index.bundle.js js/nbinteract.js"
   },
   "repository": {
     "type": "git",

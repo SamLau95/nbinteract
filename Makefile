@@ -35,6 +35,7 @@ build_py: ## Build python package
 
 build_js: ## Build Javascript bundle
 	lerna run build --stream
+	lerna run load
 
 publish_py: build_py ## Publish nbinteract to PyPi
 	twine upload dist/*
