@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-nbinteract",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "engines": {
@@ -8,8 +8,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js",
     "load": "cp ../nbinteract/built/index.bundle.js js/nbinteract.js"
   },
   "repository": {
@@ -31,6 +29,6 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "nbinteract-core": "^0.0.12"
+    "nbinteract-core": "^0.0.13"
   }
 }
