@@ -1,3 +1,3 @@
-import initializeInteract from './interact'
+import NbInteract from './interact'
 
-export { initializeInteract }
+export default NbInteract

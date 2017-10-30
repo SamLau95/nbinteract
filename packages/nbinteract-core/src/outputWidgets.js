@@ -8,9 +8,9 @@ export const OUTPUT_WIDGET_VERSION = outputBase.OUTPUT_WIDGET_VERSION
 
 export class OutputModel extends outputBase.OutputModel {
   defaults() {
-    return _.extend(super.defaults(), {
-      msg_id: '',
-    })
+    const defaults = super.defaults()
+    defaults['msg_id'] = ''
+    return defaults
   }
 
   initialize(attributes, options) {

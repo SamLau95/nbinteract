@@ -38,5 +38,8 @@
     "http-server": "^0.10.0",
     "jquery": "^3.2.1",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "lodash.debounce": "^4.0.8"
   }
 }

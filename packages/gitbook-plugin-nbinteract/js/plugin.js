@@ -1,5 +1,6 @@
 require(['gitbook'], function(gitbook) {
   gitbook.events.bind('page.change', function() {
-    window.NbInteract.initializeInteract()
+    console.log('Running interact:');
+    window.interact.run()
   })
 })
