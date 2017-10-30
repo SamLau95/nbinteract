@@ -17,6 +17,10 @@
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Click-here-to-skip-to-the-interactive-part"><a href="#Interact-with-the-distribution-of-our-sampled-TVDs:">Click here to skip to the interactive part</a><a class="anchor-link" href="#Click-here-to-skip-to-the-interactive-part">¶</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Jury-Selection">Jury Selection<a class="anchor-link" href="#Jury-Selection">¶</a></h3><p>In 2010, the ACLU presented a report on jury selection in Alameda County, California. The report concluded that certain ethnic groups are underrepresented among jury panelists in Alameda County, and suggested some reforms of the process by which eligible jurors are assigned to panels. In this section, we will perform our own analysis of the data and examine some questions that arise as a result.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -105,7 +109,7 @@
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Jury_Selection_6_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Jury_Selection_7_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -394,7 +398,7 @@
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Jury_Selection_25_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Jury_Selection_26_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -531,6 +535,10 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">53</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Interact-with-the-distribution-of-our-sampled-TVDs:">Interact with the distribution of our sampled TVDs:<a class="anchor-link" href="#Interact-with-the-distribution-of-our-sampled-TVDs:">¶</a></h3></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -550,41 +558,15 @@
 
 
 
+<div class="output_subarea output_text output_error">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-8170606915c8&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> _ = interact(hist_n_samples, tbl=fixed(results),
+</span><span class="ansi-green-intense-fg ansi-bold">      2</span>              n<span class="ansi-blue-fg">=</span>widgets<span class="ansi-blue-fg">.</span>IntSlider<span class="ansi-blue-fg">(</span>min<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> max<span class="ansi-blue-fg">=</span>repetitions<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> continuous_update<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>              bins=fixed(np.arange(0, 0.2, 0.005)))
 
-
-
- 
- 
-<div id="790a64ce-ed5d-4554-916c-8ed2c2621d7d"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#790a64ce-ed5d-4554-916c-8ed2c2621d7d');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "7927932755024a64b0dff0332d4b0054", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Here's the complete histogram of the null distribution</span>
-<span class="n">results</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">))</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/Jury_Selection_35_0.png"/></div></div></div></div></div>
+<span class="ansi-red-fg">NameError</span>: name 'interact' is not defined</pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -709,7 +691,7 @@ var element = $('#790a64ce-ed5d-4554-916c-8ed2c2621d7d');
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Jury_Selection_42_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Jury_Selection_43_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
