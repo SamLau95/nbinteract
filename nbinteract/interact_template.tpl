@@ -1,44 +1,38 @@
-{% extends "full.tpl" %}
+{%- extends 'basic.tpl' -%}
+{% from 'mathjax.tpl' import mathjax %}
 
 <!--
-Overwrite the widget output blocks since they were using jQuery uselessly.
+This file is blatently copied from the nbconvert's full.tpl since there's no
+easy hook into the spot just before the body closes. The body block is the only
+block that changed.
 -->
-{%- block data_widget_state scoped %}
-{% set div_id = uuid4() %}
-{% set datatype_list = output.data | filter_data_type %}
-{% set datatype = datatype_list[0]%}
-<div id="{{ div_id }}"></div>
-<div class="output_subarea output_widget_state {{ extra_class }}">
-<script type="{{ datatype }}">
-{{ output.data[datatype] | json_dumps }}
-</script>
-</div>
-{%- endblock data_widget_state -%}
 
-{%- block data_widget_view scoped %}
-{% set div_id = uuid4() %}
-{% set datatype_list = output.data | filter_data_type %}
-{% set datatype = datatype_list[0]%}
-<div id="{{ div_id }}"></div>
-<div class="output_subarea output_widget_view {{ extra_class }}">
-<script type="{{ datatype }}">
-{{ output.data[datatype] | json_dumps }}
-</script>
-</div>
-{%- endblock data_widget_view -%}
-<!--
-Overwrite head tag in HTML. This is directly copied from nbinteract's
-full.tpl file and thus will have to updated when the full.tpl file changes.
+{% block body %}
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+{{ super() }}
+    </div>
+  </div>
+  <!-- This line contains the JS to run the widget code -->
+  <script src="https://unpkg.com/nbinteract"></script>
+</body>
+{%- endblock body %}
 
-Unfortunately, the template doesn't provide a way of changing only the lines
-we need to change so we're overwriting the whole thing.
--->
+{%- block header -%}
+<!DOCTYPE html>
+<html>
+<head>
 {%- block html_head -%}
 <meta charset="utf-8" />
 <title>{{resources['metadata']['name']}}</title>
 
-<!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*"></script>
+{%- if "widgets" in nb.metadata -%}
+<script src="https://unpkg.com/jupyter-js-widgets@2.0.*/dist/embed.js"></script>
+{%- endif-%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 {% for css in resources.inlining.css -%}
     <style type="text/css">
@@ -86,3 +80,10 @@ div#notebook-container{
 <!-- Loading mathjax macro -->
 {{ mathjax() }}
 {%- endblock html_head -%}
+</head>
+{%- endblock header -%}
+
+{% block footer %}
+{{ super() }}
+</html>
+{% endblock footer %}
