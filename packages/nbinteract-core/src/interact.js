@@ -1,6 +1,7 @@
 import 'font-awesome/css/font-awesome.css'
 import $ from 'jquery'
 import debounce from 'lodash.debounce'
+import once from 'lodash.once'
 
 import { Kernel, ServerConnection, KernelMessage } from '@jupyterlab/services'
 
@@ -45,6 +46,7 @@ export default class NbInteract {
     this.id = (Math.random() + 1).toString(36).substring(2, 6)
 
     this._running = false
+    this._getOrStartKernel = once(this._getOrStartKernel);
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
   }
 

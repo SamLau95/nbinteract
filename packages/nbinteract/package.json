@@ -28,5 +28,6 @@
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
     "nbinteract-core": "^0.0.16"
-  }
+  },
+  "devDependencies": {}
 }
