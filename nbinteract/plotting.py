@@ -1,7 +1,8 @@
 import numpy as np
 import bqplot as bq
-from IPython.display import display
 import ipywidgets as widgets
+from IPython.display import display
+
 
 
 def hist(hist_function, **kwargs):
@@ -31,7 +32,7 @@ def hist(hist_function, **kwargs):
     fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist],
                         title='First Example')
 
-    def wrapped(**kwars):
+    def wrapped(**kwargs):
         hist.sample = hist_function(**kwargs)
 
     display_widgets = widgets.interactive(wrapped, **kwargs)
