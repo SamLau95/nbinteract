@@ -60,7 +60,7 @@
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 
-<span class="k">def</span> <span class="nf">draw_and_compare</span><span class="p">(</span><span class="n">true_slope</span><span class="p">,</span> <span class="n">true_int</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">draw_and_compare</span><span class="p">(</span><span class="n">true_slope</span><span class="p">,</span> <span class="n">true_int</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
     <span class="n">xlims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
@@ -70,28 +70,30 @@
         <span class="s1">'y'</span><span class="p">,</span> <span class="n">y</span>
     <span class="p">)</span>
 
-    <span class="n">plots</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tyche</span><span class="p">[</span><span class="s1">'x'</span><span class="p">],</span> <span class="n">tyche</span><span class="p">[</span><span class="s1">'y'</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlims</span><span class="p">,</span> <span class="n">true_slope</span><span class="o">*</span><span class="n">xlims</span> <span class="o">+</span> <span class="n">true_int</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'True Line, and Points Created'</span><span class="p">)</span>
 
-    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tyche</span><span class="p">[</span><span class="s1">'x'</span><span class="p">],</span><span class="n">tyche</span><span class="p">[</span><span class="s1">'y'</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'What We Get to See'</span><span class="p">)</span>
 
-    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">scatter_fit</span><span class="p">(</span><span class="n">tyche</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Regression Line: Estimate of True Line'</span><span class="p">)</span>
 
-    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">scatter_fit</span><span class="p">(</span><span class="n">tyche</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
     <span class="n">xlims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">tyche</span><span class="p">[</span><span class="s1">'x'</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tyche</span><span class="p">[</span><span class="s1">'x'</span><span class="p">])])</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlims</span><span class="p">,</span> <span class="n">true_slope</span><span class="o">*</span><span class="n">xlims</span> <span class="o">+</span> <span class="n">true_int</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Regression Line and True Line"</span><span class="p">)</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered hidden">
 <div class="input">
@@ -107,119 +109,6 @@
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Inference-for-the-True-Slope">Inference for the True Slope<a class="anchor-link" href="#Inference-for-the-True-Slope">¶</a></h3><p>Our simulations show that if the regression model holds and the sample size is large, then the regression line is likely to be close to the true line. This allows us to estimate the slope of the true line.</p>
 <p>We will use our familiar sample of mothers and their newborn babies to develop a method of estimating the slope of the true line. First, let's see if we believe that the regression model is an appropriate set of assumptions for describing the relation between birth weight and the number of gestational days.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scatter_fit</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_5_0.png"/></div></div></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">correlation</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.40754279338885108</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>By and large, the scatter looks fairly evenly distributed around the line, though there are some points that are scattered on the outskirts of the main cloud. The correlation is 0.4 and the regression line has a positive slope.</p>
-<p>Does this reflect the fact that the true line has a positive slope? To answer this question, let us see if we can estimate the true slope. We certainly have one estimate of it: the slope of our regression line. That's about 0.47 ounces per day.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.46655687694921522</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>But had the scatter plot come out differently, the regression line would have been different and might have had a different slope. How do we figure out how different the slope might have been?</p>
-<p>We need another sample of points, so that we can draw the regression line through the new scatter plot and find its slope. But from where will get another sample?</p>
-<p>You have guessed it – we will <em>bootstrap our original sample</em>. That will give us a bootstrapped scatter plot, through which we can draw a regression line.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Bootstrapping-the-Scatter-Plot">Bootstrapping the Scatter Plot<a class="anchor-link" href="#Bootstrapping-the-Scatter-Plot">¶</a></h3><p>We can simulate new samples by random sampling with replacement from the original sample, as many times as the original sample size. Each of these new samples will give us a scatter plot. We will call that a <em>bootstrapped scatter plot</em>, and for short, we will call the entire process <em>bootstrapping the scatter plot</em>.</p>
-<p>Here is the original scatter diagram from the sample, and four replications of the bootstrap resampling procedure. Notice how the resampled scatter plots are in general a little more sparse than the original. That is because some of the original point do not get selected in the samples.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered hidden">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
-
-<span class="n">plots</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">18</span><span class="p">))</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">baby</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">baby</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">150</span><span class="p">,</span> <span class="mi">400</span><span class="p">])</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Original sample'</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">rep</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">with_replacement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">150</span><span class="p">,</span> <span class="mi">400</span><span class="p">])</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Bootstrap sample '</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_11_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -231,7 +120,7 @@
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">slopes</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
 <span class="n">ints</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
     <span class="n">bootstrap_sample</span> <span class="o">=</span> <span class="n">baby</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
     <span class="n">bootstrap_slope</span> <span class="o">=</span> <span class="n">slope</span><span class="p">(</span><span class="n">bootstrap_sample</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">)</span>
     <span class="n">bootstrap_int</span> <span class="o">=</span> <span class="n">intercept</span><span class="p">(</span><span class="n">bootstrap_sample</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">)</span>
@@ -254,7 +143,7 @@
     <span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlims</span><span class="p">)</span>
     <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     
-<span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">draw_bootstrapped_lines</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">draw_bootstrapped_lines</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">continuous_update</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -271,13 +160,13 @@
 
  
  
-<div id="db02043f-d69c-4664-ac8d-a1bd7e7d6c3e"></div>
+<div id="c7ea2b9c-0053-4755-84af-a05ff40fd321"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#db02043f-d69c-4664-ac8d-a1bd7e7d6c3e');
+var element = $('#c7ea2b9c-0053-4755-84af-a05ff40fd321');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "b2394dbd2c154524ae0a1cdc41e467f7", "version_minor": 0}
+{"version_major": 2, "version_minor": 0, "model_id": "1d6850498a3646639bf01c2f41488d43"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -303,19 +192,17 @@ var element = $('#db02043f-d69c-4664-ac8d-a1bd7e7d6c3e');
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_16_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_9_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can then construct an approximate 95% confidence interval for the slope of the true line, using the bootstrap percentile method. The confidence interval extends from the 2.5th percentile to the 97.5th percentile of the 5000 bootstrapped slopes.</p></div></div></div>
+<p>We can then construct an approximate 95% confidence interval for the slope of the true line, using the bootstrap percentile method. The confidence interval extends from the 2.5th percentile to the 97.5th percentile of the 500 bootstrapped slopes.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">left</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">slopes</span><span class="p">)</span>
-<span class="n">right</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="mf">97.5</span><span class="p">,</span> <span class="n">slopes</span><span class="p">)</span>
-<span class="n">left</span><span class="p">,</span> <span class="n">right</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">percentile</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">slopes</span><span class="p">),</span> <span class="n">percentile</span><span class="p">(</span><span class="mf">97.5</span><span class="p">,</span> <span class="n">slopes</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -330,7 +217,7 @@ var element = $('#db02043f-d69c-4664-ac8d-a1bd7e7d6c3e');
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(0.38420891823731312, 0.55785630851304302)</pre></div></div></div></div></div>
+<pre>(0.38539263774604215, 0.54949566470355571)</pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -378,7 +265,7 @@ var element = $('#db02043f-d69c-4664-ac8d-a1bd7e7d6c3e');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Gestational Days'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -393,7 +280,7 @@ var element = $('#db02043f-d69c-4664-ac8d-a1bd7e7d6c3e');
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Slope of regression line: 0.466556876949
 Approximate 95%-confidence interval for the true slope:
-0.384092576829 0.561386933725
+0.381231492179 0.557364848978
 </pre></div></div>
 
 <div class="output_area">
@@ -404,7 +291,7 @@ Approximate 95%-confidence interval for the true slope:
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_23_1.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_16_1.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -431,7 +318,7 @@ Approximate 95%-confidence interval for the true slope:
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_25_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_18_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -462,7 +349,7 @@ Approximate 95%-confidence interval for the true slope:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Maternal Height'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Maternal Height'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -477,7 +364,7 @@ Approximate 95%-confidence interval for the true slope:
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Slope of regression line: 1.47801935193
 Approximate 95%-confidence interval for the true slope:
-1.04805855626 1.90854379963
+1.04582729244 1.92330668839
 </pre></div></div>
 
 <div class="output_area">
@@ -488,7 +375,7 @@ Approximate 95%-confidence interval for the true slope:
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_28_1.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_21_1.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -505,7 +392,7 @@ Approximate 95%-confidence interval for the true slope:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">draw_and_compare</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact_manual</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">draw_and_compare</span><span class="p">(</span><span class="n">true_slope</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">true_int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="mi">25</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -519,8 +406,17 @@ Approximate 95%-confidence interval for the true slope:
 
 
 
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_31_0.png"/></div></div></div></div></div>
+
+ 
+ 
+<div id="70d2248f-de20-47f0-b0dd-ec98f3c69fc7"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#70d2248f-de20-47f0-b0dd-ec98f3c69fc7');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "f74ea9b090b940ed89954057d3b57e09"}
+</script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -583,7 +479,7 @@ Approximate 95%-confidence interval for the true slope:
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_37_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_30_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -593,7 +489,7 @@ Approximate 95%-confidence interval for the true slope:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Maternal Age'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bootstrap_slope</span><span class="p">(</span><span class="n">baby</span><span class="p">,</span> <span class="s1">'Maternal Age'</span><span class="p">,</span> <span class="s1">'Birth Weight'</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -608,7 +504,7 @@ Approximate 95%-confidence interval for the true slope:
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Slope of regression line: 0.0850076694158
 Approximate 95%-confidence interval for the true slope:
--0.0984720496687 0.271658402099
+-0.103029776608 0.267250212507
 </pre></div></div>
 
 <div class="output_area">
@@ -619,7 +515,7 @@ Approximate 95%-confidence interval for the true slope:
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Inference_for_the_True_Slope_39_1.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Inference_for_the_True_Slope_32_1.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -631,6 +527,4 @@ Approximate 95%-confidence interval for the true slope:
       processEscapes: true
     }
   });
-</script>
-<!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*"></script></div>
+</script></div>

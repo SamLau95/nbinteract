@@ -15,7 +15,7 @@
   pushing -> failed
 */
 
-const BASE_URL = 'https://beta.mybinder.org'
+const BASE_URL = 'https://mybinder.org'
 
 function Image(provider, spec) {
   this.provider = provider

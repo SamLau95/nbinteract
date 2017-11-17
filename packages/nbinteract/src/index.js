@@ -1,7 +1,6 @@
-import { initializeInteract } from 'nbinteract-core'
+import NbInteract from 'nbinteract-core'
 
-window.NbInteract = {
-  initializeInteract,
-}
+const interact = new NbInteract()
+window.interact = interact
 
-initializeInteract()
+interact.run()

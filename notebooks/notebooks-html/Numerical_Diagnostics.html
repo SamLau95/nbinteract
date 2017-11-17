@@ -129,6 +129,52 @@
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Another-Way-to-Interpret-$r$">Another Way to Interpret $r$<a class="anchor-link" href="#Another-Way-to-Interpret-$r$">¶</a></h3><p>We can rewrite the result above to say that no matter what the shape of the scatter plot,</p>
+<p>$$
+\frac{\mbox{SD of residuals}}{\mbox{SD of }y} ~=~ \sqrt{1-r^2}
+$$</p>
+<p>A complentary result is that no matter what the shape of the scatter plot, the SD of the fitted values is a fraction of the SD of the observed values of $y$. The fraction is |r|.</p>
+<p>$$
+\frac{\mbox{SD of fitted values}}{\mbox{SD of }y} ~=~ |r|
+$$</p>
+<p>To see where the fraction comes in, notice that the fitted values are all on the regression line whereas the observed values of $y$ are the heights of all the points in the scatter plot and are more variable.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cell below shows an interactive plot displaying these quantities for different values of r:</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">r_scatter</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="a5331eaf-b405-46f9-b098-d8a92dad16b7"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#a5331eaf-b405-46f9-b098-d8a92dad16b7');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "dadb9b9e48be40d695e6c0f9b19e7a29"}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Residual-Plots-Show-No-Trend">Residual Plots Show No Trend<a class="anchor-link" href="#Residual-Plots-Show-No-Trend">¶</a></h3><p><strong>For every linear regression, whether good or bad, the residual plot shows no trend. Overall, it is flat. In other words, the residuals and the predictor variable are uncorrelated.</strong></p>
 <p>You can see this in all the residual plots above. We can also calculate the correlation between the predictor variable and the residuals in each case.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -401,7 +447,7 @@ $$</p>
 
 
 <div class="output_png output_subarea ">
-<img src="/notebooks-images/Numerical_Diagnostics_23_0.png"/></div></div></div></div></div>
+<img src="/notebooks-images/Numerical_Diagnostics_26_0.png"/></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -500,52 +546,6 @@ $$</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>0.5060703843771186</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The ratio of the two SDs is $|r|$.</p>
-<p>A more standard way to express this result is to recall that</p>
-<p>$$
-\mbox{variance} ~=~ \mbox{mean squared deviation from average} ~=~ \mbox{SD}^2
-$$</p>
-<p>and therefore, by squaring both sides of our result,</p>
-<p>$$
-\frac{\mbox{variance of fitted values}}{\mbox{variance of }y} ~=~ r^2
-$$</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The cell below shows an interactive plot displaying these quantities for different values of r:</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">r_scatter</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="23195e16-ccf2-4e42-8637-c8d97d6a3a80"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#23195e16-ccf2-4e42-8637-c8d97d6a3a80');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "3bd26fdb4688461585dae47ea400f066", "version_minor": 0}
-</script></div></div></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
@@ -553,6 +553,4 @@ var element = $('#23195e16-ccf2-4e42-8637-c8d97d6a3a80');
       processEscapes: true
     }
   });
-</script>
-<!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*"></script></div>
+</script></div>
