@@ -48,6 +48,11 @@ setup(
     install_requires=[
         'nbconvert',
         'traitlets',
+        'numpy',
+        'bqplot',
+        'ipywidgets',
+        'IPython'
+
     ],
 
     extras_require={
