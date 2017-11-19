@@ -4,10 +4,9 @@ import ipywidgets as widgets
 from IPython.display import display
 
 
-
 def hist(hist_function, **kwargs):
     """
-    This function generates an interactive histogram that allows users to
+    Generates an interactive histogram that allows users to
     interact with parameters of hist_function and visualize changes in the
     histogram.
 
@@ -26,11 +25,10 @@ def hist(hist_function, **kwargs):
     y_sc = bq.LinearScale()
     ax_x = bq.Axis(label='X', scale=x_sc, grid_lines='solid')
     ax_y = bq.Axis(label='Y', scale=y_sc, orientation='vertical',
-                       grid_lines='solid')
+                   grid_lines='solid')
     hist = bq.Hist(sample=np.array(np.arange(0, 1, 0.1)),
-                       scales={'sample': x_sc, 'count': y_sc})
-    fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist],
-                        title='First Example')
+                   scales={'sample': x_sc, 'count': y_sc})
+    fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist], title='First Example')
 
     def wrapped(**kwargs):
         hist.sample = hist_function(**kwargs)
@@ -42,7 +40,7 @@ def hist(hist_function, **kwargs):
 
 def scatter(x_points, y_points, fit_reg=True):
     """
-    This function generates an interactive scatter plot where the points
+    Generates an interactive scatter plot where the points
     can be dragged by users and linked to an update function.
 
     Args:
@@ -69,10 +67,9 @@ def scatter(x_points, y_points, fit_reg=True):
     ax_x = bq.Axis(scale=sc_x)
     ax_y = bq.Axis(scale=sc_y, tick_format='0.2f', orientation='vertical')
     scat = bq.Scatter(x=x_points,
-                   y=y_points,
-                   scales={'x': sc_x, 'y': sc_y},
-                   enable_move=True)
-
+                      y=y_points,
+                      scales={'x': sc_x, 'y': sc_y},
+                      enable_move=True)
     # equation label
     label = widgets.Label()
     if fit_reg:
@@ -87,4 +84,3 @@ def scatter(x_points, y_points, fit_reg=True):
     box = widgets.VBox([label, fig])
     # initialize plot and equation and display
     display(box)
-
