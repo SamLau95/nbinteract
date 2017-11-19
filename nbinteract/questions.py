@@ -20,6 +20,14 @@ def multiple_choice(question, answer_list, correct_answer):
 
     Returns:
         None
+
+    >>> multiple_choice(question="What is 1+1",
+    ...                 answer_list=['1', '2', '3'],
+    ...                 correct_answer = '2')
+    <What is 1+1>
+    <Button> <1>
+    <Button> <2>
+    <Button> <3>
     """
     # make sure question is a string
     assert type(question) == str
@@ -63,11 +71,18 @@ def short_answer(question, answer, explanation=None):
     Args:
         ''question'' --(string)
         The question being asked.
-        ''answer'' --(string):
+        ''answer'' --(string)
         The correct answer to the question.
+        ''explanation'' --(string)
+        The explanation to the question is displayed when the user inputs
+        the correct answer.
 
     Returns:
         None
+
+    >>> short_answer('What is 1+1?', '2') #doctest: +SKIP
+    <What is 1+1?>
+    <Input box, Submit button>
     """
     # Input textbox
     user_answer = widgets.Text(placeholder='Write your answer here')
