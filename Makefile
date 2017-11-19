@@ -26,8 +26,7 @@ start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
 start_webpack:
-	# yarn run watch
-	lerna run serve --stream
+	yarn run serve
 
 build_py: ## Build python package
 	rm -rf dist/*
