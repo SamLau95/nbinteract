@@ -1,4 +1,4 @@
 {
-  "root": "notebooks",
+  "root": "docs",
   "plugins": ["nbinteract", "katex"]
 }

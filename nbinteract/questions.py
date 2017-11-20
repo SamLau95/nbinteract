@@ -21,7 +21,7 @@ def multiple_choice(question, answer_list, correct_answer):
     Returns:
         None
 
-    >>> multiple_choice(question="What is 1+1",
+    >>> multiple_choice(question="What is 1+1?",
     ...                 answer_list=['1', '2', '3'],
     ...                 correct_answer = '2')
     <What is 1+1>
@@ -80,7 +80,7 @@ def short_answer(question, answer, explanation=None):
     Returns:
         None
 
-    >>> short_answer('What is 1+1?', '2') #doctest: +SKIP
+    >>> short_answer('What is 1+1??', '2') #doctest: +SKIP
     <What is 1+1?>
     <Input box, Submit button>
     """
