@@ -1,8 +1,5 @@
 ## Introduction
 
-* [Motivation](Motivation.md)
-* [Core Concepts](CoreConcepts.md)
-* [Three Principles](ThreePrinciples.md)
-* [Prior Art](PriorArt.md)
-* [Ecosystem](Ecosystem.md)
-* [Examples](Examples.md)
+* [Motivation](/docs/introduction/Motivation.md)
+* [Core Concepts](/docs/introduction/CoreConcepts.md)
+* [Getting Started](/docs/introduction/CoreConcepts.md)
