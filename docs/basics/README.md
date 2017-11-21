@@ -4,5 +4,5 @@ Don't be fooled by all the fancy talk about reducers, middleware, store enhancer
 
 In this guide, we'll walk through the process of creating a simple Todo app.
 
-* [Simple Widgets](/docs/basics/Actions.md)
-* [Interact](/docs/basics/Reducers.md)
+* [Simple Widgets](/docs/basics/Simple_Widgets.md)
+* [Interact](/docs/basics/Interact.md)
