@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "nbinteract-core": "^0.0.18"
   }
 }

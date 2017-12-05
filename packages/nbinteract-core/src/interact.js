@@ -1,4 +1,5 @@
 import 'font-awesome/css/font-awesome.css'
+import 'bqplot/src/bqplot.less'
 import $ from 'jquery'
 import debounce from 'lodash.debounce'
 import once from 'lodash.once'
