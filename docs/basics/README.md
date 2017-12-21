@@ -6,3 +6,4 @@ In this guide, we'll show how to turn super simple functions into interactive wi
 
 * [Simple Widgets](/basics/Simple_Widgets.md)
 * [Interact](/basics/Interact.md)
+* [Interact](/basics/Response_Function.md)
