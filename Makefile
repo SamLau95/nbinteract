@@ -18,8 +18,8 @@ install: ## Installs Python package locally
 	pip install -e .
 
 book: ## Convert notebooks to HTML for Gitbooks
-	cd notebooks && python convert_notebooks_to_html_partial.py
-	git add notebooks book.json
+	cd docs && python convert_notebooks_to_html_partial.py
+	git add docs book.json
 	git commit -m "Convert notebooks"
 
 start_notebook:

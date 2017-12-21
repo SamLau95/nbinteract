@@ -1,0 +1,136 @@
+<div id="ipython-notebook">
+            <a class="interact-button" href="http://datahub.berkeley.edu/user-redirect/interact?repo=textbook&path=notebooks/basics_response_function.ipynb">Interact</a>
+            <div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Response-Functions">Response Functions<a class="anchor-link" href="#Response-Functions">¶</a></h1></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Widgets are the interactive elements that interact chooses for you. This is a lower level representation for increased control in generating the model.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As mentioend in the widgets tutorial, widgets can be easily initialized with its default settings like this.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="8dbb08cd-c69e-4082-9885-afa0fd511281"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#8dbb08cd-c69e-4082-9885-afa0fd511281');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "8e3376e04e58417789dcd66e171048d2", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also explicitly display the widget using display(...).</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="2be98e6b-7867-4d8c-ac6f-4479d43aaf6e"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#2be98e6b-7867-4d8c-ac6f-4479d43aaf6e');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "58339f151c7740ac91d0a911fff26fda", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By calling the built-in observe function of a widget, the function f is linked with the widget and called each time the slider is moved.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"this works"</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="657abfc8-dd3e-4f69-bd4a-c0b5cf215551"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#657abfc8-dd3e-4f69-bd4a-c0b5cf215551');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "58339f151c7740ac91d0a911fff26fda", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this case, the function f serves as a response function that is linked with the slider widget. It responds to a change in the value of the widget. This will be more useful later in creating more complicated response function and widget combinations.</p></div></div></div>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$']],
+      processEscapes: true
+    }
+  });
+</script></div>
