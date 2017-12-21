@@ -2,7 +2,6 @@
 * [Read Me](/README.md)
 * [Introduction](/introduction/README.md)
   * [Motivation](/introduction/Motivation.md)
-  * [Core Concepts](/introduction/Core_Concepts.md)
   * [Getting Started](/introduction/Getting_Started.md)
 * [Basics](/basics/README.md)
   * [Simple Widgets](/basics/Simple_Widgets.md)

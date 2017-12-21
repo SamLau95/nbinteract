@@ -1,8 +1,8 @@
 # Basics
 
-Don't be fooled by all the fancy talk about reducers, middleware, store enhancers—Redux is incredibly simple. If you've ever built a Flux application, you will feel right at home. If you're new to Flux, it's easy too!
+Don't be overwhelmed by all the intricacies of dyanmic scatter plots and writing response functions, creating a basic interactive widget is actually really simple.
 
-In this guide, we'll walk through the process of creating a simple Todo app.
+In this guide, we'll show how to turn super simple functions into interactive widgets.
 
 * [Simple Widgets](/basics/Simple_Widgets.md)
 * [Interact](/basics/Interact.md)
