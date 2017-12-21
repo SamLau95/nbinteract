@@ -6,7 +6,7 @@
 * [Basics](/basics/README.md)
   * [Simple Widgets](/basics/Simple_Widgets.md)
   * [Interact](/basics/Interact.md)
-  * [Response Function](/basics/Response_function.md)
+  * [Response Function](/basics/Response_Functions.md)
 * [Advanced](/advanced/README.md)
   * [Custom Functions](/advanced/Custom_Functions.md)
   * [Graphing](/advanced/Graphing.md)
