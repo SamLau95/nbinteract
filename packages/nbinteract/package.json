@@ -7,7 +7,8 @@
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --watch --config webpack.dev.js",
-    "serve": "webpack-dev-server --config webpack.dev.js --open"
+    "serve": "webpack-dev-server --config webpack.dev.js --open",
+    "clean": "rimraf built/*"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "nbinteract-core": "^0.0.18"
-  }
+    "nbinteract-core": "^0.0.18",
+    "uglifyjs-webpack-plugin": "^1.1.4"
+  },
+  "devDependencies": {}
 }

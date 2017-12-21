@@ -3,6 +3,7 @@ import * as controls from '@jupyter-widgets/controls'
 import { Widget } from '@phosphor/widgets'
 import * as base from '@jupyter-widgets/base'
 import { RenderMime, defaultRendererFactories } from '@jupyterlab/rendermime'
+import * as bqplot from 'bqplot';
 
 import * as outputWidgets from './outputWidgets'
 
@@ -72,8 +73,10 @@ export class WidgetManager extends HTMLManager {
       return Promise.resolve(controls[className])
     } else if (moduleName === '@jupyter-widgets/base') {
       return Promise.resolve(base[className])
-    } else if (moduleName == '@jupyter-widgets/output') {
+    } else if (moduleName === '@jupyter-widgets/output') {
       return Promise.resolve(outputWidgets[className])
+    } else if (moduleName === 'bqplot') {
+      return Promise.resolve(bqplot[className])
     } else {
       return new Promise(function(resolve, reject) {
         window.require([moduleName], resolve, reject)
