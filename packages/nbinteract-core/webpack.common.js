@@ -29,10 +29,6 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
-      },
       // jquery-ui loads some images
       { test: /\.(jpg|png|gif)$/, use: 'file-loader' },
       // required to load font-awesome

@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js"
+    "watch": "webpack --watch --config webpack.dev.js",
+    "clean": "rimraf lib/*"
   },
   "repository": {
     "type": "git",
@@ -38,12 +39,12 @@
     "font-awesome": "^4.7.0",
     "http-server": "^0.10.0",
     "jquery": "^3.2.1",
-    "less": "^2.7.3",
-    "less-loader": "^4.0.5",
+    "uglifyjs-webpack-plugin": "^1.1.4",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "lodash.debounce": "^4.0.8",
-    "lodash.once": "^4.1.1"
+    "lodash.once": "^4.1.1",
+    "rimraf": "^2.6.2"
   }
 }
