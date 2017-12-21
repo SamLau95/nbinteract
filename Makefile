@@ -1,4 +1,4 @@
-.PHONY: help serve build publish book install
+.PHONY: help serve build publish book install clean
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -41,3 +41,7 @@ publish_py: build_py ## Publish nbinteract to PyPi
 
 publish_js: build_js ## Publish nbinteract to npm
 	lerna publish --force-publish=* -m "Publish js %s"
+
+clean: ## Clean built Python and JS files
+	rm -rf build/* dist/*
+	lerna run clean
