@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "install": "lerna bootstrap --hoist",
-    "serve": "lerna run serve --stream"
+    "serve": "lerna run serve --stream",
+    "watch": "lerna run watch --stream"
   },
   "devDependencies": {
     "@types/requirejs": "^2.1.28",

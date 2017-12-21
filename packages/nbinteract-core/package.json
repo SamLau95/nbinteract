@@ -8,6 +8,7 @@
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --watch --config webpack.dev.js",
+    "stats": "webpack --profile --json --config webpack.prod.js > stats.json",
     "clean": "rimraf lib/*"
   },
   "repository": {
@@ -45,6 +46,7 @@
   "devDependencies": {
     "lodash.debounce": "^4.0.8",
     "lodash.once": "^4.1.1",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "webpack-bundle-analyzer": "^2.9.1"
   }
 }
