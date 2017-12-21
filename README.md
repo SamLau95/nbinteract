@@ -23,8 +23,8 @@ online using, for example, [Github Pages][gh-pages] or [Gitbook][gitbook].
 
 ## Getting Started
 
-To install the package, you must first have [Jupyter Notebook installed]
-[install-nb]. Then, run:
+To install the package, you must first have
+[Jupyter Notebook installed][install-nb]. Then, run:
 
 ```
 pip install nbinteract
