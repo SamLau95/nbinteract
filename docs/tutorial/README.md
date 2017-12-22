@@ -6,3 +6,4 @@ shown in the Examples section of the documentation.
 
 * [Simple Widgets](/basics/Simple_Widgets.md)
 * [Interact](/basics/Interact.md)
+* [Response Functions](/basics/Response_Functions.md)

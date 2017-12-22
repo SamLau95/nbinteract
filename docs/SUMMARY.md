@@ -6,6 +6,7 @@
 * [Tutorial](/tutorial/README.md)
   * [Simple Widgets](/tutorial/Simple_Widgets.md)
   * [Interact](/tutorial/Interact.md)
+  * [Response Functions](/tutorial/Interact.md)
 * [Advanced](/advanced/README.md)
   * [Custom Functions](/advanced/Custom_Functions.md)
   * [Graphing](/advanced/Graphing.md)
