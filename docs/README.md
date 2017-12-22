@@ -1,8 +1,9 @@
-# Read Me
+nbinteract
+=================
 
-nbinteract is a package that can be used to convert jupyter notebooks to html pages
+nbinteract is a tool to convert Jupyter Notebooks to interactive webpages. It
+allows notebooks that use [ipywidgets][] or [bqplot][] to be hosted online as
+HTML pages for anyone to view and interact with.
 
-This Gitbook contains pages from the Data 8 textbook. The pages contain
-interactive elements to explain concepts using a combination of
-[`ipywidgets`](http://ipywidgets.readthedocs.io/) and
-[`binderhub`](http://binderhub.readthedocs.io/).
+This Gitbook contains documentation and examples of `nbinteract` usage. Use the
+left sidebar or the right and left arrow keys to navigate the docs.
