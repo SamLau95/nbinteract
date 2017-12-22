@@ -7,3 +7,6 @@ HTML pages for anyone to view and interact with.
 
 This Gitbook contains documentation and examples of `nbinteract` usage. Use the
 left sidebar or the right and left arrow keys to navigate the docs.
+
+[ipywidgets]: https://github.com/jupyter-widgets/ipywidgets
+[bqplot]: https://github.com/bloomberg/bqplot

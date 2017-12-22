@@ -1,12 +1,19 @@
 nbinteract
 =================
 
+[![Read the Docs](https://img.shields.io/badge/docs-gitbook-green.svg)][docs]
+[![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/0.0.10)
+[![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
+
 nbinteract is a tool to convert Jupyter Notebooks to interactive webpages. It
 allows notebooks that use [ipywidgets][] or [bqplot][] to be hosted online as
 HTML pages for anyone to view and interact with.
 
-[Here's a demo of an interact textbook page on correlation created using
-nbinteract.][demo]
+## Demo
+
+![nbinteract](https://user-images.githubusercontent.com/2468904/34280356-01a147a2-e66c-11e7-8c81-6e06b5445e38.gif)
+
+[Click this link to view live.][demo]
 
 ## Motivation
 
