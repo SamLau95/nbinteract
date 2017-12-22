@@ -50,7 +50,8 @@ NOTEBOOK_IMAGE_DIR = 'notebooks-images'
 
 # The prefix for the interact button links. The path format string gets filled
 # in with the notebook as well as any datasets the notebook requires.
-INTERACT_LINK = 'http://datahub.berkeley.edu/user-redirect/interact?repo=textbook&{paths}'
+INTERACT_LINK = ('http://datahub.berkeley.edu/user-redirect/'
+                 'interact?repo=textbook&{paths}')
 
 # The prefix for each notebook + its dependencies
 PATH_PREFIX = 'path=notebooks/{}'
@@ -103,19 +104,9 @@ def convert_notebooks_to_html_partial(notebook_paths):
 
         html = _extract_cells(raw_html) + scripts
 
-        # Get dependencies from notebook
-        matches = list(DATASET_REGEX.finditer(
-            '\n'.join([cell['source'] for cell in notebook.cells])
-        ))
-        dependencies = [match.group('dataset') for match in matches] + \
-                       [filename]
-        paths = '&'.join([PATH_PREFIX.format(dep) for dep in dependencies])
-
         with_wrapper = """<div id="ipython-notebook">
-            <a class="interact-button" href="{interact_link}">Interact</a>
             {html}
-        </div>""".format(interact_link=INTERACT_LINK.format(paths=paths),
-                         html=html)
+        </div>""".format(html=html)
 
         # Remove newlines before closing div tags
         final_output = CLOSING_DIV_REGEX.sub('</div>', with_wrapper)
