@@ -1,6 +1,4 @@
-import 'font-awesome/css/font-awesome.css'
 import './bqplot.css'
-import $ from 'jquery'
 import debounce from 'lodash.debounce'
 import once from 'lodash.once'
 
@@ -18,12 +16,9 @@ const baseToWsUrl = baseUrl =>
 
 const WIDGET_MSG = 'application/vnd.jupyter.widget-view+json'
 
-const cellToCode = cell =>
-  $(cell)
-    .find('.input_area')
-    .text()
-const isWidgetCell = cell => $(cell).find('.output_widget_view').length !== 0
-const cellToWidgetOutput = cell => $(cell).find('.output_widget_view')[0]
+const cellToCode = cell => cell.querySelector('.input_area').textContent
+const isWidgetCell = cell => cell.querySelector('.output_widget_view') !== null
+const cellToWidgetOutput = cell => cell.querySelector('.output_widget_view')
 
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
@@ -41,29 +36,31 @@ const msgToModel = (msg, manager) => {
 
 export default class NbInteract {
   constructor() {
-    // Generates a semi-random length-4 string. Just used for logging, so no
-    // need to be super complicated.
-    // From https://stackoverflow.com/a/8084248
-    this.id = (Math.random() + 1).toString(36).substring(2, 6)
-
-    this._running = false
-    this._getOrStartKernel = once(this._getOrStartKernel);
+    this._getOrStartKernel = once(this._getOrStartKernel)
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
   }
 
   run() {
+    // Record messages for debugging
+    this.messages = []
+    // Generates a semi-random length-4 string. Just used for logging, so no
+    // need to be super complicated.
+    // From https://stackoverflow.com/a/8084248
+    const run_id = (Math.random() + 1).toString(36).substring(2, 6)
+
     this._getOrStartKernel()
       .then(kernel => {
-        const codeCells = $('.code_cell').get()
+        const codeCells = document.querySelectorAll('.code_cell')
 
-        const manager = new WidgetManager(kernel, codeCells)
+        const manager = new WidgetManager(kernel)
 
         codeCells.forEach((cell, i) => {
-          console.time(`cell_${i}_${this.id}`)
+          console.time(`cell_${i}_${run_id}`)
           const code = cellToCode(cell)
           const execution = kernel.requestExecute({ code })
 
           execution.onIOPub = msg => {
+            this.messages.push(msg)
             // If we have a display message, display the widget.
             if (!isWidgetCell(cell)) {
               return
@@ -74,7 +71,7 @@ export default class NbInteract {
               const outputEl = cellToWidgetOutput(cell)
               model.then(model => {
                 manager.display_model(msg, model, { el: outputEl })
-                console.timeEnd(`cell_${i}_${this.id}`)
+                console.timeEnd(`cell_${i}_${run_id}`)
               })
             }
           }
@@ -93,7 +90,7 @@ export default class NbInteract {
     }
 
     const binder = new BinderHub()
-    console.time(`start_server_${this.id}`)
+    console.time('start_server')
     return binder.start_server().then(({ url, token }) => {
       // Connect to the notebook webserver.
       const serverSettings = ServerConnection.makeSettings({
@@ -101,9 +98,9 @@ export default class NbInteract {
         wsUrl: baseToWsUrl(url),
         token: token,
       })
-      console.timeEnd(`start_server_${this.id}`)
+      console.timeEnd('start_server')
 
-      console.time(`start_kernel_${this.id}`)
+      console.time('start_kernel')
       return Kernel.getSpecs(serverSettings)
         .then(kernelSpecs => {
           return Kernel.startNew({
@@ -112,7 +109,7 @@ export default class NbInteract {
           })
         })
         .then(kernel => {
-          console.timeEnd(`start_kernel_${this.id}`)
+          console.timeEnd('start_kernel')
           // Cache kernel for later usage
           this.kernel = kernel
           console.log('Started kernel:', this.kernel.id)
