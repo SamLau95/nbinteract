@@ -1,6 +1,10 @@
 module.exports = {
   website: {
     assets: './js',
-    js: ['nbinteract-core.js', 'plugin.js'],
+    js: [
+      'index.bundle.js',
+      'index.bundle.js.map',
+      'plugin.js',
+    ],
   },
 }

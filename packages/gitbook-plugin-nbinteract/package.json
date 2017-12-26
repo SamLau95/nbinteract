@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "load": "cp ../nbinteract-core/lib/index.bundle.js js/nbinteract-core.js"
+    "load": "cp ../nbinteract-core/lib/*.js js/"
   },
   "repository": {
     "type": "git",
