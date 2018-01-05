@@ -67,4 +67,7 @@ setup(
             'interact = nbinteract:InteractExporter',
         ],
     },
+
+    # Add nbinteract script
+    scripts=['nbinteract/nbinteract']
 )

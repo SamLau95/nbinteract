@@ -3,8 +3,11 @@
 <head><meta charset="utf-8" />
 <title>Test</title>
 
-<!-- This line contains the JS to run the widget code -->
-<script src="https://unpkg.com/nbinteract@*/js/built/index.built.js"></script>
+<!--
+Pretty sure we don't need this snippet anymore since we have dynamic widgets
+TODO(sam): Remove these lines once I verify they don't break anything<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+-->
 
 <style type="text/css">
     /*!
@@ -11772,7 +11775,7 @@ div#notebook {
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
-
+      
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -11825,11 +11828,10 @@ div#notebook {
 
 
 
-<div id="70c39b87-c05a-429b-8529-826029e4da7c"></div>
 <div class="output_subarea output_widget_view ">
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "9dbd79efdb9a4039ba3142f36843f609"}
-</script>
+  <div class="js-widget-loading-indicator">
+    Loading widget...
+  </div>
 </div>
 
 </div>
@@ -11853,6 +11855,8 @@ div#notebook {
 </div>
     </div>
   </div>
+  <!-- This line contains the JS to run the widget code -->
+  <script src="https://unpkg.com/nbinteract"></script>
 </body>
 
  

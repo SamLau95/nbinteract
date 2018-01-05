@@ -3,21 +3,33 @@
 
 <!--
 This file is blatently copied from the nbconvert's full.tpl since there's no
-easy hook into the spot just before the body closes. The body block is the only
-block that changed.
+easy hook into the spot just before the body closes.
 -->
 
 {% block body %}
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
-{{ super() }}
+      {{ super() }}
     </div>
   </div>
   <!-- This line contains the JS to run the widget code -->
   <script src="https://unpkg.com/nbinteract"></script>
 </body>
 {%- endblock body %}
+
+
+<!-- Add loading text to widget output -->
+{%- block data_widget_view scoped %}
+{% set div_id = uuid4() %}
+{% set datatype_list = output.data | filter_data_type %}
+{% set datatype = datatype_list[0]%}
+<div class="output_subarea output_widget_view {{ extra_class }}">
+  <div class="js-widget-loading-indicator">
+    Loading widget...
+  </div>
+</div>
+{%- endblock data_widget_view -%}
 
 {%- block header -%}
 <!DOCTYPE html>
@@ -27,12 +39,17 @@ block that changed.
 <meta charset="utf-8" />
 <title>{{resources['metadata']['name']}}</title>
 
+<!--
+Pretty sure we don't need this snippet anymore since we have dynamic widgets
+TODO(sam): Remove these lines once I verify they don't break anything
+
 {%- if "widgets" in nb.metadata -%}
 <script src="https://unpkg.com/jupyter-js-widgets@2.0.*/dist/embed.js"></script>
 {%- endif-%}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+-->
 
 {% for css in resources.inlining.css -%}
     <style type="text/css">
