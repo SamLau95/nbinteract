@@ -3,6 +3,9 @@
 
   Don't use this class directly; instead, use the BinderHub class
 
+  Keep in sync with
+  https://github.com/jupyterhub/binderhub/blob/master/binderhub/static/js/index.js
+
   State transitions that are valid are:
   start -> waiting
   start -> built

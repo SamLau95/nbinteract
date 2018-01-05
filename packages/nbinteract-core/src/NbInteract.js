@@ -1,4 +1,3 @@
-import './bqplot.css'
 import debounce from 'lodash.debounce'
 import once from 'lodash.once'
 
@@ -19,6 +18,11 @@ const WIDGET_MSG = 'application/vnd.jupyter.widget-view+json'
 const cellToCode = cell => cell.querySelector('.input_area').textContent
 const isWidgetCell = cell => cell.querySelector('.output_widget_view') !== null
 const cellToWidgetOutput = cell => cell.querySelector('.output_widget_view')
+const removeLoadingFromCell = cell => {
+  // Keep in sync with interact_template.tpl
+  const el = cell.querySelector('.js-widget-loading-indicator')
+  if (el) el.remove()
+}
 
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
@@ -34,15 +38,24 @@ const msgToModel = (msg, manager) => {
   return model
 }
 
+// Class that runs notebook code and creates widgets
+//
+// The constructor takes in the following optional arguments:
+// {
+//   bhub_callbacks: "Maps state to callback for BinderHub state changes",
+//   record_messages: "Debugging argument that records all messages sent by
+//      kernel. Will increase memory usage.",
+// }
 export default class NbInteract {
-  constructor() {
+  constructor({ record_messages } = { record_messages: false }) {
     this._getOrStartKernel = once(this._getOrStartKernel)
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
+    this.binder = new BinderHub()
+    // Record messages for debugging
+    this.messages = record_messages ? [] : false
   }
 
   run() {
-    // Record messages for debugging
-    this.messages = []
     // Generates a semi-random length-4 string. Just used for logging, so no
     // need to be super complicated.
     // From https://stackoverflow.com/a/8084248
@@ -60,7 +73,10 @@ export default class NbInteract {
           const execution = kernel.requestExecute({ code })
 
           execution.onIOPub = msg => {
-            this.messages.push(msg)
+            if (this.messages) {
+              this.messages.push(msg)
+            }
+
             // If we have a display message, display the widget.
             if (!isWidgetCell(cell)) {
               return
@@ -71,6 +87,7 @@ export default class NbInteract {
               const outputEl = cellToWidgetOutput(cell)
               model.then(model => {
                 manager.display_model(msg, model, { el: outputEl })
+                removeLoadingFromCell(cell)
                 console.timeEnd(`cell_${i}_${run_id}`)
               })
             }
@@ -89,9 +106,8 @@ export default class NbInteract {
       return new Promise((resolve, reject) => resolve(this.kernel))
     }
 
-    const binder = new BinderHub()
     console.time('start_server')
-    return binder.start_server().then(({ url, token }) => {
+    return this.binder.start_server().then(({ url, token }) => {
       // Connect to the notebook webserver.
       const serverSettings = ServerConnection.makeSettings({
         baseUrl: url,
