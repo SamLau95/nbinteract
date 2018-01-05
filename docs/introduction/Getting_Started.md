@@ -10,7 +10,7 @@ pip install nbinteract
 Navigate to a folder containing notebooks you'd like to convert, then run:
 
 ```
-jupyter nbconvert --to interact YOUR_NOTEBOOK.ipynb
+nbinteract YOUR_NOTEBOOK.ipynb
 ```
 
 Replace `YOUR_NOTEBOOK.ipynb` with the name of your notebook file. You will now
