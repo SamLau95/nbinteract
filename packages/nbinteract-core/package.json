@@ -8,6 +8,7 @@
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --watch --config webpack.dev.js",
+    "stats": "webpack --profile --json --config webpack.dev.js > stats.json",
     "clean": "rimraf lib/*"
   },
   "repository": {
