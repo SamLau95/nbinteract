@@ -1,10 +1,11 @@
-import $ from 'jquery'
-import _ from 'underscore'
 import * as outputBase from '@jupyter-widgets/output'
 import { OutputAreaModel, OutputArea } from '@jupyterlab/outputarea'
+import { RenderMime, defaultRendererFactories } from '@jupyterlab/rendermime'
 import { Panel } from '@phosphor/widgets'
 
-export const OUTPUT_WIDGET_VERSION = outputBase.OUTPUT_WIDGET_VERSION
+const RENDER_MIME = new RenderMime({
+  initialFactories: defaultRendererFactories,
+})
 
 export class OutputModel extends outputBase.OutputModel {
   defaults() {
@@ -79,7 +80,6 @@ export class OutputView extends outputBase.OutputView {
     }
 
     this.el = this.pWidget.node
-    this.$el = $(this.pWidget.node)
   }
 
   /**
@@ -87,7 +87,7 @@ export class OutputView extends outputBase.OutputView {
    */
   render() {
     this._outputView = new OutputArea({
-      rendermime: this.model.widget_manager.rendermime,
+      rendermime: RENDER_MIME,
       contentFactory: OutputArea.defaultContentFactory,
       model: this.model.outputs,
     })
@@ -97,16 +97,6 @@ export class OutputView extends outputBase.OutputView {
     this.pWidget.addClass('jupyter-widgets')
     this.pWidget.addClass('widget-output')
     this.update() // Set defaults.
-  }
-
-  /**
-   * Update the contents of this view
-   *
-   * Called when the model is changed.  The model may have been
-   * changed by another view or by a state update from the back-end.
-   */
-  update() {
-    return super.update()
   }
 
   remove() {

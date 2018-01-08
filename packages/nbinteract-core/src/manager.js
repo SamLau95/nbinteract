@@ -2,7 +2,6 @@ import { HTMLManager } from '@jupyter-widgets/html-manager'
 import * as controls from '@jupyter-widgets/controls'
 import { Widget } from '@phosphor/widgets'
 import * as base from '@jupyter-widgets/base'
-import { RenderMime, defaultRendererFactories } from '@jupyterlab/rendermime'
 import * as bqplot from 'bqplot';
 
 import * as outputWidgets from './outputWidgets'
@@ -10,17 +9,13 @@ import * as outputWidgets from './outputWidgets'
 import '@jupyter-widgets/controls/css/widgets.css'
 
 export class WidgetManager extends HTMLManager {
-  constructor(kernel, $cells) {
+  constructor(kernel) {
     super()
     this.kernel = kernel
-    this.newKernel(kernel)
-    this.$cells = $cells
-    this.rendermime = new RenderMime({
-      initialFactories: defaultRendererFactories,
-    })
+    this._registerKernel(kernel)
   }
 
-  newKernel(kernel) {
+  _registerKernel(kernel) {
     if (this._commRegistration) {
       this._commRegistration.dispose()
     }
@@ -76,6 +71,7 @@ export class WidgetManager extends HTMLManager {
     } else if (moduleName === '@jupyter-widgets/output') {
       return Promise.resolve(outputWidgets[className])
     } else if (moduleName === 'bqplot') {
+      console.log('Loading:', moduleName, className);
       return Promise.resolve(bqplot[className])
     } else {
       return new Promise(function(resolve, reject) {

@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-nbinteract",
-  "version": "0.0.19",
+  "version": "0.0.22",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "load": "cp ../nbinteract-core/lib/index.bundle.js js/nbinteract-core.js"
+    "load": "cp ../nbinteract-core/lib/index.bundle.js ../nbinteract-core/lib/index.bundle.js.map js/"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "nbinteract-core": "^0.0.19"
+    "nbinteract-core": "^0.0.22"
   }
 }
