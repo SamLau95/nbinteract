@@ -24,6 +24,7 @@ const removeLoadingFromCell = cell => {
   if (el) el.remove()
 }
 
+const isErrorMsg = msg => msg.msg_type === 'error'
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
     return
@@ -47,7 +48,7 @@ const msgToModel = (msg, manager) => {
 //      kernel. Will increase memory usage.",
 // }
 export default class NbInteract {
-  constructor({ record_messages } = { record_messages: false }) {
+  constructor({ record_messages } = { record_messages: true }) {
     this._getOrStartKernel = once(this._getOrStartKernel)
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
     this.binder = new BinderHub()
@@ -75,6 +76,10 @@ export default class NbInteract {
           execution.onIOPub = msg => {
             if (this.messages) {
               this.messages.push(msg)
+            }
+
+            if (isErrorMsg(msg)) {
+              console.error('Error in code run:', msg);
             }
 
             // If we have a display message, display the widget.
