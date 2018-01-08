@@ -37,6 +37,27 @@ def hist(hist_function, **kwargs):
     display(display_widgets)
     display(fig)
 
+def bar(x_data, function, **kwargs):
+    x_sc = bq.OrdinalScale()
+    y_sc = bq.LinearScale()
+
+    ax_x = bq.Axis(label='X', scale=x_sc, grid_lines='solid')
+    ax_y = bq.Axis(label='Y', scale=y_sc, orientation='vertical', grid_lines='solid')
+
+    #set chart to blue
+    bar = bq.Bars(x=x_data, y=np.array(np.arange(len(x_data))), scales={'x': x_sc, 'y': y_sc}, colors=['#1f77b4'])
+    fig = bq.Figure(axes=[ax_x, ax_y], marks=[bar], title='Chart')
+
+    def wrapped(**kwargs):
+        bar.y = function(x_data, **kwargs)
+
+    display_widgets = widgets.interactive(wrapped, **kwargs)
+    #set 0 to be the lower bound for the widget
+    widget = display_widgets.children[0]
+    widget.min = 0
+    display(display_widgets)
+    display(fig)
+
 
 def scatter(x_points, y_points, fit_reg=True):
     """
