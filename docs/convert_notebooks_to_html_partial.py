@@ -135,8 +135,10 @@ def _extract_cells(html):
             div['class'].append('hidden')
 
     def remove_empty_spans_and_prompts(tag):
-        for t in (tag.find_all('div', class_='prompt')
-                  + tag.find_all('span', text='None')):
+        # We also sued to decompose these tags:
+        # tag.find_all('span', text='None')
+        # But it caused issues when None actually appeared in code
+        for t in tag.find_all('div', class_='prompt'):
             t.decompose()
     [remove_empty_spans_and_prompts(div) for div in divs]
 

@@ -23,13 +23,13 @@
     <span class="n">lin</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
     <span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">scat</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">lin</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">lin</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">'y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>   
-    
+    <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">'y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
 <span class="c1"># create initial data set</span>
 <span class="n">size</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> 
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> 
+<span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
 <span class="c1"># set up plot elements</span>
 <span class="n">sc_x</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
@@ -38,9 +38,9 @@
 <span class="n">ax_y</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_y</span><span class="p">,</span> <span class="n">tick_format</span><span class="o">=</span><span class="s1">'0.2f'</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">'vertical'</span><span class="p">)</span>
 
 <span class="c1"># place data on scatter plot that allows point dragging</span>
-<span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_data</span><span class="p">,</span> 
-                   <span class="n">y</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span> 
-                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">'x'</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span> 
+<span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_data</span><span class="p">,</span>
+                   <span class="n">y</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span>
+                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">'x'</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span>
                    <span class="n">enable_move</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># set up callback</span>
 <span class="n">scat</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">update_line</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">])</span>
@@ -70,8 +70,8 @@
 
 
 
- 
- 
+
+
 <div id="353bdc79-16c8-49be-a20e-689b07f6808c"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
@@ -91,14 +91,14 @@ var element = $('#353bdc79-16c8-49be-a20e-689b07f6808c');
         <span class="n">lin</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
         <span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">scat</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">lin</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">lin</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">'y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>   
+        <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">'y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">sc_x</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
     <span class="n">sc_y</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
     <span class="n">ax_x</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_x</span><span class="p">)</span>
     <span class="n">ax_y</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_y</span><span class="p">,</span> <span class="n">tick_format</span><span class="o">=</span><span class="s1">'0.2f'</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">'vertical'</span><span class="p">)</span>
-    <span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_points</span><span class="p">,</span> 
-                   <span class="n">y</span><span class="o">=</span><span class="n">y_points</span><span class="p">,</span> 
-                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">'x'</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span> 
+    <span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_points</span><span class="p">,</span>
+                   <span class="n">y</span><span class="o">=</span><span class="n">y_points</span><span class="p">,</span>
+                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">'x'</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span>
                    <span class="n">enable_move</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># set up callback</span>
     <span class="c1"># set up callback</span>
@@ -136,8 +136,8 @@ var element = $('#353bdc79-16c8-49be-a20e-689b07f6808c');
 
 
 
- 
- 
+
+
 <div id="725b71f4-5556-4a21-a1ba-44777e369889"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
@@ -154,3 +154,5 @@ var element = $('#725b71f4-5556-4a21-a1ba-44777e369889');
     }
   });
 </script></div>
+<!-- This line contains the JS to run the widget code -->
+<script src="built/index.bundle.js"></script>
