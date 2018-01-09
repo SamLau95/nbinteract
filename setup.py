@@ -4,7 +4,7 @@ runnable HTML files.
 """
 
 # Always prefer setuptools over distutils
-from setuptools import setup, find_packages
+from setuptools import setup
 # To use a consistent encoding
 from codecs import open
 from os import path
@@ -17,7 +17,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='nbinteract',
-    version='0.0.12',
+    version='0.0.13',
     description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
@@ -44,7 +44,10 @@ setup(
     ],
     keywords='jupyter nbconvert interact',
 
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=['nbinteract'],
+    package_data={
+        'nbinteract': ['*.tpl']
+    },
     install_requires=[
         'nbconvert',
         'traitlets',
