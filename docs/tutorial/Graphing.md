@@ -1,3 +1,1 @@
-# Graphing
-
-This section is on creating interactive graphs.
+{% include "../notebooks-html/Graphing.html" %}
