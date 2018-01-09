@@ -52,9 +52,6 @@ def bar(x_data, function, **kwargs):
         bar.y = function(x_data, **kwargs)
 
     display_widgets = widgets.interactive(wrapped, **kwargs)
-    #set 0 to be the lower bound for the widget
-    widget = display_widgets.children[0]
-    widget.min = 0
     display(display_widgets)
     display(fig)
 
