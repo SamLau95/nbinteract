@@ -7,6 +7,7 @@
 ### Tutorial
 * [Using Interact](tutorial/Interact.md)
 * [Graphing](tutorial/Graphing.md)
+* [Interactive Questions](tutorial/Interactive_Questions.md)
 
 
 ### Examples

@@ -1,0 +1,127 @@
+<div id="ipython-notebook">
+            <div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN </span>
+<span class="kn">import</span> <span class="nn">nbinteract</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Interactive-Questions">Interactive Questions<a class="anchor-link" href="#Interactive-Questions">¶</a></h1><p>nbinteract also provides built-in methods to easily create multiple choice and short answer questions.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="nbinteract.multiple_choice">nbinteract.multiple_choice<a class="anchor-link" href="#nbinteract.multiple_choice">¶</a></h2><p><code>nbinteract.multiple_choice</code> takes a question in the form of a string, a list of possible answer choices, and the correct answer. The user will get instant feedback when they click on the answer choices.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"What is 1+1?"</span><span class="p">,</span> <span class="n">answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">],</span> <span class="n">correct_answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'2'</span><span class="p">])</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="29094592-1dc3-46db-83f0-ab7481070889"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#29094592-1dc3-46db-83f0-ab7481070889');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "bef7e5fb8cb143fcac0c784da67a7763", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="nbinteract.short_answer">nbinteract.short_answer<a class="anchor-link" href="#nbinteract.short_answer">¶</a></h2><p><code>nbinteract.short_answer</code> takes a question in the form of a string, a list of possible answer choices, a function to check the answer and an optional explanation when the user inputs a correct answer. The quesiton writer can either choose to input a list of answer choices, or a function that returns True when the answer is right or both.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, the question checks if the answer is in the answer_list.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'What is 1+1??'</span><span class="p">,</span> <span class="n">answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'2'</span><span class="p">],</span> <span class="n">explanation</span><span class="o">=</span><span class="s1">'1+1 is 2'</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="c5fcd943-af05-44f0-8e26-3004503de2be"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#c5fcd943-af05-44f0-8e26-3004503de2be');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "ef5f5da00adc4ef59f0a74976bc6d6ae", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, the answer is passed into the check_function and if the output is True, then the answer is marked as correct.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter an even number.'</span><span class="p">,</span> <span class="n">check_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">%</span><span class="k">2</span>==0)
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="6ff0b132-248a-4412-a2d2-780f3bfa976e"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#6ff0b132-248a-4412-a2d2-780f3bfa976e');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "3bab4b51bcf9437a9dcfe37a2fa12168", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$']],
+      processEscapes: true
+    }
+  });
+</script></div>
