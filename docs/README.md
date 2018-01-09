@@ -8,7 +8,7 @@ HTML pages for anyone to view and interact with.
 Before, creating an interactive webpage required authors to know HTML, CSS, and
 Javascript. With `nbinteract`, authors just need to know Python.
 
-This Gitbook contains documentation and examples of `nbinteract` usage. Use the
+This website contains documentation and examples of `nbinteract` usage. Use the
 left sidebar or the right and left arrow keys to navigate the docs.
 
 [ipywidgets]: https://github.com/jupyter-widgets/ipywidgets

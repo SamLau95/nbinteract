@@ -1,27 +1,27 @@
 # Table of Contents
+
 * [Read Me](/README.md)
-* [Introduction](/introduction/README.md)
-  * [Motivation](/introduction/Motivation.md)
-  * [Getting Started](/introduction/Getting_Started.md)
-* [Tutorial](/tutorial/README.md)
-  * [Simple Widgets](/tutorial/Simple_Widgets.md)
-  * [Interact](/tutorial/Interact.md)
-* [Advanced](/advanced/README.md)
-  * [Custom Functions](/advanced/Custom_Functions.md)
-  * [Graphing](/advanced/Graphing.md)
-* [Recipes](/recipes/README.md)
-* [Examples](/examples/README.md)
-    * [Empirical Distributions](examples/Empirical_Distributions.md)
-    * [Sampling from a Population](examples/Sampling_from_a_Population.md)
-    * [Variability of the Sample Mean](examples/Variability_of_the_Sample_Mean.md)
-    * [Correlation](examples/Correlation.md)
-    * [Inference for the True Slope](examples/Inference_for_the_True_Slope.md)
-    * [Prediction Intervals](examples/Prediction_Intervals.md)
-    * [Probability Distribution Plots](examples/Probability_Distribution_Plots.md)
-    * [Interactve Scatter Plot](examples/bqplot_scatter.md)
-* [FAQ](/FAQ.md)
-  * [General](/faq/General.md)
-* [Troubleshooting](/Troubleshooting.md)
-* [Glossary](/Glossary.md)
+* [Motivation](/introduction/Motivation.md)
+* [Getting Started](/introduction/Getting_Started.md)
+
+### Tutorial
+
+* [Simple Widgets](/tutorial/Simple_Widgets.md)
+* [Interact](/tutorial/Interact.md)
+* [Custom Functions](/advanced/Custom_Functions.md)
+* [Graphing](/advanced/Graphing.md)
+
+
+### Examples
+
+* [Empirical Distributions](examples/Empirical_Distributions.md)
+* [Sampling from a Population](examples/Sampling_from_a_Population.md)
+* [Variability of the Sample Mean](examples/Variability_of_the_Sample_Mean.md)
+* [Correlation](examples/Correlation.md)
+* [Inference for the True Slope](examples/Inference_for_the_True_Slope.md)
+* [Interactive Scatterplot](examples/bqplot_scatter.md)
+* [Probability Distribution Plots](examples/Probability_Distribution_Plots.md)
+
+----
+
 * [API Reference](/api/README.md)
-* [Feedback](/Feedback.md)
