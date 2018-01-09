@@ -1,10 +1,8 @@
-import doctest
-
 import nbinteract as nbi
 
-FLAGS = doctest.NORMALIZE_WHITESPACE | doctest.IGNORE_EXCEPTION_DETAIL
+from .util import run_doctests
 
 
 def test_doctests():
-    results = doctest.testmod(nbi.plotting, optionflags=FLAGS)
+    results = run_doctests(nbi.plotting)
     assert results.failed == 0
