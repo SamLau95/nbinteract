@@ -20,14 +20,14 @@ def get_fn_args(fn, kwargs: dict, prefix: str=None):
     >>> from pprint import pprint as p # Use pprint to sort dict keys
     >>> kwargs = {'a': 1, 'b': 2, 'c': 3, 'x__d': 4}
     >>> def foo(a, b=10): return a + b
-    >>> p(get_fn_args(foo, kwargs)
+    >>> p(get_fn_args(foo, kwargs))
     {'a': 1, 'b': 2}
 
     >>> def bar(a, b, d): return a + b + d
     >>> p(get_fn_args(bar, kwargs, prefix='x'))
-    {'a': 1, 'b': 2', 'd': 4}
+    {'a': 1, 'b': 2, 'd': 4}
 
-    >>> >>> p(get_fn_args(bar, kwargs))
+    >>> p(get_fn_args(bar, kwargs))
     Traceback (most recent call last):
     ValueError: The following args are missing for the function bar: ['d']
     """
