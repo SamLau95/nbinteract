@@ -5,6 +5,56 @@ Utility functions that aren't publicly exposed.
 import inspect
 
 
+def get_fn_args(fn, kwargs: dict, prefix: str=None):
+    """
+    Given function and a dict of kwargs return a dict containing only the args
+    used by the function.
+
+    If prefix is specified, also search for args that begin with '{prefix}__'.
+    Removes prefix in returned dict.
+
+    Raises ValueError if a required arg is missing from the kwargs.
+
+    Raises ValueError if both prefixed and unprefixed arg are given in kwargs.
+
+    >>> from pprint import pprint as p # Use pprint to sort dict keys
+    >>> kwargs = {'a': 1, 'b': 2, 'c': 3, 'x__d': 4}
+    >>> def foo(a, b=10): return a + b
+    >>> p(get_fn_args(foo, kwargs)
+    {'a': 1, 'b': 2}
+
+    >>> def bar(a, b, d): return a + b + d
+    >>> p(get_fn_args(bar, kwargs, prefix='x'))
+    {'a': 1, 'b': 2', 'd': 4}
+
+    >>> >>> p(get_fn_args(bar, kwargs))
+    Traceback (most recent call last):
+    ValueError: The following args are missing for the function bar: ['d']
+    """
+    all_args = get_all_args(fn)
+    required_args = get_required_args(fn)
+    fn_kwargs = pick_kwargs(kwargs, all_args, prefix)
+
+    missing_args = [arg for arg in required_args if arg not in fn_kwargs]
+    if missing_args:
+        raise ValueError('The following args are missing for the function'
+                         '{}: {}.'.format(fn.__name__, missing_args))
+
+    return fn_kwargs
+
+
+def get_all_args(fn) -> list:
+    """
+    Returns a list of required arguments for the function fn.
+
+    >>> def foo(x, y, z=100): return x + y + z
+    >>> get_all_args(foo)
+    ['x', 'y', 'z']
+    """
+    sig = inspect.signature(fn)
+    return list(sig.parameters)
+
+
 def get_required_args(fn) -> list:
     """
     Returns a list of required arguments for the function fn.
