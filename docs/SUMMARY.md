@@ -5,9 +5,7 @@
 * [Getting Started](/introduction/Getting_Started.md)
 
 ### Tutorial
-
-* [Simple Widgets](tutorial/Simple_Widgets.md)
-* [Interact](tutorial/Interact.md)
+* [Using Interact](tutorial/Interact.md)
 * [Graphing](tutorial/Graphing.md)
 
 

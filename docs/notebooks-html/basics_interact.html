@@ -2,40 +2,153 @@
             <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Interact">Interact<a class="anchor-link" href="#Interact">¶</a></h1></div></div></div>
+<h1 id="Tutorial">Tutorial<a class="anchor-link" href="#Tutorial">¶</a></h1></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The primary use of iPyWidgets is the ability to create interactive elements easily in a notebook. The interact function (ipywidgets.interact) automatically creates user interface (UI) controls for exploring code and data interactively. It is the easiest way to get started using IPython’s widgets.</p></div></div></div>
+<p>In the following set of pages, we will show you how to use <code>nbinteract</code> and its related tools.</p>
+<p>At the end of the tutorial, you will be able to create complex, interactive webpages using Jupyter notebooks.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Following-Along">Following Along<a class="anchor-link" href="#Following-Along">¶</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The simplest way to follow this tutorial is to click the button below. It will launch a Jupyter server using Binder that comes pre-built with the necessary libraries.</p>
+<p><a href="https://mybinder.org/v2/gh/SamLau95/nbinteract-image/master"><img alt="Binder" src="https://mybinder.org/badge.svg"/></a></p>
+<p>We suggest clicking the badge, creating a notebook, and typing/pasting in the code in this tutorial to run it yourself.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Using-Interact">Using Interact<a class="anchor-link" href="#Using-Interact">¶</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>ipywidgets</code> library provides the simplest way to get started writing interactive documents. Although the library itself has its own documentation, we will provide a quick overview to let you get started as quickly as possible.</p>
+<p>After reading this page, you will be able to create simple interactive webpages using Jupyter notebooks.</p>
+<p>We start by importing the <code>interact</code> function:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>At the most basic level, interact autogenerates UI controls for function arguments, and then calls the function with those arguments when you manipulate the controls interactively. To use interact, you need to define a function that you want to explore. Here is a function that prints its only argument x.</p></div></div></div>
+<p>The <code>interact</code> function takes in a function and produces an interface to call the function with different parameters.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="n">square</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pass the <code>square</code> function into <code>interact</code> and specify <code>square</code>'s arguments like so:</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="e1a2f71a-f4e0-4c49-95f9-c004a5c8db32"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#e1a2f71a-f4e0-4c49-95f9-c004a5c8db32');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "model_id": "a2f8c13104b5483384bc8b0789cfedf5", "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To control the range of values <code>x</code> can take, you can pass in a tuple of the same format as Python's <code>range</code> function:</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="a88c1355-bb97-465b-a342-f0489bb451fc"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#a88c1355-bb97-465b-a342-f0489bb451fc');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "model_id": "1fd027b9f4074479807125271028ce78", "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Notice that <code>interact</code> automatically generates a slider because the argument is numeric. Other types of arguments will generate different types of interfaces. For example, a string will generate a textbox.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">friends</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">'</span><span class="si">{}</span><span class="s1"> has </span><span class="si">{}</span><span class="s1"> friends!'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When you pass this function as the first argument to interact along with an integer keyword argument (x=10), a slider is generated and bound to the function parameter.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'Sam'</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -52,25 +165,24 @@
 
  
  
-<div id="6ed23b2f-b5c8-4f26-b72d-885c82d5bcf8"></div>
+<div id="823be119-41cf-4c7a-b7bd-82936e48a2cc"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#6ed23b2f-b5c8-4f26-b72d-885c82d5bcf8');
+var element = $('#823be119-41cf-4c7a-b7bd-82936e48a2cc');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "0c3271b397d146d69e7a539f2d21f49c", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "1fd6dfbd70d34d8db2129752d01e011d", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This will autmoatically create a slider widget. Other inputs will create the Dropdown and Textbox widget.</p></div></div></div>
+<p>And a dictionary will generate a dropdown menu:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'Hi there!'</span><span class="p">);</span>
-<span class="n">interact</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">{</span><span class="s1">'one'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">:</span> <span class="mi">2</span><span class="p">});</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">friends</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'Sam'</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="p">{</span><span class="s1">'One'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'Five'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">'Ten'</span><span class="p">:</span> <span class="mi">10</span><span class="p">});</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -87,171 +199,65 @@ var element = $('#6ed23b2f-b5c8-4f26-b72d-885c82d5bcf8');
 
  
  
-<div id="b0a60e9f-1506-4bd5-98be-05a82ba8f977"></div>
+<div id="2cf02076-5763-4ab4-8bc7-43d007d38620"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#b0a60e9f-1506-4bd5-98be-05a82ba8f977');
+var element = $('#2cf02076-5763-4ab4-8bc7-43d007d38620');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "b20dd09310794874a73545eaac010b39", "version_major": 2, "version_minor": 0}
-</script></div></div>
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="2551a65a-8556-4f05-b44b-139e852aa719"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#2551a65a-8556-4f05-b44b-139e852aa719');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "48aa5c9e60714c1f9ceb8e5af711579f", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "17827042ec9649acac5e30dfe471e182", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Interact generates the interactive widget based on the type of the parameter you pass in.</p></div></div></div>
+<p>Here's the complete list of each argument type and the widget it generates:</p>
+<table>
+<thead><tr>
+<th>Keyword argument</th>
+<th>Widget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>True</code> or <code>False</code></td>
+<td>Checkbox</td>
+</tr>
+<tr>
+<td><code>'Hi there'</code></td>
+<td>Text</td>
+</tr>
+<tr>
+<td>value or (min,max) or (min,max,step) if integers are passed</td>
+<td>IntSlider</td>
+</tr>
+<tr>
+<td>value or (min,max) or (min,max,step) if floats are passed</td>
+<td>FloatSlider</td>
+</tr>
+<tr>
+<td><code>['orange','apple']</code> or <code>{'one':1,'two':2}</code></td>
+<td>Dropdown</td>
+</tr>
+</tbody>
+</table></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img alt="image.png" src="attachment:image.png"/></p></div></div></div>
+<p>For more details on using <code>interact</code>, see the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Using%20Interact.html">official <code>ipywidgets</code> documentation</a>.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="http://ipywidgets.readthedocs.io/en/stable/examples/Using%20Interact.html">Additional information here</a></p></div></div></div>
+<h2 id="Creating-Interactive-Webpages">Creating Interactive Webpages<a class="anchor-link" href="#Creating-Interactive-Webpages">¶</a></h2></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Response-Functions">Response Functions<a class="anchor-link" href="#Response-Functions">¶</a></h2></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Widgets are the interactive elements that interactive chooses for you. This is a lower level representation for increased control in generating the model.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Constructing and returning an IntSlider automatically displays the widget (as seen below). Widgets are displayed inside the output area below the code cell.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="abb08706-9397-4027-adc1-0f71c3219f29"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#abb08706-9397-4027-adc1-0f71c3219f29');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "2e16a00779a14778a0477a3bf16bfa65", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can also explicitly display the widget using display(...).</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
-<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="7ed37091-fc0a-4eb8-92d5-a6b8e71bcde7"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#7ed37091-fc0a-4eb8-92d5-a6b8e71bcde7');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "a5796acd0b2c489c81bd7702e814b6fc", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>By calling the built-in observe function of a widget, the function f is linked with the widget and called each time the slider is moved.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"this works"</span><span class="p">)</span>
-<span class="n">w</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="04892226-3648-45c3-90a5-b2e8fa4e9d14"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#04892226-3648-45c3-90a5-b2e8fa4e9d14');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "a5796acd0b2c489c81bd7702e814b6fc", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this case, the function f serves as a response function that is linked with the slider widget. It responds to a change in the value of the widget. This will be more useful later in creating more complicated response function and widget combinations.</p></div></div></div>
+<p>You have learned a simple workflow to create interactive webpages:</p>
+<ol>
+<li>Write a Jupyter notebook containing Python functions</li>
+<li>Use <code>interact</code> to create UI elements to interact with the functions.</li>
+<li>Run <code>nbinteract NOTEBOOK_NAME.ipynb</code> in your terminal to generate an interactive webpage using your notebook code.</li>
+</ol>
+<p>While simple, this workflow is useful for many use cases because you can write arbitrary code in Python functions. We will continue the tutorial by showing how <code>interact</code> can be used to create interactive webpages for data analysis.</p></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {

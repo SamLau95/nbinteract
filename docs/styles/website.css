@@ -21,6 +21,11 @@
   text-decoration:none;
 }
 
+/* Widgets create an extra margin on the left, so we remove it */
+.jp-OutputPrompt {
+  display: none;
+}
+
 /* Code cells */
 
 .input_area pre {
@@ -54,7 +59,7 @@
 
 pre .nn
 {
-  color:#FFC0CB;
+  color:#3e3e3e;
 }
 
 .output_png img,p img
