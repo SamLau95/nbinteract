@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-nbinteract",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "engines": {
@@ -27,8 +27,5 @@
   "bugs": {
     "url": "https://github.com/SamLau95/nb-interact/issues"
   },
-  "homepage": "https://github.com/SamLau95/nb-interact#readme",
-  "dependencies": {
-    "nbinteract-core": "^0.0.22"
-  }
+  "homepage": "https://github.com/SamLau95/nb-interact#readme"
 }

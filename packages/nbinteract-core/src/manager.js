@@ -71,7 +71,6 @@ export class WidgetManager extends HTMLManager {
     } else if (moduleName === '@jupyter-widgets/output') {
       return Promise.resolve(outputWidgets[className])
     } else if (moduleName === 'bqplot') {
-      console.log('Loading:', moduleName, className);
       return Promise.resolve(bqplot[className])
     } else {
       return new Promise(function(resolve, reject) {

@@ -17,8 +17,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='nbinteract',
-    version='0.0.11',
-    description='Jupyter subcommand to export interactive HTML pages',
+    version='0.0.12',
+    description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
 

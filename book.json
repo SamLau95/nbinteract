@@ -1,4 +1,4 @@
 {
   "root": "docs",
-  "plugins": ["nbinteract", "katex"]
+  "plugins": ["nbinteract", "katex-plus"]
 }

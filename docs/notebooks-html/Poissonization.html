@@ -1,0 +1,248 @@
+<div id="ipython-notebook">
+            <div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="kn">from</span> <span class="nn">datascience</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">prob140</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'fivethirtyeight'</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> 
+<span class="kn">import</span> <span class="nn">nbinteract</span> 
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Poissonization">Poissonization<a class="anchor-link" href="#Poissonization">¶</a></h1><p>A binomial $(n, p)$ random variable has a finite number of values: it can only be between 0 and $n$. But now that we are studying the behavior of binomial probabilities as $n$ gets large, it is time to move from finite outcome spaces to spaces that are infinite.</p>
+<p>Our first example of a probability distribution on infinitely many values is motivated by the approximation we developed for binomial $(n, p)$ probabilities when $n$ is large and $p$ is small. Under these conditions we saw that the chance of $k$ successes in $n$ i.i.d. Bernoulli $(p)$ trials is roughly</p>
+<p>$$
+P(k) \approx e^{-\mu} \frac{\mu^k}{k!}, ~~ k = 0, 1, 2, \ldots, n
+$$
+for $\mu = np$.</p>
+<p>The terms in the approximation are proportional to terms in the series expansion of $e^\mu$, but <em>that expansion is infinite</em>. We don't have to stop at $n$, so we won't.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But a little care is required before we go further. First, we must state the additivity axiom of probability theory in terms of countably many outcomes:</p>
+<p>$$
+P(\bigcup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i)
+$$</p>
+<p>This is called the <em>countable additivity</em> axiom, in contrast to the finite additivity axiom we have thus far assumed.</p>
+<p>In this course, we will not go into the technical aspects of countable additivity and the existence of probability functions that satisfy the axioms on the spaces that interest us. But those technical aspects do have to be studied before you can develop a deeper understanding of probability theory. If you want to do that, a good start is to take Real Analysis and then Measure Theory.</p>
+<p>But while in Prob140, you don't have to worry about it. Just assume that all the distributions that we describe do in fact satisfy the axioms. Here is our first infinite valued distribution.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Poisson-Distribution">Poisson Distribution<a class="anchor-link" href="#Poisson-Distribution">¶</a></h3><p>A random variable $X$ has the <em>Poisson distribution with parameter $\mu &gt; 0$</em> if</p>
+<p>$$
+P(X = k) = e^{-\mu} \frac{\mu^k}{k!}, ~~ k = 0, 1, 2, \ldots
+$$</p>
+<p>The terms are proportional to the terms in the infinte series expansion of $e^{\mu}$. These terms of $\mu^k/k!$ for $k \ge 0$ determine the shape of the distribution.</p>
+<p>The constant of proportionality is $e^{-\mu}$. It doesn't affect the shape; it just ensures that the probabilities add up to 1.</p>
+<p>$$
+\sum_{k=0}^\infty P(X = k) 
+= \sum_{k=0}^\infty e^{-\mu} \frac{\mu^k}{k!} 
+= e^{-\mu} \sum_{k=0}^\infty \frac{\mu^k}{k!} 
+= e^{-\mu} \cdot e^{\mu} = 1
+$$</p>
+<p>The Poisson is a distribution in its own right. It does not have to arise as a limit of binomials, though it is often helpful to think of it that way.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Mode">The Mode<a class="anchor-link" href="#The-Mode">¶</a></h3><p>To understand the parameter $\mu$ of the Poisson distribution, a first step is to notice that mode of the distribution is just around $\mu$. Here is an example where $\mu = 3.74$. No computing system can calculate infinitely many probabilities, so we have just calculated the Poisson probabilities till the sum is close enough to 1 that the <code>prob140</code> library considers it a Distribution object.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="mf">3.74</span>
+<span class="n">k</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">poi_probs_374</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+<span class="n">poi_dist_374</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">probability</span><span class="p">(</span><span class="n">poi_probs_374</span><span class="p">)</span>
+<span class="n">Plot</span><span class="p">(</span><span class="n">poi_dist_374</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Poisson (3.74)'</span><span class="p">);</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="/notebooks-images/Poissonization_5_0.png"/></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The mode is 3. To find a formula for the mode, follow the process we used for the binomial: calculate the consecutive odds ratios, notice that they are decreasing, and see where they cross 1. This is left to you as an exercise. Your calculations should conclude the following:</p>
+<h4 id="Mode-of-the-Poisson">Mode of the Poisson<a class="anchor-link" href="#Mode-of-the-Poisson">¶</a></h4><p>The mode of the Poisson distribution is the integer part of $\mu$; that is, the most likely value is $\mu$ rounded <em>down</em> to an integer. If $\mu$ is an integer, both $\mu$ and $\mu - 1$ are modes.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">k</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">poi_probs_4</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+<span class="n">poi_dist_4</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">probability</span><span class="p">(</span><span class="n">poi_probs_4</span><span class="p">)</span>
+<span class="n">Plot</span><span class="p">(</span><span class="n">poi_dist_4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Poisson (4)'</span><span class="p">);</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="/notebooks-images/Poissonization_7_0.png"/></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Try plotting your own!</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="k">def</span> <span class="nf">poisson_hist</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">poisson_hist</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="1fdcec1e-ef52-4e6e-9bcf-3de2ac9aa30e"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#1fdcec1e-ef52-4e6e-9bcf-3de2ac9aa30e');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "5dced2b2361d45b584510ece7bc71e2b", "version_minor": 0, "version_major": 2}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="427cac65-6f99-4fbe-8e67-841381a10118"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#427cac65-6f99-4fbe-8e67-841381a10118');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "558dd378955845fca2e018399dba02c3", "version_minor": 0, "version_major": 2}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In later chapters we will learn a lot more about the parameter $\mu$ of the Poisson distribution. For now, just keep in mind that the most likely value is essentially $\mu$.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Cumulative-Distribution-Function-(c.d.f.)">The Cumulative Distribution Function (c.d.f.)<a class="anchor-link" href="#The-Cumulative-Distribution-Function-(c.d.f.)">¶</a></h3><p>Very often, we need probabilities of the form $P(X &gt; x)$ or $P(X \le x)$. For example, if $X$ has the Poisson $(4)$ distribution, here is the event $\{ X \le 5 \}$.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Plot</span><span class="p">(</span><span class="n">poi_dist_4</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Poisson (4)'</span><span class="p">);</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="/notebooks-images/Poissonization_13_0.png"/></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <em>cumulative distribution function</em> or c.d.f. of any random variable is a function that calculates this "area to the left" of any point. If you denote the c.d.f. by $F$, then
+$$
+F(x) = P(X \le x)
+$$
+for any x.</p>
+<p>We will get to know this function better later in the term. For now, note that <code>stats</code> lets you calculate it directly without having to use <code>pmf</code> and then summing. The function is called <code>stats.distribution_name.cdf</code> where <code>distribution_name</code> could be <code>binom</code> or <code>poisson</code> or any other distribution name that <code>stats</code> recognizes. The first argument is $x$, followed by the arguments of the distribution. In the case of the Poisson, there is just one argument $\mu$.</p>
+<p>For $X$ a Poisson $(4)$ random variable, the gold area above is $P(X \le 5)$ which is about 78.5%.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.78513038703040539</pre></div></div></div></div></div>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$']],
+      processEscapes: true
+    }
+  });
+</script></div>

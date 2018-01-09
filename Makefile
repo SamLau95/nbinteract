@@ -1,4 +1,4 @@
-.PHONY: help serve build publish book install clean
+.PHONY: help serve build publish book install clean gitbook
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -21,6 +21,12 @@ book: ## Convert notebooks to HTML for Gitbooks
 	cd docs && python convert_notebooks_to_html_partial.py
 	git add docs book.json
 	git commit -m "Convert notebooks"
+
+gitbook: ## Runs gitbook locally
+	gitbook install
+	gitbook serve
+
+
 
 start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)

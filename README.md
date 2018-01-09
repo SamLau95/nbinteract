@@ -2,7 +2,7 @@ nbinteract
 =================
 
 [![Read the Docs](https://img.shields.io/badge/docs-gitbook-green.svg)][docs]
-[![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/0.0.10)
+[![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/)
 [![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
 
 nbinteract is a tool to convert Jupyter Notebooks to interactive webpages. It

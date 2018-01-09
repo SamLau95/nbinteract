@@ -24,6 +24,7 @@ const removeLoadingFromCell = cell => {
   if (el) el.remove()
 }
 
+const isErrorMsg = msg => msg.msg_type === 'error'
 const msgToModel = (msg, manager) => {
   if (!KernelMessage.isDisplayDataMsg(msg)) {
     return
@@ -42,7 +43,6 @@ const msgToModel = (msg, manager) => {
 //
 // The constructor takes in the following optional arguments:
 // {
-//   bhub_callbacks: "Maps state to callback for BinderHub state changes",
 //   record_messages: "Debugging argument that records all messages sent by
 //      kernel. Will increase memory usage.",
 // }
@@ -75,6 +75,10 @@ export default class NbInteract {
           execution.onIOPub = msg => {
             if (this.messages) {
               this.messages.push(msg)
+            }
+
+            if (isErrorMsg(msg)) {
+              console.error('Error in code run:', msg.content);
             }
 
             // If we have a display message, display the widget.
