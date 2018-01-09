@@ -5,15 +5,36 @@ runnable HTML files.
 
 # Always prefer setuptools over distutils
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
+
 # To use a consistent encoding
 from codecs import open
 from os import path
+import sys
 
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+class PyTest(TestCommand):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.pytest_args = ['tests']
+
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+
+    def run_tests(self):
+        # import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
+
 
 setup(
     name='nbinteract',
@@ -60,8 +81,9 @@ setup(
 
     extras_require={
         'dev': ['check-manifest'],
-        'test': ['coverage'],
+        'test': ['pytest', 'coverage', 'coveralls'],
     },
+    cmdclass = {'test': PyTest},
 
     # Add exporter to nbconvert CLI:
     # https://nbconvert.readthedocs.io/en/latest/external_exporters.html
