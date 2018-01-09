@@ -43,12 +43,11 @@ const msgToModel = (msg, manager) => {
 //
 // The constructor takes in the following optional arguments:
 // {
-//   bhub_callbacks: "Maps state to callback for BinderHub state changes",
 //   record_messages: "Debugging argument that records all messages sent by
 //      kernel. Will increase memory usage.",
 // }
 export default class NbInteract {
-  constructor({ record_messages } = { record_messages: true }) {
+  constructor({ record_messages } = { record_messages: false }) {
     this._getOrStartKernel = once(this._getOrStartKernel)
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
     this.binder = new BinderHub()
@@ -79,7 +78,7 @@ export default class NbInteract {
             }
 
             if (isErrorMsg(msg)) {
-              console.error('Error in code run:', msg);
+              console.error('Error in code run:', msg.content);
             }
 
             // If we have a display message, display the widget.
