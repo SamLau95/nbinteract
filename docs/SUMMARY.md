@@ -6,8 +6,7 @@
 
 ### Tutorial
 
-* [Simple Widgets](tutorial/Simple_Widgets.md)
-* [Interact](tutorial/Interact.md)
+* [Using Interact](tutorial/Interact.md)
 * [Custom Functions](tutorial/Custom_Functions.md)
 * [Graphing](tutorial/Graphing.md)
 

@@ -7,6 +7,7 @@
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The <code>ipywidgets</code> library provides the simplest way to get started writing interactive documents. Although the library itself has its own documentation, we will provide a quick overview to let you get started as quickly as possible.</p>
+<p>After reading this page, you will be able to create simple interactive webpages using Jupyter notebooks.</p>
 <p>We start by importing the <code>interact</code> function:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -69,10 +70,10 @@
 
  
  
-<div id="8034c925-f257-4d52-9283-89a8cf12e9f7"></div>
+<div id="b8e4da84-6c52-4ebd-af7a-e8112c755c6f"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#8034c925-f257-4d52-9283-89a8cf12e9f7');
+var element = $('#b8e4da84-6c52-4ebd-af7a-e8112c755c6f');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"version_minor": 0, "version_major": 2, "model_id": "a2f8c13104b5483384bc8b0789cfedf5"}
@@ -103,10 +104,10 @@ var element = $('#8034c925-f257-4d52-9283-89a8cf12e9f7');
 
  
  
-<div id="202002dd-965a-4ab1-90d9-9f2b017226dd"></div>
+<div id="00f18e10-229d-4737-a607-a1e78c145bc9"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#202002dd-965a-4ab1-90d9-9f2b017226dd');
+var element = $('#00f18e10-229d-4737-a607-a1e78c145bc9');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"version_minor": 0, "version_major": 2, "model_id": "1fd027b9f4074479807125271028ce78"}
@@ -145,10 +146,10 @@ var element = $('#202002dd-965a-4ab1-90d9-9f2b017226dd');
 
  
  
-<div id="15a8aada-2ce6-454b-8637-c78623386c26"></div>
+<div id="0e5d250e-08fd-409b-812d-b6c5a1f5a2e7"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#15a8aada-2ce6-454b-8637-c78623386c26');
+var element = $('#0e5d250e-08fd-409b-812d-b6c5a1f5a2e7');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"version_minor": 0, "version_major": 2, "model_id": "1fd6dfbd70d34d8db2129752d01e011d"}
@@ -179,10 +180,10 @@ var element = $('#15a8aada-2ce6-454b-8637-c78623386c26');
 
  
  
-<div id="7004bd4b-ade3-4fc0-aadc-be044851d33f"></div>
+<div id="439f6aec-d90e-445b-85e3-908b2da8b19f"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#7004bd4b-ade3-4fc0-aadc-be044851d33f');
+var element = $('#439f6aec-d90e-445b-85e3-908b2da8b19f');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"version_minor": 0, "version_major": 2, "model_id": "17827042ec9649acac5e30dfe471e182"}
@@ -223,133 +224,21 @@ var element = $('#7004bd4b-ade3-4fc0-aadc-be044851d33f');
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For more details on using interact, see the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Using%20Interact.html">official <code>ipywidgets</code> documentation</a>.</p></div></div></div>
+<p>For more details on using <code>interact</code>, see the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Using%20Interact.html">official <code>ipywidgets</code> documentation</a>.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Response-Functions">Response Functions<a class="anchor-link" href="#Response-Functions">¶</a></h2></div></div></div>
+<h1 id="Creating-Interactive-Webpages">Creating Interactive Webpages<a class="anchor-link" href="#Creating-Interactive-Webpages">¶</a></h1></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Widgets are the interactive elements that interactive chooses for you. This is a lower level representation for increased control in generating the model.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Constructing and returning an IntSlider automatically displays the widget (as seen below). Widgets are displayed inside the output area below the code cell.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="fdf960d4-7f35-48db-ae39-5bbb57c72062"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#fdf960d4-7f35-48db-ae39-5bbb57c72062');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "2e16a00779a14778a0477a3bf16bfa65"}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can also explicitly display the widget using display(...).</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">()</span>
-<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="9475c0e5-776e-47cb-9124-efbd5a603523"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#9475c0e5-776e-47cb-9124-efbd5a603523');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "a5796acd0b2c489c81bd7702e814b6fc"}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>By calling the built-in observe function of a widget, the function f is linked with the widget and called each time the slider is moved.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"this works"</span><span class="p">)</span>
-<span class="n">w</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">'value'</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="83f0dce5-a150-46fd-8652-8ff5d724502d"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#83f0dce5-a150-46fd-8652-8ff5d724502d');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "a5796acd0b2c489c81bd7702e814b6fc"}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this case, the function f serves as a response function that is linked with the slider widget. It responds to a change in the value of the widget. This will be more useful later in creating more complicated response function and widget combinations.</p></div></div></div>
+<p>You have learned a simple workflow to create interactive webpages:</p>
+<ol>
+<li>Write a Jupyter notebook containing Python functions</li>
+<li>Use <code>interact</code> to create UI elements to interact with the functions.</li>
+<li>Run <code>nbinteract NOTEBOOK_NAME.ipynb</code> in your terminal to generate an interactive webpage using your notebook code.</li>
+</ol>
+<p>While simple, this workflow is useful for many use cases because you can write arbitrary code in Python functions. We will continue the tutorial by showing how <code>interact</code> can be used to create interactive webpages for data analysis.</p></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
