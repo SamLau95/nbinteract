@@ -3,7 +3,6 @@ module.exports = {
     assets: './js',
     js: [
       'index.bundle.js',
-      'index.bundle.js.map',
       'plugin.js',
     ],
   },

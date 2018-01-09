@@ -18,7 +18,7 @@
     * [Inference for the True Slope](examples/Inference_for_the_True_Slope.md)
     * [Prediction Intervals](examples/Prediction_Intervals.md)
     * [Poissonization](examples/Poissonization.md)
-    * [Interact Scatter Plot](examples/bqplot_scatter.md)
+    * [Interactve Scatter Plot](examples/bqplot_scatter.md)
 * [FAQ](/FAQ.md)
   * [General](/faq/General.md)
 * [Troubleshooting](/Troubleshooting.md)

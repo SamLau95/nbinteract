@@ -1,6 +1,8 @@
 import ipywidgets as widgets
 from IPython.display import display
 
+__all__ = ['multiple_choice', 'short_answer']
+
 # css style for question and answers
 TEXT_STYLE = '<p style="line-height:18px;">{}</p>'
 
