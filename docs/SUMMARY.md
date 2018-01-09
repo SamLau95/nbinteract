@@ -6,10 +6,10 @@
 
 ### Tutorial
 
-* [Simple Widgets](/tutorial/Simple_Widgets.md)
-* [Interact](/tutorial/Interact.md)
-* [Custom Functions](/advanced/Custom_Functions.md)
-* [Graphing](/advanced/Graphing.md)
+* [Simple Widgets](tutorial/Simple_Widgets.md)
+* [Interact](tutorial/Interact.md)
+* [Custom Functions](tutorial/Custom_Functions.md)
+* [Graphing](tutorial/Graphing.md)
 
 
 ### Examples
