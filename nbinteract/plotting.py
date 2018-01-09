@@ -6,7 +6,7 @@ from IPython.display import display
 __all__ = ['hist', 'bar', 'scatter']
 
 
-def hist(hist_function, **kwargs):
+def hist(hist_function, title=None, **kwargs):
     """
     Generates an interactive histogram that allows users to
     interact with parameters of hist_function and visualize changes in the
@@ -29,8 +29,10 @@ def hist(hist_function, **kwargs):
     ax_y = bq.Axis(label='Y', scale=y_sc, orientation='vertical',
                    grid_lines='solid')
     hist = bq.Hist(sample=np.array(np.arange(0, 1, 0.1)),
-                   scales={'sample': x_sc, 'count': y_sc})
-    fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist], title='First Example')
+                   scales={'sample': x_sc, 'count': y_sc},
+                   colors=['#475A77'],
+                  stroke='#475A77')
+    fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist], title=title or '')
 
     def wrapped(**kwargs):
         hist.sample = hist_function(**kwargs)
@@ -40,7 +42,7 @@ def hist(hist_function, **kwargs):
     display(fig)
 
 
-def bar(x_data, function, **kwargs):
+def bar(x_data, function, title=None, **kwargs):
     x_sc = bq.OrdinalScale()
     y_sc = bq.LinearScale()
 
@@ -48,8 +50,12 @@ def bar(x_data, function, **kwargs):
     ax_y = bq.Axis(label='Y', scale=y_sc, orientation='vertical', grid_lines='solid')
 
     # set chart to blue
-    bar = bq.Bars(x=x_data, y=np.array(np.arange(len(x_data))), scales={'x': x_sc, 'y': y_sc}, colors=['#1f77b4'])
-    fig = bq.Figure(axes=[ax_x, ax_y], marks=[bar], title='Chart')
+    bar = bq.Bars(x=x_data,
+                  y=np.array(np.arange(len(x_data))),
+                  scales={'x': x_sc, 'y': y_sc},
+                  colors=['#475A77'],
+                  stroke='#475A77')
+    fig = bq.Figure(axes=[ax_x, ax_y], marks=[bar], title=title or '')
 
     def wrapped(**kwargs):
         bar.y = function(x_data, **kwargs)
@@ -59,7 +65,7 @@ def bar(x_data, function, **kwargs):
     display(fig)
 
 
-def scatter(x_points, y_points, fit_reg=True):
+def scatter(x_points, y_points, title=None, fit_reg=True):
     """
     Generates an interactive scatter plot where the points
     can be dragged by users and linked to an update function.
@@ -90,17 +96,21 @@ def scatter(x_points, y_points, fit_reg=True):
     scat = bq.Scatter(x=x_points,
                       y=y_points,
                       scales={'x': sc_x, 'y': sc_y},
+                      colors=['#475A77'],
+                      stroke='#475A77',
                       enable_move=True)
     # equation label
     label = widgets.Label()
     if fit_reg:
         # set up callback
         scat.observe(update_line, names=['x', 'y'])
-        lin = bq.Lines(scales={'x': sc_x, 'y': sc_y}, animation_duration=5000)
-        fig = bq.Figure(marks=[scat, lin], axes=[ax_x, ax_y])
+        lin = bq.Lines(scales={'x': sc_x, 'y': sc_y},
+                       animation_duration=5000,
+                       colors=['#FEC62C'])
+        fig = bq.Figure(marks=[scat, lin], axes=[ax_x, ax_y], title=title or '')
         update_line(None)
     else:
-        fig = bq.Figure(marks=[scat], axes=[ax_x, ax_y])
+        fig = bq.Figure(marks=[scat], axes=[ax_x, ax_y], title=title or '')
     # containers
     box = widgets.VBox([label, fig])
     # initialize plot and equation and display
