@@ -26,6 +26,9 @@ gitbook: ## Runs gitbook locally
 	gitbook install
 	gitbook serve
 
+test: ## Run tests
+	python setup.py test
+
 
 
 start_notebook:
