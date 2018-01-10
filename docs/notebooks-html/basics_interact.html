@@ -17,7 +17,7 @@
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The simplest way to follow this tutorial is to click the button below. It will launch a Jupyter server using Binder that comes pre-built with the necessary libraries.</p>
 <p><a href="https://mybinder.org/v2/gh/SamLau95/nbinteract-image/master"><img alt="Binder" src="https://mybinder.org/badge.svg"/></a></p>
-<p>We suggest clicking the badge, creating a notebook, and typing/pasting in the code in this tutorial to run it yourself.</p></div></div></div>
+<p>We suggest clicking the badge, creating a notebook by click <code>New</code> -&gt; <code>Python 3</code>, and typing/pasting in the code in this tutorial to run it yourself.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -89,13 +89,13 @@
 
  
  
-<div id="67660ef9-a785-4423-93ce-397be068f9af"></div>
+<div id="59b49137-a353-40a3-a404-d7adca630f45"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#67660ef9-a785-4423-93ce-397be068f9af');
+var element = $('#59b49137-a353-40a3-a404-d7adca630f45');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "a2f8c13104b5483384bc8b0789cfedf5", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "a2f8c13104b5483384bc8b0789cfedf5", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -123,13 +123,13 @@ var element = $('#67660ef9-a785-4423-93ce-397be068f9af');
 
  
  
-<div id="d073411f-5975-4ffb-9095-8a156864ab8f"></div>
+<div id="37c690bf-f94f-4798-aec7-b39f6a93c5a4"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#d073411f-5975-4ffb-9095-8a156864ab8f');
+var element = $('#37c690bf-f94f-4798-aec7-b39f6a93c5a4');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "1fd027b9f4074479807125271028ce78", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "1fd027b9f4074479807125271028ce78", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -165,13 +165,13 @@ var element = $('#d073411f-5975-4ffb-9095-8a156864ab8f');
 
  
  
-<div id="cd5e8445-6944-4c6c-910d-83796a51b1a1"></div>
+<div id="5628cf0d-28de-4e8e-bd43-9caa5545bbc1"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#cd5e8445-6944-4c6c-910d-83796a51b1a1');
+var element = $('#5628cf0d-28de-4e8e-bd43-9caa5545bbc1');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "1fd6dfbd70d34d8db2129752d01e011d", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "1fd6dfbd70d34d8db2129752d01e011d", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -199,13 +199,13 @@ var element = $('#cd5e8445-6944-4c6c-910d-83796a51b1a1');
 
  
  
-<div id="7b71cb02-8904-49c4-be25-929878bf25d0"></div>
+<div id="1e4088f4-cc7b-4c83-88aa-63390ef930d9"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#7b71cb02-8904-49c4-be25-929878bf25d0');
+var element = $('#1e4088f4-cc7b-4c83-88aa-63390ef930d9');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "17827042ec9649acac5e30dfe471e182", "version_major": 2, "version_minor": 0}
+{"version_major": 2, "model_id": "17827042ec9649acac5e30dfe471e182", "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -247,6 +247,15 @@ var element = $('#7b71cb02-8904-49c4-be25-929878bf25d0');
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exporting-the-Notebook-to-an-HTML-Page">Exporting the Notebook to an HTML Page<a class="anchor-link" href="#Exporting-the-Notebook-to-an-HTML-Page">¶</a></h2><p>If you have been following along, you should now have a notebook that contains interactive widgets. You are now ready to generate an interactive webpage.</p>
+<p>Open a terminal and type the following (on Binder, you can go back to the directory view and click New -&gt; Terminal):</p>
+
+<pre><code>nbinteract NOTEBOOK_NAME.ipynb</code></pre>
+<p>Where <code>NOTEBOOK_NAME</code> is replaced with the name of your notebook. You should now have a <code>NOTEBOOK_NAME.html</code> file in the same directory as your notebook.</p>
+<p>This HTML file can be hosted online using free services like <a href="https://pages.github.com/">Github Pages</a>. The webpage will contain the contents of your notebook and your widgets will be fully functional.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Creating-Interactive-Webpages">Creating Interactive Webpages<a class="anchor-link" href="#Creating-Interactive-Webpages">¶</a></h2></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -257,7 +266,7 @@ var element = $('#7b71cb02-8904-49c4-be25-929878bf25d0');
 <li>Use <code>interact</code> to create UI elements to interact with the functions.</li>
 <li>Run <code>nbinteract NOTEBOOK_NAME.ipynb</code> in your terminal to generate an interactive webpage using your notebook code.</li>
 </ol>
-<p>While simple, this workflow is useful for many use cases because you can write arbitrary code in Python functions. We will continue the tutorial by showing how <code>interact</code> can be used to create interactive webpages for data analysis.</p></div></div></div>
+<p>While simple, this workflow is useful for many use cases because you can write arbitrary code in Python functions. We will continue the tutorial by demonstrating how to create and publish dynamic data visualizations.</p></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {
