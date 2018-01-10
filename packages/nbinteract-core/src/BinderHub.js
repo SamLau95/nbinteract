@@ -7,7 +7,7 @@ import { Kernel, ServerConnection } from '@jupyterlab/services'
 import Image from './Image'
 
 const PROVIDER = 'gh'
-const SPEC = 'SamLau95/nbinteract-image'
+const SPEC = 'SamLau95/nbinteract-image/master'
 
 // States that you can register callbacks on
 // Keep in sync with https://github.com/jupyterhub/binderhub/blob/master/doc/api.rst#events
