@@ -6,7 +6,7 @@ from IPython.display import display
 
 from . import util
 
-__all__ = ['hist', 'bar', 'scatter']
+__all__ = ['hist', 'bar', 'scatter_drag']
 
 
 DARK_BLUE = '#475A77'
@@ -158,86 +158,76 @@ def bar(x_fn, y_fn, options={}, **interact_params):
     display(fig)
 
 
-def scatter(x_points, y_points, title=None, fit_reg=True):
+def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
+                 options={}):
     """
-    Generates an interactive scatter plot where the points
-    can be dragged by users and linked to an update function.
+    Generates an interactive scatter plot with the best fit line plotted over
+    the points. The points can be dragged by the user and the line will
+    automatically update.
 
     Args:
-        ''x_points'' -- (array of ints)
-        X values of data
-        ''y_points'' -- (array of ints)
-        Y values of data
-        ''fit_reg'' -- (boolean)
-        If true, plot linear regression line that updates when points are
-        moved, else just plot the points without a line.
+        x_points (Array Number): x-values of points to plot
+
+        y_points (Array Number): y-values of points to plot
+
+        show_eqn (bool): If True (default), displays the best fit line's
+            equation above the scatterplot.
+
+        options (dict): Options for the plot. Available options:
+
+            title: Title of the plot
+            xlabel: Label of the x-axis
+            ylabel: Label of the y-axis
+            xlim: Tuple containing (lower, upper) for x-axis
+            ylim: Tuple containing (lower, upper) for y-axis
 
     Returns:
         None
-    """
-    # create line fit to data and display equation
-    def update_line(change):
-        lin.x = [np.min(scat.x), np.max(scat.x)]
-        poly = np.polyfit(scat.x, scat.y, 1)
-        lin.y = np.polyval(poly, lin.x)
-        label.value = 'y = {:.2f} + {:.2f}x'.format(poly[1], poly[0])
 
-    sc_x = bq.LinearScale()
-    sc_y = bq.LinearScale()
-    ax_x = bq.Axis(scale=sc_x)
-    ax_y = bq.Axis(scale=sc_y, tick_format='0.2f', orientation='vertical')
+    >>> xs = np.arange(10)
+    >>> ys = np.arange(10) + np.random.rand(10)
+    >>> scatter_drag(xs, ys)
+    interactive(...)
+    """
+    options = {**_default_options, **options}
+
+    x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
+    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
+
+    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
+    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
+                   grid_lines='solid')
+
     scat = bq.Scatter(x=x_points,
                       y=y_points,
-                      scales={'x': sc_x, 'y': sc_y},
+                      scales={'x': x_sc, 'y': y_sc},
                       colors=[DARK_BLUE],
                       stroke=DARK_BLUE,
                       enable_move=True)
+
+    lin = bq.Lines(scales={'x': x_sc, 'y': y_sc},
+                   animation_duration=5000,
+                   colors=[GOLDENROD])
+    fig = bq.Figure(marks=[scat, lin],
+                    axes=[ax_x, ax_y],
+                    title=options['title'])
+
     # equation label
     label = widgets.Label()
-    if fit_reg:
-        # set up callback
-        scat.observe(update_line, names=['x', 'y'])
-        lin = bq.Lines(scales={'x': sc_x, 'y': sc_y},
-                       animation_duration=5000,
-                       colors=[GOLDENROD])
-        fig = bq.Figure(marks=[scat, lin], axes=[ax_x, ax_y], title=title or '')
-        update_line(None)
-    else:
-        fig = bq.Figure(marks=[scat], axes=[ax_x, ax_y], title=title or '')
-    # containers
-    box = widgets.VBox([label, fig])
-    # initialize plot and equation and display
-    display(box)
 
+    # create line fit to data and display equation
+    def update_line(change=None):
+        lin.x = [x_sc.min, x_sc.max]
+        poly = np.polyfit(scat.x, scat.y, deg=1)
+        lin.y = np.polyval(poly, lin.x)
+        if show_eqn:
+            label.value = 'y = {:.2f} + {:.2f}x'.format(poly[1], poly[0])
+    update_line()
 
-def _generate_scales(x_sc_cls, y_sc_cls, options):
-    """
-    Returns (x_scale, y_scale) for a bqplot plot. Uses options to set traits
-    of the scales properly.
+    scat.observe(update_line, names=['x', 'y'])
 
-    Args:
-        x_sc_cls (bq.Scale): Scale class for the x-axis
-
-        y_sc_cls (bq.Scale): Scale class for the y-axis
-
-        options (dict): Options are used to set traits of scales. Available
-            options:
-
-            xlim: Tuple containing (lower, upper) for x-axis
-            ylim: Tuple containing (lower, upper) for y-axis
-    """
-    x_sc = x_sc_cls()
-    y_sc = y_sc_cls()
-
-    xlim = options.get('xlim', False)
-    ylim = options.get('ylim', False)
-
-    if xlim:
-        x_sc.min, x_sc.max = xlim
-    if ylim:
-        y_sc.min, y_sc.max = ylim
-
-    return x_sc, y_sc
+    layout = widgets.VBox([label, fig])
+    display(layout)
 
 
 def _array_or_placeholder(maybe_iterable,
