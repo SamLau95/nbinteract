@@ -187,7 +187,7 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
     >>> xs = np.arange(10)
     >>> ys = np.arange(10) + np.random.rand(10)
     >>> scatter_drag(xs, ys)
-    interactive(...)
+    VBox(...)
     """
     options = {**_default_options, **options}
 
