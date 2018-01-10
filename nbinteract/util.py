@@ -3,6 +3,7 @@ Utility functions that aren't publicly exposed.
 """
 
 import inspect
+import toolz
 
 
 def get_fn_args(fn, kwargs: dict, prefix: str=None):
@@ -37,10 +38,44 @@ def get_fn_args(fn, kwargs: dict, prefix: str=None):
 
     missing_args = [arg for arg in required_args if arg not in fn_kwargs]
     if missing_args:
-        raise ValueError('The following args are missing for the function'
+        raise ValueError('The following args are missing for the function '
                          '{}: {}.'.format(fn.__name__, missing_args))
 
     return fn_kwargs
+
+
+def call_if_needed(maybe_fn, kwargs: dict, prefix: str=None) -> 'Any':
+    """
+    If maybe_fn is a function, get its arguments from kwargs and call it, also
+    searching for prefixed kwargs if prefix is specified. Otherwise, return
+    maybe_fn.
+
+    Used to allow both functions and iterables to be passed into plotting
+    functions.
+
+    >>> def square(x): return x * x
+    >>> call_if_needed(square, {'x': 10})
+    100
+
+    >>> data = [1, 2, 3]
+    >>> call_if_needed(data, {'x': 10})
+    [1, 2, 3]
+    """
+    if not callable(maybe_fn):
+        return maybe_fn
+
+    args = get_fn_args(maybe_fn, kwargs, prefix=prefix)
+    return maybe_fn(**args)
+
+
+def maybe_curry(maybe_fn, first_arg) -> 'Function | Any':
+    """
+    If maybe_fn is a function, curries it and passes in first_arg. Otherwise
+    returns maybe_fn.
+    """
+    if not callable(maybe_fn):
+        return maybe_fn
+    return toolz.curry(maybe_fn)(first_arg)
 
 
 def get_all_args(fn) -> list:

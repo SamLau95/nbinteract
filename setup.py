@@ -75,8 +75,8 @@ setup(
         'numpy',
         'bqplot',
         'ipywidgets',
-        'IPython'
-
+        'IPython',
+        'toolz'
     ],
 
     extras_require={

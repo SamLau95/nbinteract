@@ -9,6 +9,22 @@ FLAGS = (
     | doctest.ELLIPSIS
 )
 
+OC = doctest.OutputChecker
+
+
+class AEOutputChecker(OC):
+    """
+    Hack to allow [...] as ellipsis in doctests in addition to the default ...
+    """
+    def check_output(self, want, got, optionflags):
+        from re import sub
+        if optionflags & doctest.ELLIPSIS:
+            want = sub(r'\[\.\.\.\]', '...', want)
+        return OC.check_output(self, want, got, optionflags)
+
+
+doctest.OutputChecker = AEOutputChecker
+
 
 def run_doctests(module, flags=FLAGS):
     """
