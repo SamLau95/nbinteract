@@ -217,7 +217,8 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
 
     # create line fit to data and display equation
     def update_line(change=None):
-        lin.x = [x_sc.min, x_sc.max]
+        lin.x = [x_sc.min if x_sc.min is not None else np.min(scat.x),
+                 x_sc.max if x_sc.max is not None else np.max(scat.x)]
         poly = np.polyfit(scat.x, scat.y, deg=1)
         lin.y = np.polyval(poly, lin.x)
         if show_eqn:
