@@ -1,1 +1,1 @@
-{% include "../notebooks-html/Graphing.html" %}
+{% include "../notebooks-html/basics_graphing.html" %}
