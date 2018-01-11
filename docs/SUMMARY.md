@@ -8,7 +8,7 @@
 * [Getting Started](tutorial/tutorial_getting_started.md)
 * [Setting up GitHub Pages](tutorial/tutorial_github_setup.md)
 * [Simple Interactive Webpage](tutorial/tutorial_interact.md)
-* [Interactive Monty Hall Simulation](tutorial/Monty_Hall_Simulation.md)
+* [A Monty Hall Simulation](tutorial/tutorial_monty_hall.md)
 
 
 ### Recipes
