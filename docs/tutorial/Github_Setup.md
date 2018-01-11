@@ -1,4 +1,4 @@
-# Setting Up GitHub
+# Setting Up GitHub Pages
 
 GitHub Pages is one of the simplest ways to host webpages for others to view.
 We will walk through the necessary steps here to set up a repo that we will use
