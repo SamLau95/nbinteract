@@ -1,15 +1,16 @@
 nbinteract
 =================
 
-nbinteract is a tool to convert Jupyter Notebooks to interactive webpages. It
-allows notebooks that use [ipywidgets][] or [bqplot][] to be hosted online as
-HTML pages for anyone to view and interact with.
-
-Before, creating an interactive webpage required authors to know HTML, CSS, and
-Javascript. With `nbinteract`, authors just need to know Python.
+`nbinteract` is a set of tools to create interactive webpages using Jupyter
+notebooks. Before, creating an interactive webpage required authors to know
+HTML, CSS, and Javascript. With `nbinteract`, if you know Python you know how
+to create an interactive webpage. `nbinteract` makes explanations that make use
+of data especially easy because of its support for interactive visualizations.
 
 This website contains documentation and examples of `nbinteract` usage. Use the
 left sidebar or the right and left arrow keys to navigate the docs.
 
-[ipywidgets]: https://github.com/jupyter-widgets/ipywidgets
-[bqplot]: https://github.com/bloomberg/bqplot
+[We recommend starting with the tutorial which has a complete walkthrough to
+publish an interactive webpage using `nbinteract`.][tutorial]
+
+[tutorial]: tutorial/Interact.md

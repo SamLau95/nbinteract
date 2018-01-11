@@ -2,9 +2,10 @@
 
 * [Read Me](/README.md)
 * [Motivation](/introduction/Motivation.md)
-* [Getting Started](/introduction/Getting_Started.md)
 
 ### Tutorial
+* [Getting Started](tutorial/Getting_Started.md)
+* [Setting up GitHub Pages](tutorial/Github_Setup.md)
 * [Using Interact](tutorial/Interact.md)
 * [Graphing](tutorial/Graphing.md)
 * [Interactive Questions](tutorial/Interactive_Questions.md)
