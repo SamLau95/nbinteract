@@ -49,6 +49,7 @@ start_webpack:
 build_py: ## Build python package
 	rm -rf dist/*
 	python setup.py bdist_wheel
+	make bump_binder
 
 build_js: ## Build Javascript bundle
 	lerna run build --stream
