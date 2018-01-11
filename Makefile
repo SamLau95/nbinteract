@@ -1,4 +1,4 @@
-.PHONY: help serve build publish book install clean gitbook
+.PHONY: help serve build publish book install clean gitbook bump_binder
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -29,6 +29,15 @@ gitbook: ## Runs gitbook locally
 test: ## Run tests
 	python setup.py test
 
+bump_binder: ## Updates Binder nbinteract version and rebuilds image
+	VERSION=$$(grep -E -o [0-9]+\.[0-9]+\.[0-9]+ setup.py) ;\
+	cd ../nbinteract-image ;\
+	sed -E -i "s/nbinteract.*/nbinteract>=$$VERSION/" requirements.txt;\
+	git add requirements.txt ;\
+	git commit -m "nbinteract v$$VERSION" ;\
+	git push origin master ;\
+	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb \
+	| grep ready &
 
 
 start_notebook:
