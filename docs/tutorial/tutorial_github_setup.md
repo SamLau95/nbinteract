@@ -20,13 +20,21 @@ repo name in later parts of the tutorial.
 Make sure your repo is public, and click the checkbox to initialize your repo
 with a README. Your page should look like:
 
-![gh-repo-setup](https://user-images.githubusercontent.com/2468904/34801736-1837d22a-f61f-11e7-92e3-8eddf7d5da0f.png)
+<img src="https://user-images.githubusercontent.com/2468904/34801736-1837d22a-f61f-11e7-92e3-8eddf7d5da0f.png"
+  alt="gh-repo-setup"
+  width="80%"
+  style="margin: 0 10%;"
+>
 
 Now, click on the Settings link for the repo near the top of the page, scroll
 down to the GitHub Pages section, and select the `master` branch as the GitHub
 pages source. Click the Save button to save your changes.
 
-![gh-pages-setup](https://user-images.githubusercontent.com/2468904/34801810-650af35c-f61f-11e7-8650-cb90c8ec60b1.png)
+<img src="https://user-images.githubusercontent.com/2468904/34801810-650af35c-f61f-11e7-8650-cb90c8ec60b1.png"
+  alt="gh-pages-setup"
+  width="80%"
+  style="margin: 0 10%;"
+>
 
 Now, any file you upload to this repo will have a public URL. For example, the
 `README.md` file in the repo has the following URL:
