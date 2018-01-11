@@ -1,31 +1,31 @@
 # Table of Contents
 
 * [Read Me](/README.md)
-* [Motivation](/introduction/Motivation.md)
+* [Motivation](/introduction/introduction_motivation.md)
 
 ### Tutorial
 
-* [Getting Started](tutorial/Getting_Started.md)
-* [Setting up GitHub Pages](tutorial/Github_Setup.md)
-* [Simple Interactive Webpage](tutorial/Interact.md)
+* [Getting Started](tutorial/tutorial_getting_started.md)
+* [Setting up GitHub Pages](tutorial/tutorial_github_setup.md)
+* [Simple Interactive Webpage](tutorial/tutorial_interact.md)
 * [Interactive Monty Hall Simulation](tutorial/Monty_Hall_Simulation.md)
 
 
 ### Recipes
 
-* [Basic Graphing](recipes/Basic_Graphing.md)
-* [nbinteract Graphing](recipes/nbinteract_Graphing.md)
-* [Interactive Questions](recipes/Interactive_Questions.md)
+* [Basic Graphing](recipes/recipes_basic_graphing.md)
+* [nbinteract Graphing](recipes/recipes_nbinteract_graphing.md)
+* [Interactive Questions](recipes/recipes_interactive_questions.md)
 
 
 ### Examples
 
-* [Empirical Distributions](examples/Empirical_Distributions.md)
-* [Sampling from a Population](examples/Sampling_from_a_Population.md)
-* [Variability of the Sample Mean](examples/Variability_of_the_Sample_Mean.md)
-* [Correlation](examples/Correlation.md)
-* [Inference for the True Slope](examples/Inference_for_the_True_Slope.md)
-* [Interactive Scatterplot](examples/bqplot_scatter.md)
-* [Probability Distribution Plots](examples/Probability_Distribution_Plots.md)
-* [Central Limit Theorem](examples/Central_Limit_Theorem.md)
+* [Empirical Distributions](examples/examples_empirical_distributions.md)
+* [Sampling from a Population](examples/examples_sampling_from_a_population.md)
+* [Variability of the Sample Mean](examples/examples_variability_of_the_sample_mean.md)
+* [Correlation](examples/examples_correlation.md)
+* [Inference for the True Slope](examples/examples_inference_for_the_true_slope.md)
+* [Interactive Scatterplot](examples/examples_bqplot_scatter.md)
+* [Probability Distribution Plots](examples/examples_probability_distribution_plots.md)
+* [Central Limit Theorem](examples/examples_central_limit_theorem.md)
 
