@@ -5,6 +5,9 @@ Utility functions that aren't publicly exposed.
 import inspect
 import toolz
 
+# Parameter type for *args and **kwargs
+VAR_ARGS = {inspect.Parameter.VAR_POSITIONAL, inspect.Parameter.VAR_KEYWORD}
+
 
 def get_fn_args(fn, kwargs: dict, prefix: str=None):
     """
@@ -97,10 +100,15 @@ def get_required_args(fn) -> list:
     >>> def foo(x, y, z=100): return x + y + z
     >>> get_required_args(foo)
     ['x', 'y']
+
+    >>> def bar(x, y=100, *args, **kwargs): return x
+    >>> get_required_args(bar)
+    ['x']
     """
     sig = inspect.signature(fn)
     return [name for name, param in sig.parameters.items()
-            if param.default == inspect._empty]
+            if param.default == inspect._empty
+            and param.kind not in VAR_ARGS]
 
 
 def pick_kwargs(kwargs: dict, required_args: list, prefix: str=None):
