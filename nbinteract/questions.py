@@ -7,18 +7,20 @@ __all__ = ['multiple_choice', 'short_answer']
 TEXT_STYLE = '<p style="line-height:18px;">{}</p>'
 
 
-def multiple_choice(question, answer_list, correct_answer_list):
+def multiple_choice(question, answer_list, correct_answer):
     """
     Generates a multiple choice question that allows the user to select an
     answer choice and displays the correctness of that choice.
 
     Args:
-        ''question'' -- (string)
-        The question being asked.
-        ''answer_list'' -- (list of strings)
-        The possible answer choices.
-        ''correct_answeer_list'' -- (string)
-        List of all correct answers.
+        question (str): The question being asked.
+
+        answer_list (list str): The possible answer choices.
+
+        correct_answer (str | list str): Either a string or list of strings. If
+            a string, that string is the single correct choice. If a list, all
+            of the strings are correct.
+
 
     Returns:
         None
@@ -28,11 +30,9 @@ def multiple_choice(question, answer_list, correct_answer_list):
     ...                 correct_answer = '2')
     <What is 1+1>
     <Button> <1>
-    <Button> <2>
+    <Button> <2>   <-- Correct
     <Button> <3>
     """
-    # make sure question is a string
-    assert type(question) == str
     # store mapping to map buttons to the corresponding answer
     button_answer_mapping = dict()
 
@@ -65,24 +65,27 @@ X_ICON = ('<i class="fa fa-times" aria-hidden="true"'
           'style="color:#F86700; font-size:2rem"></i>')
 
 
-def short_answer(question, answer_list=[], check_function=lambda x: False, explanation=None):
+def short_answer(question, answer_list=[], check_function=lambda x: False,
+                 explanation=None):
     """
     Generates a short answer question that allows user to input an answer in
-    a textbox and a submit button to output the correctness of the answer.
+    a textbox and a submit button to check the answer.
 
     Args:
-        ''question'' --(string)
-        The question being asked.
-        ''answer'' --(string)
-        A list of correct answers.
-        ''explanation'' --(string)
-        The explanation to the question is displayed when the user inputs
-        the correct answer.
+        question (str):  The question being asked.
+
+        answer_list (str):  A list of correct answers.
+
+        check_function (func): A predicate function that returns True for
+            correct answers.
+
+        explanation (str):  The explanation to the question is displayed when
+            the user inputs the correct answer.
 
     Returns:
         None
 
-    >>> short_answer('What is 1+1??', '2') #doctest: +SKIP
+    >>> short_answer('What is 1+1?', '2') #doctest: +SKIP
     <What is 1+1?>
     <Input box, Submit button>
     """

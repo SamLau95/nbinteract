@@ -39,18 +39,6 @@ easy hook into the spot just before the body closes.
 <meta charset="utf-8" />
 <title>{{resources['metadata']['name']}}</title>
 
-<!--
-Pretty sure we don't need this snippet anymore since we have dynamic widgets
-TODO(sam): Remove these lines once I verify they don't break anything
-
-{%- if "widgets" in nb.metadata -%}
-<script src="https://unpkg.com/jupyter-js-widgets@2.0.*/dist/embed.js"></script>
-{%- endif-%}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
--->
-
 {% for css in resources.inlining.css -%}
     <style type="text/css">
     {{ css }}

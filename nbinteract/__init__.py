@@ -3,7 +3,7 @@
 import warnings
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-from .exporter import *
+from .exporters import *
 from .plotting import *
 from .questions import *
 from . import util
