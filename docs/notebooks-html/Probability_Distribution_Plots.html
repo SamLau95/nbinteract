@@ -16,7 +16,7 @@
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Probability-Distribution-Plots">Probability Distribution Plots<a class="anchor-link" href="#Probability-Distribution-Plots">¶</a></h1><p>This is an example using the <code>nbinteract.bar</code> method to plot different probability distributions with ease. One nifty trick we used here bound the possible values for a slider widget is by passing in <code>(0.0,1.0)</code> for possible probability values which marks the lower and upper bound for that parameter.</p></div></div></div>
+<h1 id="Probability-Distribution-Plots">Probability Distribution Plots<a class="anchor-link" href="#Probability-Distribution-Plots">¶</a></h1><p>This example shows how to create interactive probability distribution demos using <code>nbinteract.bar</code> method.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -26,7 +26,19 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Although this function doesn't appear necessary, the scipy stats functions</span>
+<span class="c1"># don't explicitly require n and p as args which causes issues with interaction</span>
+<span class="k">def</span> <span class="nf">binom_pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'X'</span><span class="p">,</span>
+    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'probability'</span><span class="p">,</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">21</span><span class="p">),</span> <span class="n">binom_pmf</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+               <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -43,13 +55,13 @@
 
  
  
-<div id="72a93d23-5c34-416b-9dda-a679cc6088fc"></div>
+<div id="8e63b301-0a9d-48c9-93f2-777e73c999f1"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#72a93d23-5c34-416b-9dda-a679cc6088fc');
+var element = $('#8e63b301-0a9d-48c9-93f2-777e73c999f1');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "c4a7182c51ce4a429517659e023469c7", "version_minor": 0}
+{"model_id": "22ef0ffc7c984c2585c95c4259071005", "version_major": 2, "version_minor": 0}
 </script></div></div>
 
 <div class="output_area">
@@ -62,13 +74,13 @@ var element = $('#72a93d23-5c34-416b-9dda-a679cc6088fc');
 
  
  
-<div id="8daf42c4-8465-4675-8aa2-54eaa5bb5dec"></div>
+<div id="597f1fd2-5794-45c6-8c0b-1271ba1fca25"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#8daf42c4-8465-4675-8aa2-54eaa5bb5dec');
+var element = $('#597f1fd2-5794-45c6-8c0b-1271ba1fca25');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "23edc6a917844f9f8fd11a8b3dc140be", "version_minor": 0}
+{"model_id": "e0f2d01e11c245b684515bbf15e81b20", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -79,7 +91,8 @@ var element = $('#8daf42c4-8465-4675-8aa2-54eaa5bb5dec');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">stats</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">pmf</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">geom_pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span> <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">geom_pmf</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -96,13 +109,13 @@ var element = $('#8daf42c4-8465-4675-8aa2-54eaa5bb5dec');
 
  
  
-<div id="83a5f36e-12d4-4e98-9790-dd97b5f29ddc"></div>
+<div id="668fe1d1-6427-4a8f-8bcc-9a497b88e4f8"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#83a5f36e-12d4-4e98-9790-dd97b5f29ddc');
+var element = $('#668fe1d1-6427-4a8f-8bcc-9a497b88e4f8');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "9fa7a57b9c654e3d808745b9c1d27355", "version_minor": 0}
+{"model_id": "b764a86676ae4cfd98c7c491282c5c80", "version_major": 2, "version_minor": 0}
 </script></div></div>
 
 <div class="output_area">
@@ -115,13 +128,13 @@ var element = $('#83a5f36e-12d4-4e98-9790-dd97b5f29ddc');
 
  
  
-<div id="ee025836-aa75-4556-849d-720787d2b99a"></div>
+<div id="4eb5cdcf-1912-4437-8412-121299e0319a"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#ee025836-aa75-4556-849d-720787d2b99a');
+var element = $('#4eb5cdcf-1912-4437-8412-121299e0319a');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "2b98f20309794388999afcabe940329e", "version_minor": 0}
+{"model_id": "6c7ccce34fa64bf6bde8eb93657f6ff7", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -132,7 +145,8 @@ var element = $('#ee025836-aa75-4556-849d-720787d2b99a');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">poisson_pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span> <span class="k">return</span> <span class="n">stats</span><span class="o">.</span><span class="n">poisson</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+<span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">poisson_pmf</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -149,13 +163,13 @@ var element = $('#ee025836-aa75-4556-849d-720787d2b99a');
 
  
  
-<div id="89d2c49e-3ddc-4d80-8d29-cb642ac2bf86"></div>
+<div id="db8c8bde-4346-4168-a14a-1a66fb035d9e"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#89d2c49e-3ddc-4d80-8d29-cb642ac2bf86');
+var element = $('#db8c8bde-4346-4168-a14a-1a66fb035d9e');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "61d76190767746f1a3e17a6d3bdf50b9", "version_minor": 0}
+{"model_id": "9b1f1fa4998c4f47b3fdb927a254d3c1", "version_major": 2, "version_minor": 0}
 </script></div></div>
 
 <div class="output_area">
@@ -168,13 +182,13 @@ var element = $('#89d2c49e-3ddc-4d80-8d29-cb642ac2bf86');
 
  
  
-<div id="375ac543-3ecf-479a-88a2-ea224324fdf6"></div>
+<div id="3ecd8fee-f191-4422-87f8-b89f4c251cc1"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#375ac543-3ecf-479a-88a2-ea224324fdf6');
+var element = $('#3ecd8fee-f191-4422-87f8-b89f4c251cc1');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "model_id": "9eacde4d07e44998adcb3323958594e5", "version_minor": 0}
+{"model_id": "84c6e8ea56644ac3a60d584bfcad7af1", "version_major": 2, "version_minor": 0}
 </script></div></div></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
