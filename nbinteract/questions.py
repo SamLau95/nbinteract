@@ -101,15 +101,15 @@ def short_answer(question, answers, explanation=None):
         None
 
     >>> short_answer('What is 1 + 1?', '2',
-                     explanation='1+1 is 2') #doctest: +SKIP
+    ...              explanation='1+1 is 2') #doctest: +SKIP
     <What is 1+1?>
     <Input box, Submit button>
     >>> short_answer('Enter the first name of a member of the Beatles.',
-                     ['John', 'Paul', 'George', 'Ringo']) doctest: +SKIP
+    ...              ['John', 'Paul', 'George', 'Ringo']) #doctest: +SKIP
     <Enter the first name of a member of the Beatles.>
     <Input box, Submit button>
     >>> short_answer('Enter an even number.',
-                     lambda x: int(x) % 2 == 0) #doctest: +SKIP
+    ...              lambda x: int(x) % 2 == 0) #doctest: +SKIP
     <Enter an even number.>
     <Input box, Submit button>
     """
