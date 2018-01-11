@@ -13,8 +13,9 @@
 
 ### Recipes
 
-* [Graphing](tutorial/Graphing.md)
-* [Interactive Questions](tutorial/Interactive_Questions.md)
+* [Basic Graphing](recipes/Basic_Graphing.md)
+* [nbinteract Graphing](recipes/nbinteract_Graphing.md)
+* [Interactive Questions](recipes/Interactive_Questions.md)
 
 
 ### Examples
