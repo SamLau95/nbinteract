@@ -2,10 +2,17 @@
 
 * [Read Me](/README.md)
 * [Motivation](/introduction/Motivation.md)
-* [Getting Started](/introduction/Getting_Started.md)
 
 ### Tutorial
-* [Using Interact](tutorial/Interact.md)
+
+* [Getting Started](tutorial/Getting_Started.md)
+* [Setting up GitHub Pages](tutorial/Github_Setup.md)
+* [Simple Interactive Webpage](tutorial/Interact.md)
+* [Interactive Monty Hall Simulation](tutorial/Monty_Hall_Simulation.md)
+
+
+### Recipes
+
 * [Graphing](tutorial/Graphing.md)
 * [Interactive Questions](tutorial/Interactive_Questions.md)
 

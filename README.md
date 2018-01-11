@@ -5,12 +5,14 @@ nbinteract
 [![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/)
 [![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
 
-nbinteract is a tool to convert Jupyter Notebooks to interactive webpages. It
-allows notebooks that use [ipywidgets][] or [bqplot][] to be hosted online as
-HTML pages for anyone to view and interact with.
+`nbinteract` is a set of tools to create interactive webpages using Jupyter
+notebooks. Before, creating an interactive webpage required authors to know
+HTML, CSS, and Javascript. With `nbinteract`, if you know Python you know how
+to create an interactive webpage. `nbinteract` makes explanations that make use
+of data especially easy because of its support for interactive visualizations.
 
-Before, creating an interactive webpage required authors to know HTML, CSS, and
-Javascript. With `nbinteract`, authors just need to know Python.
+Currently, `nbinteract` is in an alpha stage because of its quickly-changing
+API.
 
 ## Demo
 
@@ -26,6 +28,10 @@ Javascript. With `nbinteract`, authors just need to know Python.
   to know / work with Javascript.
 - Instructors that want to include interactive examples in their textbooks.
 - Students that want to publish data analysis that contains interactive demos.
+
+## Tutorial and Documentation
+
+[Here's a link to the tutorial and docs for this project.][docs]
 
 ## Getting Started
 
@@ -45,10 +51,6 @@ nbinteract YOUR_NOTEBOOK.ipynb
 Replace `YOUR_NOTEBOOK.ipynb` with the name of your notebook file. You will now
 have an HTML file in the same directory. You can open that HTML file in your
 browser and interact with widgets there.
-
-## Documentation
-
-[Here's a link to the documentation for this project.][docs]
 
 ## Developer Install
 
@@ -74,6 +76,11 @@ yarn install
 make -j2 serve
 ```
 
+## Contributors
+
+This project is developed by [Sam Lau][sam] and Caleb Siu as part of a Masters
+project at UC Berkeley.
+
 [demo]: https://samlau95.gitbooks.io/nbinteract/content/examples/Correlation.html
 [ipywidgets]: https://github.com/jupyter-widgets/ipywidgets
 [bqplot]: https://github.com/bloomberg/bqplot
@@ -82,3 +89,4 @@ make -j2 serve
 [gitbook]: http://gitbook.com/
 [install-nb]: http://jupyter.readthedocs.io/en/latest/install.html
 [docs]: https://samlau95.gitbooks.io/nbinteract/content/
+[sam]: http://www.samlau.me/
