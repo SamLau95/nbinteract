@@ -32,7 +32,7 @@ test: ## Run tests
 bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	VERSION=$$(grep -E -o [0-9]+\.[0-9]+\.[0-9]+ setup.py) ;\
 	cd ../nbinteract-image ;\
-	sed -E -i "s/nbinteract.*/nbinteract>=$$VERSION/" requirements.txt;\
+	sed -E -i '' "s/nbinteract.*/nbinteract>=$$VERSION/" requirements.txt;\
 	git add requirements.txt ;\
 	git commit -m "nbinteract v$$VERSION" ;\
 	git push origin master ;\
