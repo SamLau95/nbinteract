@@ -37,7 +37,7 @@ bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	git commit -m "nbinteract v$$VERSION" ;\
 	git push origin master ;\
 	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb \
-	| grep ready &
+	| grep '"ready"' &
 
 
 start_notebook:
