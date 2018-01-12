@@ -13,4 +13,4 @@ left sidebar or the right and left arrow keys to navigate the docs.
 [We recommend starting with the tutorial which has a complete walkthrough to
 publish an interactive webpage using `nbinteract`.][tutorial]
 
-[tutorial]: tutorial/Interact.md
+[tutorial]: tutorial/tutorial_getting_started.md

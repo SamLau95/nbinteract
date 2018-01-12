@@ -19,6 +19,8 @@ _default_options = {
     'ylabel': '',
     'xlim': (None, None),
     'ylim': (None, None),
+    'bins': 10,
+    'normalized': True,
 }
 
 PLACEHOLDER_ZEROS = np.zeros(10)
@@ -44,6 +46,10 @@ def hist(hist_function, options={}, **interact_params):
             xlim: Tuple containing (lower, upper) for x-axis
             ylim: Tuple containing (lower, upper) for y-axis
 
+            bins (default 10): Non-negative int for the number of bins
+            normalized (default True): Normalize histogram area to 1 if True.
+                If False, plot unmodified counts.
+
         interact_params (dict): Keyword arguments in the same format as
             `ipywidgets.interact`. One argument is required for each argument
             of `hist_function`.
@@ -68,7 +74,9 @@ def hist(hist_function, options={}, **interact_params):
     hist = bq.Hist(sample=_array_or_placeholder(hist_function),
                    scales={'sample': x_sc, 'count': y_sc},
                    colors=[DARK_BLUE],
-                   stroke=DARK_BLUE)
+                   stroke=DARK_BLUE,
+                   bins=options['bins'],
+                   normalized=options['normalized'])
     fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist], title=options['title'])
 
     def wrapped(**interact_params):

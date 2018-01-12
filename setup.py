@@ -18,6 +18,10 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+# Get requirements from requirements.txt
+with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
+    install_requires = f.readlines()
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -38,7 +42,7 @@ class PyTest(TestCommand):
 
 setup(
     name='nbinteract',
-    version='0.0.16',
+    version='0.0.18',
     description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
@@ -69,15 +73,7 @@ setup(
     package_data={
         'nbinteract': ['*.tpl']
     },
-    install_requires=[
-        'nbconvert',
-        'traitlets',
-        'numpy',
-        'bqplot',
-        'ipywidgets',
-        'IPython',
-        'toolz'
-    ],
+    install_requires=install_requires,
 
     extras_require={
         'dev': ['check-manifest'],

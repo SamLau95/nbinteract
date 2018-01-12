@@ -1,0 +1,7 @@
+numpy>=1, <2
+IPython>=6, <7
+nbconvert>=5.3, <5.4
+traitlets>=4.3, <4.4
+bqplot>=0.10, <0.11
+ipywidgets>=7, <7.1
+toolz>=0.8, <1
