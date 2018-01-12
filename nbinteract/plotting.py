@@ -276,8 +276,6 @@ def scatter(x_fn, y_fn, options={}, **interact_params):
 
     Returns:
         None
-    >>> def heights(xs, offset):
-    ...     return xs + offset
 
     >>> def x_values(n): return np.random.choice(100, n)
     >>> def y_values(xs): return np.random.choice(100, len(xs))
