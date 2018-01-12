@@ -38,7 +38,7 @@ class PyTest(TestCommand):
 
 setup(
     name='nbinteract',
-    version='0.0.16',
+    version='0.0.17',
     description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
