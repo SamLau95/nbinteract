@@ -1,35 +1,43 @@
 <div id="ipython-notebook">
-            <div class="cell border-box-sizing code_cell rendered hidden">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
-<span class="kn">import</span> <span class="nn">nbinteract</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+            <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Plotting-using-nbinteract">Plotting using <code>nbinteract</code><a class="anchor-link" href="#Plotting-using-nbinteract">¶</a></h1></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>nbinteract</code> comes with a set of functions that produce Javascript-based plots designed for interaction. Notice that in the example above the function passed into <code>interact</code> creates the plot directly. Most plotting functions that come with <code>nbinteract</code>, however, require response functions to return the <strong>data</strong> to be plotted instead of creating the plot themselves.</p>
-<p>For brevity, we describe two examples here. For a complete list of <code>nbinteract</code> plotting functions, see the API reference.</p></div></div></div>
+<p><code>nbinteract</code> comes with a set of functions that produce Javascript-based plots designed for interaction.</p>
+<p>Most plotting functions that come with <code>nbinteract</code> take in response functions that return the <strong>data</strong> to be plotted.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="nbinteract.hist">nbinteract.hist<a class="anchor-link" href="#nbinteract.hist">¶</a></h3></div></div></div>
+<p>For a complete API reference for each function, you may type the function name in a cell and add a <code>?</code> at the end. For example, to view the API reference for <code>nbi.hist</code>:</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>nbi.hist<span class="o">?</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="nbinteract.hist"><code>nbinteract.hist</code><a class="anchor-link" href="#nbinteract.hist">¶</a></h3></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbinteract.hist</code> takes in a single response function.</p>
-<p>The response function can take in any number of parameters and returns the array of numerical values that will be shown in the histogram.</p>
-<p>The <code>nbinteract.hist</code> function allows interaction with the response function's parameters by specifying them as keyword arguments. Any argument that can be used for <code>ipywidgets.interact</code> can be used for <code>nbinteract.hist</code>.</p></div></div></div>
+<p>The response function returns the array of numerical values that will be shown in the histogram.</p>
+<p>The <code>nbinteract.hist</code> function allows interaction with the response function's parameters by specifying them as keyword arguments in the same format as <code>ipywidgets.interact</code>.</p>
+<p>Any argument that can be used for <code>ipywidgets.interact</code> can be used for <code>nbinteract.hist</code>.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -47,7 +55,7 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hist_response_function</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hist_response_function</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -64,13 +72,13 @@
 
  
  
-<div id="5083307b-f764-4f15-aecd-2ea371e99b1a"></div>
+<div id="c8a42b79-4b0b-4ecc-a991-3dcef83574be"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#5083307b-f764-4f15-aecd-2ea371e99b1a');
+var element = $('#c8a42b79-4b0b-4ecc-a991-3dcef83574be');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "7a31bf365939434880bcf235f7208639"}
+{"version_major": 2, "version_minor": 0, "model_id": "2bd6ad7f2e9f40f997a8d1348fa0bcb0"}
 </script></div></div>
 
 <div class="output_area">
@@ -83,13 +91,13 @@ var element = $('#5083307b-f764-4f15-aecd-2ea371e99b1a');
 
  
  
-<div id="940c30ac-6091-4cdd-a212-cef0ce804189"></div>
+<div id="bf9f1692-333f-40a7-a23e-00791e88ae81"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#940c30ac-6091-4cdd-a212-cef0ce804189');
+var element = $('#bf9f1692-333f-40a7-a23e-00791e88ae81');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "ba1d3967cdc640f78e8d5744a811acda"}
+{"version_major": 2, "version_minor": 0, "model_id": "67022143e132433787f0a312a7c17ed6"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -105,7 +113,7 @@ var element = $('#940c30ac-6091-4cdd-a212-cef0ce804189');
     <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
     <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
 <span class="p">}</span>
-<span class="n">nbinteract</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hist_response_function</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hist_response_function</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -122,13 +130,13 @@ var element = $('#940c30ac-6091-4cdd-a212-cef0ce804189');
 
  
  
-<div id="cfff5b2b-8689-4032-8465-2d21690b9999"></div>
+<div id="ce58d8ae-2e0d-432f-8984-892de607b855"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#cfff5b2b-8689-4032-8465-2d21690b9999');
+var element = $('#ce58d8ae-2e0d-432f-8984-892de607b855');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "aa8c618076514c5da01d5f7ec384159d"}
+{"version_major": 2, "version_minor": 0, "model_id": "46adbfb5837c496c85348afbaef62434"}
 </script></div></div>
 
 <div class="output_area">
@@ -141,13 +149,13 @@ var element = $('#cfff5b2b-8689-4032-8465-2d21690b9999');
 
  
  
-<div id="e94d6385-eb83-4344-952a-50b38dcb8922"></div>
+<div id="51a7b7e9-13bc-45f3-8d1e-e36607e5353d"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#e94d6385-eb83-4344-952a-50b38dcb8922');
+var element = $('#51a7b7e9-13bc-45f3-8d1e-e36607e5353d');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "57f14e24112543f295b07ce332c5144b"}
+{"version_major": 2, "version_minor": 0, "model_id": "da288576e76640589dc57f4b243d8386"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -158,7 +166,7 @@ var element = $('#e94d6385-eb83-4344-952a-50b38dcb8922');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -175,13 +183,13 @@ var element = $('#e94d6385-eb83-4344-952a-50b38dcb8922');
 
  
  
-<div id="57fc7a1c-ee7a-4737-8e3a-d1f5deaa53ce"></div>
+<div id="14402bf8-47e4-437e-b95f-0b83b3d87411"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#57fc7a1c-ee7a-4737-8e3a-d1f5deaa53ce');
+var element = $('#14402bf8-47e4-437e-b95f-0b83b3d87411');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "23733a0cb7934f85aecaa81c98111d34"}
+{"version_major": 2, "version_minor": 0, "model_id": "9c0a2281381943c3be4818089baf8a8c"}
 </script></div></div>
 
 <div class="output_area">
@@ -194,22 +202,88 @@ var element = $('#57fc7a1c-ee7a-4737-8e3a-d1f5deaa53ce');
 
  
  
-<div id="7af587ca-23a1-4b76-b3cf-39c7766076a5"></div>
+<div id="416b645d-68e2-45fa-bbd3-b76ec0ec8531"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#7af587ca-23a1-4b76-b3cf-39c7766076a5');
+var element = $('#416b645d-68e2-45fa-bbd3-b76ec0ec8531');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "b81f1a82f2714889b5169d5a776fbabf"}
+{"version_major": 2, "version_minor": 0, "model_id": "79f2d27bf5f3461fb632a803a2adb592"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="nbinteract.scatter_drag">nbinteract.scatter_drag<a class="anchor-link" href="#nbinteract.scatter_drag">¶</a></h3></div></div></div>
+<h3 id="nbinteract.bar"><code>nbinteract.bar</code><a class="anchor-link" href="#nbinteract.bar">¶</a></h3></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>nbinteract.scatter_drag</code> takes in two lists/arrays consisting of the x-coordinates and y-coordinates of the points to plot. It generates an interactive scatter plot where the points can be dragged by the user and a best fit line is updated automatically according to the placement of the points.</p></div></div></div>
+<p><code>nbinteract.bar</code> generates an bar plot that allows interaction with the parameters for the response functions.</p>
+<p>The first two arguments of <code>nbinteract.bar</code> are response functions that return the x and y-axis data arrays, respectively. Either argument can be arrays themselves. Arguments for the response functions must be passed in as keyword arguments to <code>nbinteract.bar</code> in the format expected by interact. The response function for the y-axis data will be called with the x-axis data as its first argument.</p>
+<p>For example, in the bar plot below <code>categories</code> generates the categories to plot on the x-axis and <code>heights</code> generates the y-axis heights. The <code>heights</code> function uses the parameter <code>xs</code> which is the array of x-axis data points.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">heights</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">offset</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="e0f0b04f-b802-4326-8431-0d514352a42e"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#e0f0b04f-b802-4326-8431-0d514352a42e');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "5a2c30344e7e48299e631bc6a7c1b0fb"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="6e871347-a661-4ef6-bd65-2645dbbec745"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#6e871347-a661-4ef6-bd65-2645dbbec745');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "137f7c12ecb64a0eb90bca0525773bba"}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="nbinteract.scatter_drag"><code>nbinteract.scatter_drag</code><a class="anchor-link" href="#nbinteract.scatter_drag">¶</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>scatter_drag</code> takes in two lists/arrays consisting of the x-coordinates and y-coordinates of the points to plot. It generates an interactive scatter plot where the points can be dragged by the user and a best fit line is updated automatically according to the placement of the points.</p>
+<p><code>scatter_drag</code> does not allow response functions as inputs.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -218,7 +292,7 @@ var element = $('#7af587ca-23a1-4b76-b3cf-39c7766076a5');
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">y_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="n">nbinteract</span><span class="o">.</span><span class="n">scatter_drag</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">)})</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">scatter_drag</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">)})</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -235,78 +309,13 @@ var element = $('#7af587ca-23a1-4b76-b3cf-39c7766076a5');
 
  
  
-<div id="10090bbc-7678-4032-aea3-2b44ade8f9b3"></div>
+<div id="75aee663-23be-4d7e-a9c1-ce9ee1b409ee"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#10090bbc-7678-4032-aea3-2b44ade8f9b3');
+var element = $('#75aee663-23be-4d7e-a9c1-ce9ee1b409ee');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "7d4e7efc0a224cae8649f29382280052"}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="nbinteract.bar">nbinteract.bar<a class="anchor-link" href="#nbinteract.bar">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The first two arguments of <code>nbinteract.bar</code> are response functions that return the x and y-axis data arrays, respectively. Either argument can be arrays themselves. Arguments for the response functions must be passed in as keyword arguments to <code>nbinteract.bar</code> in the format expected by interact. The response function for the y-axis data will be called with the x-axis data as its first argument. <br/> <br/> <code>nbinteract.bar</code> generates an bar plot that allows interaction with the parameters for the response functions.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For example, in the bar plot below, <code>categories</code> generates the x-axis data and <code>heights</code> generates the y-axis data. The <code>heights</code> function uses the parameter <code>xs</code> which is the array of x-axis data points.</p></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">heights</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">offset</span>
-<span class="n">nbinteract</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="3b525541-82ca-4705-b768-8f2807dbf936"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#3b525541-82ca-4705-b768-8f2807dbf936');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "246e25b20c114856ab7360ac35997efe"}
-</script></div></div>
-
-<div class="output_area">
-
-
-
-
-
-
-
- 
- 
-<div id="8f415603-1481-4659-b443-d132b7e78733"></div>
-<div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#8f415603-1481-4659-b443-d132b7e78733');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "cd60ff2973dd45c2807330d1ce1f369b"}
+{"version_major": 2, "version_minor": 0, "model_id": "f0601f9183ea4a8c857fbd27e1601d42"}
 </script></div></div></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({

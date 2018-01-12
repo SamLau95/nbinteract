@@ -15,6 +15,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -142,8 +143,15 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">301</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">600</span><span class="p">)</span>
-<span class="n">united</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="n">delay_bins</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s1">'minute'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Delay (minute)'</span><span class="p">,</span>
+    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Percent per minute'</span><span class="p">,</span>
+    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">),</span>
+    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">62</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">united</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">delay_opts</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -157,8 +165,36 @@
 
 
 
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/examples_sampling_from_a_population_6_0.png"/></div></div></div></div></div>
+
+ 
+ 
+<div id="f8acf1a6-74ab-4bd2-b252-8249d7f7ecc4"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#f8acf1a6-74ab-4bd2-b252-8249d7f7ecc4');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "fe4718ae0fd64a3aaac7898cc69a5a28"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="2206e341-1605-4fa5-8971-f1c6c1431fc4"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#2206e341-1605-4fa5-8971-f1c6c1431fc4');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "a5d3a77049b14dcd908032b1dea0cd51"}
+</script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -189,8 +225,15 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">united</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="n">delay_bins</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s1">'minute'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Delay (minute)'</span><span class="p">,</span>
+    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Percent per minute'</span><span class="p">,</span>
+    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.045</span><span class="p">),</span>
+    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">united</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">delay_opts</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -204,8 +247,36 @@
 
 
 
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/examples_sampling_from_a_population_9_0.png"/></div></div></div></div></div>
+
+ 
+ 
+<div id="db127884-ede2-46f2-bdf3-214a028c3545"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#db127884-ede2-46f2-bdf3-214a028c3545');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "002b4b0b82f44802b6c0e156110608ed"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="56baef00-8147-4e23-ae50-3d7b58cae071"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#56baef00-8147-4e23-ae50-3d7b58cae071');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "e01c449aaa2543f296bf3ce6faa9e140"}
+</script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -234,17 +305,14 @@
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Empirical-Distribution-of-the-Sample">Empirical Distribution of the Sample<a class="anchor-link" href="#Empirical-Distribution-of-the-Sample">¶</a></h3><p>Let us now think of the 13,825 flights as a population, and draw random samples from it with replacement. It is helpful to package our analysis code into a function. The function <code>empirical_hist_delay</code> takes the sample size as its argument and draws an empiricial histogram of the results.</p></div></div></div>
+<h3 id="Empirical-Distribution-of-the-Sample">Empirical Distribution of the Sample<a class="anchor-link" href="#Empirical-Distribution-of-the-Sample">¶</a></h3><p>Let us now think of the 13,825 flights as a population, and draw random samples from it with replacement. It is helpful to package our analysis code into a function. The function <code>empirical_delays</code> takes the sample size as its argument and returns the array of sampled flight delays.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">empirical_hist_delay</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">united</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="n">delay_bins</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s1">'minute'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">empirical_hist_delay</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">united</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">)</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -255,8 +323,9 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">empirical_hist_delay</span><span class="p">,</span>
-             <span class="n">n</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">'Sample Size'</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">empirical_hist_delay</span><span class="p">,</span>
+         <span class="n">options</span><span class="o">=</span><span class="n">delay_opts</span><span class="p">,</span>
+         <span class="n">sample_size</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">'Sample Size: '</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -273,13 +342,32 @@
 
  
  
-<div id="92d06088-69e8-4786-afb3-71a14caca3b9"></div>
+<div id="37d40d34-8176-4f3b-869d-61155cbf592f"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#92d06088-69e8-4786-afb3-71a14caca3b9');
+var element = $('#37d40d34-8176-4f3b-869d-61155cbf592f');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "2646e316c1704034809d57fdf150c314"}
+{"version_major": 2, "version_minor": 0, "model_id": "8ff6b6131dfa45d9b9a78eca5fe19baa"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="6049b19e-fdfa-4d8b-92be-6ed63865ad4c"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#6049b19e-fdfa-4d8b-92be-6ed63865ad4c');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "811e890bacaa4297897a95bb77721dbb"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
