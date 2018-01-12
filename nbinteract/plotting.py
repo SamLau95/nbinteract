@@ -10,17 +10,27 @@ from . import util
 
 __all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line']
 
+PLACEHOLDER_ZEROS = np.zeros(10)
+PLACEHOLDER_RANGE = np.arange(10)
 
 DARK_BLUE = '#475A77'
 GOLDENROD = '#FEC62C'
 
+
+##############################################################################
+# Helpers for plot options
+##############################################################################
+
 # Default plot options
 default_options = {
     'title': '',
+    'aspect_ratio': None,
+
     'xlabel': '',
     'ylabel': '',
     'xlim': (None, None),
     'ylim': (None, None),
+
     'bins': 10,
     'normalized': True,
 }
@@ -32,17 +42,17 @@ options_docstring = '''options (dict): Options for the plot. Available options:
 
 option_doc = {
     'title': 'Title of the plot',
+    'aspect_ratio': 'Aspect ratio of plot figure (float)',
+
     'xlabel': 'Label of the x-axis',
     'ylabel': 'Label of the y-axis',
     'xlim': 'Tuple containing (lower, upper) for x-axis',
     'ylim': 'Tuple containing (lower, upper) for y-axis',
+
     'bins': 'Non-negative int for the number of bins (default 10)',
     'normalized': ('Normalize histogram area to 1 if True. If False, plot '
                    'unmodified counts. (default True)'),
 }
-
-PLACEHOLDER_ZEROS = np.zeros(10)
-PLACEHOLDER_RANGE = np.arange(10)
 
 
 def _update_option_docstring(func, allowed, indent='    ' * 3):
@@ -120,6 +130,10 @@ def use_options(allowed, defaults=default_options):
 
     return update_docstring
 
+
+##############################################################################
+# Plotting functions
+##############################################################################
 
 @use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim',
               'bins', 'normalized'])
@@ -423,7 +437,6 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     interactive(...)
     """
-
     x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -446,6 +459,14 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
     display(fig)
+
+
+##############################################################################
+# Private helper functions
+##############################################################################
+
+def _create_plot():
+    pass
 
 
 def _array_or_placeholder(maybe_iterable,
