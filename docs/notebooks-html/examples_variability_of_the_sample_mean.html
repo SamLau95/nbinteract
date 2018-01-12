@@ -12,6 +12,7 @@
 <span class="n">plots</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'fivethirtyeight'</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -52,15 +53,20 @@
 
 <div class="output_text output_subarea output_execute_result">
 <pre>16.658155515370705</pre></div></div></div></div></div>
-<div class="cell border-box-sizing code_cell rendered hidden">
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
-<span class="n">delay</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pop_mean</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0008</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'^'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'darkblue'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.004</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Delay (minute)'</span><span class="p">,</span>
+    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Percent per minute'</span><span class="p">,</span>
+    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.037</span><span class="p">),</span>
+    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">united</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">delay_opts</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -74,8 +80,36 @@
 
 
 
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/examples_variability_of_the_sample_mean_5_0.png"/></div></div></div></div></div>
+
+ 
+ 
+<div id="18155067-f803-4221-b837-45f7146e98d0"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#18155067-f803-4221-b837-45f7146e98d0');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "0f7cad2afd2e4eada94ac3aa45f5eed1"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="f5178de5-f526-4e01-be6e-a1e9872bbd73"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#f5178de5-f526-4e01-be6e-a1e9872bbd73');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "a772c1df92e944deaba0e481959b4c73"}
+</script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -88,34 +122,27 @@
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">"""Empirical distribution of random sample means"""</span>
 
-<span class="k">def</span> <span class="nf">simulate_sample_mean</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">):</span>
-    
+<span class="k">def</span> <span class="nf">simulate_sample_mean</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="n">means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
         <span class="n">new_sample</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
         <span class="n">new_sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">new_sample</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
         <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">new_sample_mean</span><span class="p">)</span>
-
-    <span class="n">sample_means</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">'Sample Means'</span><span class="p">,</span> <span class="n">means</span><span class="p">)</span>
     
-    <span class="c1"># Display empirical histogram and print all relevant quantities</span>
-    <span class="n">sample_means</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Sample Means'</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Sample Size '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span>
+    
+    <span class="c1"># Print all relevant quantities</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Sample size: "</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Population mean:"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Average of sample means: "</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Population SD:"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"SD of sample means:"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">means</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let us simulate the mean of a random sample of 100 delays, then of 400 delays, and finally of 625 delays. We will perform 2000 repetitions of each of these process.</p></div></div></div>
+<p>Let us simulate the mean of a random sample of 100 delays, then of 400 delays, and finally of 625 delays. We will perform 1000 repetitions of each of these process.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -125,9 +152,17 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">simulate_sample_mean</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">delay</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">),</span>
-             <span class="n">sample_size</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">625</span><span class="p">]),</span>
-             <span class="n">repetitions</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">means_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Sample Means'</span><span class="p">,</span>
+    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Percent per unit'</span><span class="p">,</span>
+    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
+    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">simulate_sample_mean</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">delay</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="s1">'Delay'</span><span class="p">),</span>
+         <span class="n">sample_size</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">625</span><span class="p">]),</span>
+         <span class="n">options</span><span class="o">=</span><span class="n">means_opts</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -144,13 +179,32 @@
 
  
  
-<div id="972906b2-f44f-411e-8458-1fddf391643e"></div>
+<div id="8981fa55-e6a2-4ab6-aed8-4066d0e59a76"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#972906b2-f44f-411e-8458-1fddf391643e');
+var element = $('#8981fa55-e6a2-4ab6-aed8-4066d0e59a76');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "3b2f7cf047544e91857f5f5aad30f247"}
+{"version_major": 2, "version_minor": 0, "model_id": "27c1a0846dfa44e68991df5890fffcb4"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="3017267a-5a45-4679-a08b-5a1927d5a8ab"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#3017267a-5a45-4679-a08b-5a1927d5a8ab');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "73c363a6e2e44f77bab165a1809e6ae9"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">

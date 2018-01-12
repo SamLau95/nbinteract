@@ -1,26 +1,27 @@
 <div id="ipython-notebook">
-            <div class="cell border-box-sizing code_cell rendered hidden">
+            <div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Interactive-Questions">Interactive Questions<a class="anchor-link" href="#Interactive-Questions">¶</a></h1><p>nbinteract also provides built-in methods to easily create multiple choice and short answer questions.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN </span>
-<span class="kn">import</span> <span class="nn">nbinteract</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Interactive-Questions">Interactive Questions<a class="anchor-link" href="#Interactive-Questions">¶</a></h1><p>nbinteract also provides built-in methods to easily create multiple choice and short answer questions.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="nbinteract.multiple_choice">nbinteract.multiple_choice<a class="anchor-link" href="#nbinteract.multiple_choice">¶</a></h2><p><code>nbinteract.multiple_choice</code> takes a question in the form of a string, a list of possible answer choices, and the correct answer. The user will get instant feedback when they click on the answer choices.</p></div></div></div>
+<h2 id="nbinteract.multiple_choice">nbinteract.multiple_choice<a class="anchor-link" href="#nbinteract.multiple_choice">¶</a></h2><p><code>nbinteract.multiple_choice</code> takes a question, a list of possible answer choices, and the correct answer. Clicking the buttons shows whether the choice was correct.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"What is 1+1?"</span><span class="p">,</span> <span class="n">answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">],</span> <span class="n">correct_answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'2'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"What is 10 + 2 * 5?"</span><span class="p">,</span>
+                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">'12'</span><span class="p">,</span> <span class="s1">'60'</span><span class="p">,</span> <span class="s1">'20'</span><span class="p">],</span>
+                    <span class="n">answers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -37,28 +38,57 @@
 
  
  
-<div id="1afdfddc-0277-44ea-8888-eb515f4e8986"></div>
+<div id="4ee39677-0aa3-4267-a501-fa4f53bb8632"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#1afdfddc-0277-44ea-8888-eb515f4e8986');
+var element = $('#4ee39677-0aa3-4267-a501-fa4f53bb8632');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "bef7e5fb8cb143fcac0c784da67a7763"}
+{"version_major": 2, "version_minor": 0, "model_id": "de2dd3509e344b108adf6ef9df75e24f"}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"Select all prime numbers."</span><span class="p">,</span>
+                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">'12'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'31'</span><span class="p">],</span>
+                    <span class="n">answers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="079316d2-cb4a-4967-a323-8c2378cf9ac8"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#079316d2-cb4a-4967-a323-8c2378cf9ac8');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "7c10638768f141068a8f3187c8090f45"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="nbinteract.short_answer">nbinteract.short_answer<a class="anchor-link" href="#nbinteract.short_answer">¶</a></h2><p><code>nbinteract.short_answer</code> takes a question in the form of a string, a list of possible answer choices, a function to check the answer and an optional explanation when the user inputs a correct answer. The quesiton writer can either choose to input a list of answer choices, or a function that returns True when the answer is right or both.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this example, the question checks if the answer is in the answer_list.</p></div></div></div>
+<h2 id="nbinteract.short_answer">nbinteract.short_answer<a class="anchor-link" href="#nbinteract.short_answer">¶</a></h2><p><code>nbinteract.short_answer</code> takes a question and an answer.</p>
+<p>The answer can either be a string, a list of strings, or a function that returns <code>True</code> when called with the user's input. If the function errors, an error message will be displayed.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'What is 1+1??'</span><span class="p">,</span> <span class="n">answer_list</span><span class="o">=</span><span class="p">[</span><span class="s1">'2'</span><span class="p">],</span> <span class="n">explanation</span><span class="o">=</span><span class="s1">'1+1 is 2'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'What is 1+1?'</span><span class="p">,</span> <span class="n">answers</span><span class="o">=</span><span class="s1">'2'</span><span class="p">,</span> <span class="n">explanation</span><span class="o">=</span><span class="s1">'1+1 is 2'</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -75,24 +105,21 @@ var element = $('#1afdfddc-0277-44ea-8888-eb515f4e8986');
 
  
  
-<div id="3128a49e-a115-43de-85b2-5ac4854df34e"></div>
+<div id="a8b11ac9-c015-4ac1-aea9-9a24b9d3c308"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#3128a49e-a115-43de-85b2-5ac4854df34e');
+var element = $('#a8b11ac9-c015-4ac1-aea9-9a24b9d3c308');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "ef5f5da00adc4ef59f0a74976bc6d6ae"}
+{"version_major": 2, "version_minor": 0, "model_id": "0f1c42124c694e838394799369ad7b76"}
 </script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this example, the answer is passed into the check_function and if the output is True, then the answer is marked as correct.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbinteract</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter an even number.'</span><span class="p">,</span> <span class="n">check_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">%</span><span class="k">2</span>==0)
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter the first name of a member of the Beatles.'</span><span class="p">,</span>
+                 <span class="p">[</span><span class="s1">'John'</span><span class="p">,</span> <span class="s1">'Paul'</span><span class="p">,</span> <span class="s1">'George'</span><span class="p">,</span> <span class="s1">'Ringo'</span><span class="p">])</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -109,13 +136,43 @@ var element = $('#3128a49e-a115-43de-85b2-5ac4854df34e');
 
  
  
-<div id="9b4e2e65-3251-41b9-a71f-33910607a8ec"></div>
+<div id="d7d5026e-fe47-4bef-816f-9fe7c5259209"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#9b4e2e65-3251-41b9-a71f-33910607a8ec');
+var element = $('#d7d5026e-fe47-4bef-816f-9fe7c5259209');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "3bab4b51bcf9437a9dcfe37a2fa12168"}
+{"version_major": 2, "version_minor": 0, "model_id": "fda85ec395ec41af999776ba2a5b39b6"}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter an even number.'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="ea49e89d-9397-4a17-b093-de4757dbd2d4"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#ea49e89d-9397-4a17-b093-de4757dbd2d4');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "529c41f0bff549dc9683b7a17d1c0e65"}
 </script></div></div></div></div></div>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({

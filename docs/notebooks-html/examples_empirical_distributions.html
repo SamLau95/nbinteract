@@ -19,6 +19,7 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -86,8 +87,9 @@
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">die_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">die</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="n">die_bins</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">die_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'bins'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">die</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Face'</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">die_options</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -101,8 +103,36 @@
 
 
 
-<div class="output_png output_subarea ">
-<img src="/notebooks-images/examples_empirical_distributions_4_0.png"/></div></div></div></div></div>
+
+ 
+ 
+<div id="73700cc7-de58-4d07-8872-0f3a44922ae2"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#73700cc7-de58-4d07-8872-0f3a44922ae2');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "d3c83414ea21409d9fefdbae144f6960"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="e1c5bb8e-c351-4b6d-86d7-65bff0e101ab"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#e1c5bb8e-c351-4b6d-86d7-65bff0e101ab');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "8a26d020028f469ebdacb52fdfefad26"}
+</script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -142,26 +172,25 @@ to see different samples.</p></div></div></div>
 
  
  
-<div id="8ee40c5f-8641-4a69-91bd-c6b78343deff"></div>
+<div id="a2067e37-f9c4-46dd-96f3-ba0ecc0ae6eb"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#8ee40c5f-8641-4a69-91bd-c6b78343deff');
+var element = $('#a2067e37-f9c4-46dd-96f3-ba0ecc0ae6eb');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "996080d7b6434e7d865c357505f97743"}
+{"version_major": 2, "version_minor": 0, "model_id": "e919217e9f404c20a551a9aa68fba9b7"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can use the same method to simulate as many rolls as we like, and then draw empirical histograms of the results. Because we are going to do this repeatedly, we define a function <code>empirical_hist_die</code> that takes as its argument the sample size; the function rolls the die as many times as its argument and then draws a histogram.</p></div></div></div>
+<p>We can use the same method to simulate as many rolls as we like, and then draw empirical histograms of the results. Because we are going to do this repeatedly, we define a function <code>empirical_die_rolls</code> that takes as its argument the sample size; the function rolls the die as many times as its argument and then returns the die rolls in an array.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">empirical_hist_die</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sample_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">die</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">empirical_die_rolls</span><span class="p">(</span><span class="n">n_rolls</span><span class="p">,</span> <span class="n">sample_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">die</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_rolls</span><span class="p">)</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">'Face'</span><span class="p">)</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -172,7 +201,10 @@ var element = $('#8ee40c5f-8641-4a69-91bd-c6b78343deff');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">empirical_hist_die</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">die_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'bins'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">empirical_die_rolls</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">die_options</span><span class="p">,</span>
+         <span class="n">n_rolls</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">sample_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -189,13 +221,32 @@ var element = $('#8ee40c5f-8641-4a69-91bd-c6b78343deff');
 
  
  
-<div id="39ac0697-e116-481b-9f3c-f90c8de0d79c"></div>
+<div id="628f74c9-4117-425b-93fa-0e80f1d8cdca"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#39ac0697-e116-481b-9f3c-f90c8de0d79c');
+var element = $('#628f74c9-4117-425b-93fa-0e80f1d8cdca');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "b617b76a613541a294a39751f7b96578"}
+{"version_major": 2, "version_minor": 0, "model_id": "d2ff7047841542449099c24e6c211d19"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="4fbd2dcc-c10b-424d-85cf-444638d4db3b"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#4fbd2dcc-c10b-424d-85cf-444638d4db3b');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "79c16f21e358449d9d82dbc617b628ae"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
@@ -206,9 +257,9 @@ var element = $('#39ac0697-e116-481b-9f3c-f90c8de0d79c');
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">empirical_hist_die</span><span class="p">,</span>
-             <span class="n">n</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span>
-             <span class="n">sample_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">empirical_die_rolls</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">die_options</span><span class="p">,</span>
+         <span class="n">n_rolls</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+         <span class="n">sample_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -225,13 +276,32 @@ var element = $('#39ac0697-e116-481b-9f3c-f90c8de0d79c');
 
  
  
-<div id="660add34-ed58-419f-aec1-1bc99717cbcd"></div>
+<div id="e445c76a-cf84-423a-a6ae-646b3c133558"></div>
 <div class="output_subarea output_widget_view ">
 <script type="text/javascript">
-var element = $('#660add34-ed58-419f-aec1-1bc99717cbcd');
+var element = $('#e445c76a-cf84-423a-a6ae-646b3c133558');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
-{"version_minor": 0, "version_major": 2, "model_id": "d113db6d60b0489c95fa8f12c50dea70"}
+{"version_major": 2, "version_minor": 0, "model_id": "e597a521c3d24e588e217c69c5ac3c87"}
+</script></div></div>
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="3da98b97-9cd8-439b-b7a1-5e7319b75473"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#3da98b97-9cd8-439b-b7a1-5e7319b75473');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "dc8ea23f657d4b8c9c3c93278ade7297"}
 </script></div></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">

@@ -49,7 +49,6 @@ start_webpack:
 build_py: ## Build python package
 	rm -rf dist/*
 	python setup.py bdist_wheel
-	make bump_binder
 
 build_js: ## Build Javascript bundle
 	lerna run build --stream
@@ -57,8 +56,9 @@ build_js: ## Build Javascript bundle
 	git add packages
 	git commit -m 'Build JS'
 
-publish_py: build_py ## Publish nbinteract to PyPi
+publish_py: build_py ## Publish nbinteract to PyPi and updates Binder image
 	twine upload dist/*
+	make bump_binder
 
 publish_js: build_js ## Publish nbinteract to npm
 	lerna publish --force-publish=* -m "Publish js %s"
