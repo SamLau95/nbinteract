@@ -3,31 +3,141 @@ import bqplot as bq
 import collections
 import ipywidgets as widgets
 from IPython.display import display
+import functools
+import logging
 
 from . import util
 
 __all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line']
 
+PLACEHOLDER_ZEROS = np.zeros(10)
+PLACEHOLDER_RANGE = np.arange(10)
 
 DARK_BLUE = '#475A77'
 GOLDENROD = '#FEC62C'
 
+
+##############################################################################
+# Helpers for plot options
+##############################################################################
+
 # Default plot options
-_default_options = {
+default_options = {
     'title': '',
+    'aspect_ratio': None,
+
     'xlabel': '',
     'ylabel': '',
     'xlim': (None, None),
     'ylim': (None, None),
+
     'bins': 10,
     'normalized': True,
 }
 
-PLACEHOLDER_ZEROS = np.zeros(10)
-PLACEHOLDER_RANGE = np.arange(10)
+options_docstring = '''options (dict): Options for the plot. Available options:
+
+            {desc}
+'''.rstrip()
+
+option_doc = {
+    'title': 'Title of the plot',
+    'aspect_ratio': 'Aspect ratio of plot figure (float)',
+
+    'xlabel': 'Label of the x-axis',
+    'ylabel': 'Label of the y-axis',
+    'xlim': 'Tuple containing (lower, upper) for x-axis',
+    'ylim': 'Tuple containing (lower, upper) for y-axis',
+
+    'bins': 'Non-negative int for the number of bins (default 10)',
+    'normalized': ('Normalize histogram area to 1 if True. If False, plot '
+                   'unmodified counts. (default True)'),
+}
 
 
-def hist(hist_function, options={}, **interact_params):
+def _update_option_docstring(func, allowed, indent='    ' * 3):
+    """
+    Updates docstring of func, filling in appearance of {options} with a
+    description of the options.
+
+    >>> def f(): '''{options}'''
+    >>> f = _update_option_docstring(f, ['title', 'xlim'])
+    >>> print(f.__doc__)
+    options (dict): Options for the plot. Available options:
+    <BLANKLINE>
+                title: Title of the plot
+                xlim: Tuple containing (lower, upper) for x-axis
+    <BLANKLINE>
+    """
+    if not (func.__doc__ and '{options}' in func.__doc__):
+        return func
+
+    descriptions = [option + ': ' + option_doc[option] for option in allowed]
+    full_desc = ('\n' + indent).join(descriptions)
+    func.__doc__ = func.__doc__.format(
+        options=options_docstring.format(desc=full_desc)
+    )
+    return func
+
+
+def use_options(allowed, defaults=default_options):
+    """
+    Decorator that logs warnings when unpermitted options are passed into its
+    wrapped function. Fills in missing options with their default values if not
+    present.
+
+    Requires that wrapped function has an keyword-only argument named `option`.
+    If wrapped function has {option} in its docstring, fills in with the docs
+    for allowed options.
+
+    Args:
+        allowed (list str): list of option keys allowed. If the wrapped
+            function is called with an option not in allowed, log a warning.
+            All values in allowed must also be present in `defaults`.
+
+    Kwargs:
+        defaults (dict): Dict of default option values.
+
+    Returns:
+        Wrapped function with options validation.
+
+    >>> @use_options(['title'])
+    ... def test(*, options={}): return options['title']
+
+    >>> test(options={'title': 'Hello'})
+    'Hello'
+
+    >>> test(options={'not_allowed': 123}) # Also logs error message
+    ''
+    """
+    def update_docstring(f):
+        _update_option_docstring(f, allowed)
+
+        @functools.wraps(f)
+        def check_options(*args, **kwargs):
+            options = kwargs.get('options', {})
+            not_allowed = [option for option in options
+                           if option not in allowed]
+            if not_allowed:
+                logging.warning('The following options are not supported by '
+                                'this function and will likely result in '
+                                'undefined behavior: {}.'.format(not_allowed))
+            options_with_defaults = {**defaults, **options}
+            kwargs_with_defaults = {**kwargs, 'options': options_with_defaults}
+
+            return f(*args, **kwargs_with_defaults)
+        return check_options
+
+    return update_docstring
+
+
+##############################################################################
+# Plotting functions
+##############################################################################
+
+@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim',
+              'bins', 'normalized'])
+def hist(hist_function, *, options={}, **interact_params):
     """
     Generates an interactive histogram that allows users to change the
     parameters of the input hist_function.
@@ -38,17 +148,8 @@ def hist(hist_function, options={}, **interact_params):
             array of numbers. These numbers will be plotted in the resulting
             histogram.
 
-        options (dict): Options for the plot. Available options:
-
-            title: Title of the plot
-            xlabel: Label of the x-axis
-            ylabel: Label of the y-axis
-            xlim: Tuple containing (lower, upper) for x-axis
-            ylim: Tuple containing (lower, upper) for y-axis
-
-            bins (default 10): Non-negative int for the number of bins
-            normalized (default True): Normalize histogram area to 1 if True.
-                If False, plot unmodified counts.
+    Kwargs:
+        {options}
 
         interact_params (dict): Keyword arguments in the same format as
             `ipywidgets.interact`. One argument is required for each argument
@@ -62,8 +163,6 @@ def hist(hist_function, options={}, **interact_params):
     >>> hist(gen_random, n_points=(0, 1000, 10))
     interactive(...)
     """
-    options = {**_default_options, **options}
-
     x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -87,7 +186,8 @@ def hist(hist_function, options={}, **interact_params):
     display(fig)
 
 
-def bar(x_fn, y_fn, options={}, **interact_params):
+@use_options(['title', 'xlabel', 'ylabel', 'ylim'])
+def bar(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -108,12 +208,8 @@ def bar(x_fn, y_fn, options={}, **interact_params):
             array of numbers. These will become the heights of the bars on the
             y-axis.
 
-        options (dict): Options for the plot. Available options:
-
-            title: Title of the plot
-            xlabel: Label of the x-axis
-            ylabel: Label of the y-axis
-            ylim: Tuple containing (lower, upper) for y-axis
+    Kwargs:
+        {options}
 
         interact_params (dict): Keyword arguments in the same format as
             `ipywidgets.interact`. One argument is required for each argument
@@ -138,8 +234,6 @@ def bar(x_fn, y_fn, options={}, **interact_params):
     >>> bar(categories, multiply, x__n=(0, 10), y__n=(1, 10))
     interactive(...)
     """
-    options = {**_default_options, **options}
-
     x_sc = bq.OrdinalScale()
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -166,7 +260,8 @@ def bar(x_fn, y_fn, options={}, **interact_params):
     display(fig)
 
 
-def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
+@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
                  options={}):
     """
     Generates an interactive scatter plot with the best fit line plotted over
@@ -178,16 +273,11 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
 
         y_points (Array Number): y-values of points to plot
 
+    Kwargs:
         show_eqn (bool): If True (default), displays the best fit line's
             equation above the scatterplot.
 
-        options (dict): Options for the plot. Available options:
-
-            title: Title of the plot
-            xlabel: Label of the x-axis
-            ylabel: Label of the y-axis
-            xlim: Tuple containing (lower, upper) for x-axis
-            ylim: Tuple containing (lower, upper) for y-axis
+        {options}
 
     Returns:
         None
@@ -197,8 +287,6 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
     >>> scatter_drag(xs, ys)
     VBox(...)
     """
-    options = {**_default_options, **options}
-
     x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -239,7 +327,8 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', show_eqn=True,
     display(layout)
 
 
-def scatter(x_fn, y_fn, options={}, **interact_params):
+@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+def scatter(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive scatter chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -260,13 +349,8 @@ def scatter(x_fn, y_fn, options={}, **interact_params):
             array of numbers. These will become the y-coordinates of the
             scatter plot.
 
-        options (dict): Options for the plot. Available options:
-
-            title: Title of the plot
-            xlabel: Label of the x-axis
-            ylabel: Label of the y-axis
-            xlim: Tuple containing (lower, upper) for x-axis
-            ylim: Tuple containing (lower, upper) for y-axis
+    Kwargs:
+        {options}
 
         interact_params (dict): Keyword arguments in the same format as
             `ipywidgets.interact`. One argument is required for each argument
@@ -280,10 +364,8 @@ def scatter(x_fn, y_fn, options={}, **interact_params):
     >>> def x_values(n): return np.random.choice(100, n)
     >>> def y_values(xs): return np.random.choice(100, len(xs))
     >>> scatter(x_values, y_values, n=(0,200))
-    interact(...)
+    interactive(...)
     """
-    options = {**_default_options, **options}
-
     x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -312,7 +394,8 @@ def scatter(x_fn, y_fn, options={}, **interact_params):
     display(fig)
 
 
-def line(x_fn, y_fn, options={}, **interact_params):
+@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+def line(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive line chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -333,13 +416,8 @@ def line(x_fn, y_fn, options={}, **interact_params):
             array of numbers. These will become the y-coordinates of the line
             plot.
 
-        options (dict): Options for the plot. Available options:
-
-            title: Title of the plot
-            xlabel: Label of the x-axis
-            ylabel: Label of the y-axis
-            xlim: Tuple containing (lower, upper) for x-axis
-            ylim: Tuple containing (lower, upper) for y-axis
+    Kwargs:
+        {options}
 
         interact_params (dict): Keyword arguments in the same format as
             `ipywidgets.interact`. One argument is required for each argument
@@ -359,9 +437,6 @@ def line(x_fn, y_fn, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     interactive(...)
     """
-
-    options = {**_default_options, **options}
-
     x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
     y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
 
@@ -384,6 +459,14 @@ def line(x_fn, y_fn, options={}, **interact_params):
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
     display(fig)
+
+
+##############################################################################
+# Private helper functions
+##############################################################################
+
+def _create_plot():
+    pass
 
 
 def _array_or_placeholder(maybe_iterable,
