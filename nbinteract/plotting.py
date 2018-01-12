@@ -265,6 +265,7 @@ def scatter(x_fn, y_fn, options={}, **interact_params):
             title: Title of the plot
             xlabel: Label of the x-axis
             ylabel: Label of the y-axis
+            xlim: Tuple containing (lower, upper) for x-axis
             ylim: Tuple containing (lower, upper) for y-axis
 
         interact_params (dict): Keyword arguments in the same format as
@@ -339,6 +340,7 @@ def line(x_fn, y_fn, options={}, **interact_params):
             title: Title of the plot
             xlabel: Label of the x-axis
             ylabel: Label of the y-axis
+            xlim: Tuple containing (lower, upper) for x-axis
             ylim: Tuple containing (lower, upper) for y-axis
 
         interact_params (dict): Keyword arguments in the same format as
