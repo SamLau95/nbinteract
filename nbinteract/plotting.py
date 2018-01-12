@@ -5,6 +5,7 @@ import ipywidgets as widgets
 from IPython.display import display
 import functools
 import logging
+import toolz.curried as tz
 
 from . import util
 
@@ -21,10 +22,10 @@ GOLDENROD = '#FEC62C'
 # Helpers for plot options
 ##############################################################################
 
-# Default plot options
+# Default plot options, copied from bqplot's default values
 default_options = {
     'title': '',
-    'aspect_ratio': None,
+    'aspect_ratio': 6.0,
 
     'xlabel': '',
     'ylabel': '',
@@ -135,7 +136,7 @@ def use_options(allowed, defaults=default_options):
 # Plotting functions
 ##############################################################################
 
-@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim',
+@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim',
               'bins', 'normalized'])
 def hist(hist_function, *, options={}, **interact_params):
     """
@@ -163,20 +164,18 @@ def hist(hist_function, *, options={}, **interact_params):
     >>> hist(gen_random, n_points=(0, 1000, 10))
     interactive(...)
     """
-    x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
-    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
+    params = {
+        'mark': {
+            'sample': _array_or_placeholder(hist_function),
+            'bins': tz.get('bins'),
+            'normalized': tz.get('normalized'),
+            'scales': (
+                lambda opts: {'sample': opts['x_sc'], 'count': opts['y_sc']}
+            ),
+        },
+    }
 
-    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
-    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
-                   grid_lines='solid')
-
-    hist = bq.Hist(sample=_array_or_placeholder(hist_function),
-                   scales={'sample': x_sc, 'count': y_sc},
-                   colors=[DARK_BLUE],
-                   stroke=DARK_BLUE,
-                   bins=options['bins'],
-                   normalized=options['normalized'])
-    fig = bq.Figure(axes=[ax_x, ax_y], marks=[hist], title=options['title'])
+    hist, fig = _create_plot(mark=bq.Hist, options=options, params=params)
 
     def wrapped(**interact_params):
         hist.sample = util.call_if_needed(hist_function, interact_params)
@@ -186,7 +185,7 @@ def hist(hist_function, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'xlabel', 'ylabel', 'ylim'])
+@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'ylim'])
 def bar(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
@@ -234,19 +233,15 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     >>> bar(categories, multiply, x__n=(0, 10), y__n=(1, 10))
     interactive(...)
     """
-    x_sc = bq.OrdinalScale()
-    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
+    params = {
+        'mark': {
+            'x': _array_or_placeholder(x_fn, PLACEHOLDER_RANGE),
+            'y': _array_or_placeholder(y_fn)
+        }
+    }
 
-    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
-    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
-                   grid_lines='solid')
-
-    bar = bq.Bars(x=_array_or_placeholder(x_fn, PLACEHOLDER_RANGE),
-                  y=_array_or_placeholder(y_fn),
-                  scales={'x': x_sc, 'y': y_sc},
-                  colors=[DARK_BLUE],
-                  stroke=DARK_BLUE)
-    fig = bq.Figure(axes=[ax_x, ax_y], marks=[bar], title=options['title'])
+    bar, fig = _create_plot(x_sc=bq.OrdinalScale, mark=bq.Bars,
+                            options=options, params=params)
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -260,7 +255,7 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
 def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
                  options={}):
     """
@@ -287,32 +282,28 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
     >>> scatter_drag(xs, ys)
     VBox(...)
     """
-    x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
-    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
+    params = {
+        'mark': {
+            'x': x_points,
+            'y': y_points,
+            'enable_move': True,
+        }
+    }
 
-    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
-    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
-                   grid_lines='solid')
+    scat, fig = _create_plot(mark=bq.Scatter, options=options, params=params)
 
-    scat = bq.Scatter(x=x_points,
-                      y=y_points,
-                      scales={'x': x_sc, 'y': y_sc},
-                      colors=[DARK_BLUE],
-                      stroke=DARK_BLUE,
-                      enable_move=True)
-
-    lin = bq.Lines(scales={'x': x_sc, 'y': y_sc},
+    # Add line to figure
+    lin = bq.Lines(scales=scat.scales,
                    animation_duration=5000,
                    colors=[GOLDENROD])
-    fig = bq.Figure(marks=[scat, lin],
-                    axes=[ax_x, ax_y],
-                    title=options['title'])
+    fig.marks = [scat, lin]
 
     # equation label
     label = widgets.Label()
 
     # create line fit to data and display equation
     def update_line(change=None):
+        x_sc = scat.scales['x']
         lin.x = [x_sc.min if x_sc.min is not None else np.min(scat.x),
                  x_sc.max if x_sc.max is not None else np.max(scat.x)]
         poly = np.polyfit(scat.x, scat.y, deg=1)
@@ -327,7 +318,7 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
     display(layout)
 
 
-@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
 def scatter(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive scatter chart that allows users to change the
@@ -366,21 +357,14 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
     >>> scatter(x_values, y_values, n=(0,200))
     interactive(...)
     """
-    x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
-    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
+    params = {
+        'mark': {
+            'x': _array_or_placeholder(x_fn),
+            'y': _array_or_placeholder(y_fn),
+        }
+    }
 
-    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
-    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
-                   grid_lines='solid')
-
-    scat = bq.Scatter(x=_array_or_placeholder(x_fn),
-                      y=_array_or_placeholder(y_fn),
-                      scales={'x': x_sc, 'y': y_sc},
-                      colors=[DARK_BLUE],
-                      stroke=DARK_BLUE)
-    fig = bq.Figure(marks=[scat],
-                    axes=[ax_x, ax_y],
-                    title=options['title'])
+    scat, fig = _create_plot(mark=bq.Scatter, options=options, params=params)
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -394,7 +378,7 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
 def line(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive line chart that allows users to change the
@@ -437,17 +421,7 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     interactive(...)
     """
-    x_sc = bq.LinearScale(min=options['xlim'][0], max=options['xlim'][1])
-    y_sc = bq.LinearScale(min=options['ylim'][0], max=options['ylim'][1])
-
-    ax_x = bq.Axis(label=options['xlabel'], scale=x_sc, grid_lines='solid')
-    ax_y = bq.Axis(label=options['ylabel'], scale=y_sc, orientation='vertical',
-                   grid_lines='solid')
-
-    line = bq.Lines(scales={'x': x_sc, 'y': y_sc}, colors=[DARK_BLUE])
-    fig = bq.Figure(marks=[line],
-                    axes=[ax_x, ax_y],
-                    title=options['title'])
+    line, fig = _create_plot(mark=bq.Lines, options=options)
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -465,8 +439,83 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
 # Private helper functions
 ##############################################################################
 
-def _create_plot():
-    pass
+_default_params = {
+    'x_sc': {
+        'min': tz.compose(tz.first, tz.get('xlim')),
+        'max': tz.compose(tz.second, tz.get('xlim')),
+    },
+    'y_sc': {
+        'min': tz.compose(tz.first, tz.get('ylim')),
+        'max': tz.compose(tz.second, tz.get('ylim')),
+    },
+    'x_ax': {
+        'label': tz.get('xlabel'),
+        'scale': tz.get('x_sc'),
+    },
+    'y_ax': {
+        'label': tz.get('ylabel'),
+        'scale': tz.get('x_sc'),
+        'orientation': 'vertical',
+    },
+    'mark': {
+        'scales': lambda opts: {'x': opts['x_sc'], 'y': opts['y_sc']},
+        'colors': [DARK_BLUE],
+        'stroke': DARK_BLUE,
+    },
+    'fig': {
+        'marks': lambda opts: [opts['mark']],
+        'axes': lambda opts: [opts['x_ax'], opts['y_ax']],
+        'title': tz.get('title'),
+        'max_aspect_ratio': tz.get('aspect_ratio'),
+    },
+}
+
+
+def _create_plot(*, x_sc=bq.LinearScale, y_sc=bq.LinearScale,
+                 x_ax=bq.Axis, y_ax=bq.Axis, mark=bq.Mark, fig=bq.Figure,
+                 options={}, params={}):
+    """
+    Initializes all components of a bqplot figure and returns resulting
+    (mark, figure) tuple. Each plot component is passed in as a class.
+
+    The plot options should be passed into options. Any additional parameters
+    required by the plot components are passed into params as a dict of
+    { plot_component: { trait: value, ... } }.
+
+    For example, to change the grid lines of the x-axis:
+    { 'x_ax': {'grid_lines' : 'solid'} }.
+
+    If the param value is a function, it will be called with the options dict
+    augmented with all previously created plot elements. This permits
+    dependencies on plot elements:
+    { 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
+    """
+    def maybe_call(maybe_fn, opts):
+        if callable(maybe_fn):
+            return maybe_fn(opts)
+        return maybe_fn
+
+    def call_params(component, opts):
+        return {trait: maybe_call(val, opts)
+                for trait, val in params[component].items()}
+
+    # Perform a 2-level deep merge
+    params = tz.merge_with(tz.merge, _default_params, params)
+
+    x_sc = x_sc(**call_params('x_sc', options))
+    y_sc = y_sc(**call_params('y_sc', options))
+    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+
+    x_ax = x_ax(**call_params('x_ax', options))
+    y_ax = y_ax(**call_params('y_ax', options))
+    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
+
+    mark = mark(**call_params('mark', options))
+    options = {**options, **{'mark': mark}}
+
+    fig = fig(**call_params('fig', options))
+
+    return mark, fig
 
 
 def _array_or_placeholder(maybe_iterable,
