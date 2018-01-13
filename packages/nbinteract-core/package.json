@@ -1,6 +1,6 @@
 {
   "name": "nbinteract-core",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "Library to allow public interactive Jupyter notebooks",
   "main": "lib/index.bundle.js",
   "module": "src/index.js",
