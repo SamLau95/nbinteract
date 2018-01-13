@@ -3,9 +3,6 @@
   "version": "0.0.25",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
-  "engines": {
-    "gitbook": ">=2.0.0"
-  },
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
     "load": "cp ../nbinteract-core/lib/index.bundle.js ../nbinteract-core/lib/index.bundle.js.map js/"
@@ -22,6 +19,39 @@
     "widgets",
     "gitbook"
   ],
+  "engines": {
+    "gitbook": ">=3.0.0"
+  },
+  "gitbook": {
+    "properties": {
+      "spec": {
+        "type": "String",
+        "description": [
+          "Spec for the BinderHub image. Must be in the format ",
+          "${username}/${repo}/${branch}. By default uses the nbinteract ",
+          "image."
+        ],
+        "default": "SamLau95/nbinteract-image/master"
+      },
+      "provider": {
+        "type": "String",
+        "description": [
+          "Provider for the BinderHub image. ",
+          "By default uses Github."
+        ],
+        "default": "gh"
+      },
+      "auto_run": {
+        "type": "bool",
+        "description": [
+          "If true (default), automatically starts kernel and runs code when ",
+          "page with widgets is loaded. If false, will look for a DOM ",
+          "element with id nbinteract and attach a click handler to run."
+        ],
+        "default": true
+      }
+    }
+  },
   "author": "Sam Lau",
   "license": "BSD-3-Clause",
   "bugs": {

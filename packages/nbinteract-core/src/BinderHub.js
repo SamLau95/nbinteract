@@ -6,8 +6,8 @@ import { Kernel, ServerConnection } from '@jupyterlab/services'
 
 import Image from './Image'
 
-const PROVIDER = 'gh'
-const SPEC = 'SamLau95/nbinteract-image/master'
+const DEFAULT_PROVIDER = 'gh'
+const DEFAULT_SPEC = 'SamLau95/nbinteract-image/master'
 
 // States that you can register callbacks on
 // Keep in sync with https://github.com/jupyterhub/binderhub/blob/master/doc/api.rst#events
@@ -23,9 +23,21 @@ const VALID_STATES = new Set([
   'ready',
 ])
 
+/**
+ * Implements the Binder API to start kernels.
+ */
 export default class BinderHub {
-  constructor(callbacks = {}) {
-    this.image = new Image(PROVIDER, SPEC)
+  /**
+   * @param {String} spec - BinderHub spec for Jupyter image. Must be in the
+   *     format: `${username}/${repo}/${branch}`.
+   *
+   * @param {String} provider - BinderHub provider
+   *
+   * @param {Object} [callbacks] - Mapping from state to callback fired when
+   *     BinderHub transitions to that state.
+   */
+  constructor(spec, provider, callbacks = {}) {
+    this.image = new Image(provider, spec)
 
     // Register all callbacks at once
     Object.entries(callbacks).map(([state, cb]) =>
@@ -35,7 +47,7 @@ export default class BinderHub {
 
   start_server() {
     return new Promise((resolve, reject) => {
-      this.image.onStateChange('*', (oldState, newState, data) => {
+      this.register_callback('*', (oldState, newState, data) => {
         if (data.message !== undefined) {
           console.log(data.message)
         } else {
@@ -43,7 +55,7 @@ export default class BinderHub {
         }
       })
 
-      this.image.onStateChange('ready', (oldState, newState, data) => {
+      this.register_callback('ready', (oldState, newState, data) => {
         this.image.close()
         resolve(data)
       })
