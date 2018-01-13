@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SamLau95/nb-interact.git"
+    "url": "git+https://github.com/SamLau95/nbinteract.git"
   },
   "keywords": [
     "jupyter",
