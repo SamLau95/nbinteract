@@ -1,7 +1,9 @@
 {
   "root": "docs",
   "plugins": ["nbinteract", "katex-plus"],
-  "links": {
-    "sidebar": false
+  "pluginsConfig": {
+    "nbinteract": {
+      "auto_run": true
+    }
   }
 }
