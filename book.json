@@ -1,6 +1,9 @@
 {
   "root": "docs",
-  "plugins": ["nbinteract", "katex-plus"],
+  "plugins": [
+    "nbinteract",
+    "katex@git+https://github.com/SamLau95/plugin-katex"
+  ],
   "pluginsConfig": {
     "nbinteract": {
       "auto_run": true
