@@ -8,7 +8,7 @@ require(['gitbook'], function(gitbook) {
 
     if (interact === undefined) {
       console.log('Initializing interact...')
-      var interact = new window.NbInteract(
+      interact = new window.NbInteract(
         (spec = config.spec),
         (provider = config.provider),
       )
