@@ -23,7 +23,7 @@
   * [Sampling from a Population](examples/examples_sampling_from_a_population.md)
   * [Variability of the Sample Mean](examples/examples_variability_of_the_sample_mean.md)
   * [Correlation](examples/examples_correlation.md)
-  * [Interactive Scatterplot](examples/examples_bqplot_scatter.md)
+  * [Linear Regression](examples/examples_linear_regression.md)
   * [Probability Distribution Plots](examples/examples_probability_distribution_plots.md)
   * [Central Limit Theorem](examples/examples_central_limit_theorem.md)
 
