@@ -454,7 +454,7 @@ _default_params = {
     },
     'y_ax': {
         'label': tz.get('ylabel'),
-        'scale': tz.get('x_sc'),
+        'scale': tz.get('y_sc'),
         'orientation': 'vertical',
     },
     'mark': {
