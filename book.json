@@ -2,11 +2,15 @@
   "root": "docs",
   "plugins": [
     "nbinteract",
+    "ga",
     "katex@git+https://github.com/SamLau95/plugin-katex"
   ],
   "pluginsConfig": {
     "nbinteract": {
       "auto_run": true
+    },
+    "ga": {
+      "token": "UA-42949369-5"
     }
   }
 }
