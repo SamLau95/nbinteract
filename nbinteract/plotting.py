@@ -209,7 +209,7 @@ def hist(hist_function, *, options={}, **interact_params):
     [hist], fig = _create_plot(marks=[bq.Hist], options=options, params=params)
 
     def wrapped(**interact_params):
-        hist.sample = util.call_if_needed(hist_function, interact_params)
+        hist.sample = util.maybe_call(hist_function, interact_params)
 
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
@@ -278,11 +278,11 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     )
 
     def wrapped(**interact_params):
-        x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
+        x_data = util.maybe_call(x_fn, interact_params, prefix='x')
         bar.x = x_data
 
         y_bound = util.maybe_curry(y_fn, x_data)
-        bar.y = util.call_if_needed(y_bound, interact_params, prefix='y')
+        bar.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
@@ -410,11 +410,11 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
     )
 
     def wrapped(**interact_params):
-        x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
+        x_data = util.maybe_call(x_fn, interact_params, prefix='x')
         scat.x = x_data
 
         y_bound = util.maybe_curry(y_fn, x_data)
-        scat.y = util.call_if_needed(y_bound, interact_params, prefix='y')
+        scat.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
@@ -470,11 +470,11 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     [line], fig = _create_plot(marks=[bq.Lines], options=options)
 
     def wrapped(**interact_params):
-        x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
+        x_data = util.maybe_call(x_fn, interact_params, prefix='x')
         line.x = x_data
 
         y_bound = util.maybe_curry(y_fn, x_data)
-        line.y = util.call_if_needed(y_bound, interact_params, prefix='y')
+        line.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
     display_widgets = widgets.interactive(wrapped, **interact_params)
     display(display_widgets)
