@@ -12,7 +12,7 @@ from os import path
 import sys
 
 # Package version
-version = '0.0.20'
+version = '0.0.21'
 
 here = path.abspath(path.dirname(__file__))
 
