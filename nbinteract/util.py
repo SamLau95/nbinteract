@@ -9,7 +9,46 @@ import toolz
 VAR_ARGS = {inspect.Parameter.VAR_POSITIONAL, inspect.Parameter.VAR_KEYWORD}
 
 
-def get_fn_args(fn, kwargs: dict, prefix: str=None):
+def maybe_call(maybe_fn, kwargs: dict, prefix: str = None) -> 'Any':
+    """
+    If maybe_fn is a function, get its arguments from kwargs and call it, also
+    searching for prefixed kwargs if prefix is specified. Otherwise, return
+    maybe_fn.
+
+    Used to allow both functions and iterables to be passed into plotting
+    functions.
+
+    >>> def square(x): return x * x
+    >>> maybe_call(square, {'x': 10})
+    100
+
+    >>> data = [1, 2, 3]
+    >>> maybe_call(data, {'x': 10})
+    [1, 2, 3]
+    """
+    if not callable(maybe_fn):
+        return maybe_fn
+
+    args = get_fn_args(maybe_fn, kwargs, prefix=prefix)
+    return maybe_fn(**args)
+
+
+def maybe_curry(maybe_fn, first_arg) -> 'Function | Any':
+    """
+    If maybe_fn is a function, curries it and passes in first_arg. Otherwise
+    returns maybe_fn.
+    """
+    if not callable(maybe_fn):
+        return maybe_fn
+    return toolz.curry(maybe_fn)(first_arg)
+
+
+##############################################################################
+# Functions that probably shouldn't be used outside of this file
+##############################################################################
+
+
+def get_fn_args(fn, kwargs: dict, prefix: str = None):
     """
     Given function and a dict of kwargs return a dict containing only the args
     used by the function.
@@ -41,49 +80,17 @@ def get_fn_args(fn, kwargs: dict, prefix: str=None):
 
     missing_args = [arg for arg in required_args if arg not in fn_kwargs]
     if missing_args:
-        raise ValueError('The following args are missing for the function '
-                         '{}: {}.'.format(fn.__name__, missing_args))
+        raise ValueError(
+            'The following args are missing for the function '
+            '{}: {}.'.format(fn.__name__, missing_args)
+        )
 
     return fn_kwargs
 
 
-def call_if_needed(maybe_fn, kwargs: dict, prefix: str=None) -> 'Any':
-    """
-    If maybe_fn is a function, get its arguments from kwargs and call it, also
-    searching for prefixed kwargs if prefix is specified. Otherwise, return
-    maybe_fn.
-
-    Used to allow both functions and iterables to be passed into plotting
-    functions.
-
-    >>> def square(x): return x * x
-    >>> call_if_needed(square, {'x': 10})
-    100
-
-    >>> data = [1, 2, 3]
-    >>> call_if_needed(data, {'x': 10})
-    [1, 2, 3]
-    """
-    if not callable(maybe_fn):
-        return maybe_fn
-
-    args = get_fn_args(maybe_fn, kwargs, prefix=prefix)
-    return maybe_fn(**args)
-
-
-def maybe_curry(maybe_fn, first_arg) -> 'Function | Any':
-    """
-    If maybe_fn is a function, curries it and passes in first_arg. Otherwise
-    returns maybe_fn.
-    """
-    if not callable(maybe_fn):
-        return maybe_fn
-    return toolz.curry(maybe_fn)(first_arg)
-
-
 def get_all_args(fn) -> list:
     """
-    Returns a list of required arguments for the function fn.
+    Returns a list of all arguments for the function fn.
 
     >>> def foo(x, y, z=100): return x + y + z
     >>> get_all_args(foo)
@@ -106,12 +113,13 @@ def get_required_args(fn) -> list:
     ['x']
     """
     sig = inspect.signature(fn)
-    return [name for name, param in sig.parameters.items()
-            if param.default == inspect._empty
-            and param.kind not in VAR_ARGS]
+    return [
+        name for name, param in sig.parameters.items()
+        if param.default == inspect._empty and param.kind not in VAR_ARGS
+    ]
 
 
-def pick_kwargs(kwargs: dict, required_args: list, prefix: str=None):
+def pick_kwargs(kwargs: dict, required_args: list, prefix: str = None):
     """
     Given a dict of kwargs and a list of required_args, return a dict
     containing only the args in required_args.
@@ -147,9 +155,10 @@ def pick_kwargs(kwargs: dict, required_args: list, prefix: str=None):
 
     conflicting_args = [k for k in picked if k in prefixed]
     if conflicting_args:
-        raise ValueError('Both prefixed and unprefixed args were specified '
-                         'for the following parameters: {}'
-                         .format(conflicting_args))
+        raise ValueError(
+            'Both prefixed and unprefixed args were specified '
+            'for the following parameters: {}'.format(conflicting_args)
+        )
 
     return {**picked, **prefixed}
 
