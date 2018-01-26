@@ -17,7 +17,6 @@ PLACEHOLDER_RANGE = np.arange(10)
 DARK_BLUE = '#475A77'
 GOLDENROD = '#FEC62C'
 
-
 ##############################################################################
 # Helpers for plot options
 ##############################################################################
@@ -26,12 +25,11 @@ GOLDENROD = '#FEC62C'
 default_options = {
     'title': '',
     'aspect_ratio': 6.0,
-
     'xlabel': '',
     'ylabel': '',
     'xlim': (None, None),
     'ylim': (None, None),
-
+    'animation_duration': 0,
     'bins': 10,
     'normalized': True,
 }
@@ -42,17 +40,28 @@ options_docstring = '''options (dict): Options for the plot. Available options:
 '''.rstrip()
 
 option_doc = {
-    'title': 'Title of the plot',
-    'aspect_ratio': 'Aspect ratio of plot figure (float)',
-
-    'xlabel': 'Label of the x-axis',
-    'ylabel': 'Label of the y-axis',
-    'xlim': 'Tuple containing (lower, upper) for x-axis',
-    'ylim': 'Tuple containing (lower, upper) for y-axis',
-
-    'bins': 'Non-negative int for the number of bins (default 10)',
-    'normalized': ('Normalize histogram area to 1 if True. If False, plot '
-                   'unmodified counts. (default True)'),
+    'title':
+        'Title of the plot',
+    'aspect_ratio':
+        'Aspect ratio of plot figure (float)',
+    'animation_duration': (
+        'Duration of transition on change of data attributes, in '
+        'milliseconds.'
+    ),
+    'xlabel':
+        'Label of the x-axis',
+    'ylabel':
+        'Label of the y-axis',
+    'xlim':
+        'Tuple containing (lower, upper) for x-axis',
+    'ylim':
+        'Tuple containing (lower, upper) for y-axis',
+    'bins':
+        'Non-negative int for the number of bins (default 10)',
+    'normalized': (
+        'Normalize histogram area to 1 if True. If False, plot '
+        'unmodified counts. (default True)'
+    ),
 }
 
 
@@ -111,22 +120,27 @@ def use_options(allowed, defaults=default_options):
     >>> test(options={'not_allowed': 123}) # Also logs error message
     ''
     """
+
     def update_docstring(f):
         _update_option_docstring(f, allowed)
 
         @functools.wraps(f)
         def check_options(*args, **kwargs):
             options = kwargs.get('options', {})
-            not_allowed = [option for option in options
-                           if option not in allowed]
+            not_allowed = [
+                option for option in options if option not in allowed
+            ]
             if not_allowed:
-                logging.warning('The following options are not supported by '
-                                'this function and will likely result in '
-                                'undefined behavior: {}.'.format(not_allowed))
+                logging.warning(
+                    'The following options are not supported by '
+                    'this function and will likely result in '
+                    'undefined behavior: {}.'.format(not_allowed)
+                )
             options_with_defaults = {**defaults, **options}
             kwargs_with_defaults = {**kwargs, 'options': options_with_defaults}
 
             return f(*args, **kwargs_with_defaults)
+
         return check_options
 
     return update_docstring
@@ -136,8 +150,11 @@ def use_options(allowed, defaults=default_options):
 # Plotting functions
 ##############################################################################
 
-@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim',
-              'bins', 'normalized'])
+
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim', 'bins', 'normalized'
+])
 def hist(hist_function, *, options={}, **interact_params):
     """
     Generates an interactive histogram that allows users to change the
@@ -185,7 +202,9 @@ def hist(hist_function, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'ylim'])
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'ylim'
+])
 def bar(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
@@ -240,8 +259,9 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
         }
     }
 
-    bar, fig = _create_plot(x_sc=bq.OrdinalScale, mark=bq.Bars,
-                            options=options, params=params)
+    bar, fig = _create_plot(
+        x_sc=bq.OrdinalScale, mark=bq.Bars, options=options, params=params
+    )
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -255,9 +275,13 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
-def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
-                 options={}):
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
+def scatter_drag(
+    x_points: 'Array', y_points: 'Array', *, show_eqn=True, options={}
+):
     """
     Generates an interactive scatter plot with the best fit line plotted over
     the points. The points can be dragged by the user and the line will
@@ -293,9 +317,9 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
     scat, fig = _create_plot(mark=bq.Scatter, options=options, params=params)
 
     # Add line to figure
-    lin = bq.Lines(scales=scat.scales,
-                   animation_duration=5000,
-                   colors=[GOLDENROD])
+    lin = bq.Lines(
+        scales=scat.scales, animation_duration=5000, colors=[GOLDENROD]
+    )
     fig.marks = [scat, lin]
 
     # equation label
@@ -304,12 +328,15 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
     # create line fit to data and display equation
     def update_line(change=None):
         x_sc = scat.scales['x']
-        lin.x = [x_sc.min if x_sc.min is not None else np.min(scat.x),
-                 x_sc.max if x_sc.max is not None else np.max(scat.x)]
+        lin.x = [
+            x_sc.min if x_sc.min is not None else np.min(scat.x), x_sc.max
+            if x_sc.max is not None else np.max(scat.x)
+        ]
         poly = np.polyfit(scat.x, scat.y, deg=1)
         lin.y = np.polyval(poly, lin.x)
         if show_eqn:
             label.value = 'y = {:.2f} + {:.2f}x'.format(poly[1], poly[0])
+
     update_line()
 
     scat.observe(update_line, names=['x', 'y'])
@@ -318,7 +345,10 @@ def scatter_drag(x_points: 'Array', y_points: 'Array', *, show_eqn=True,
     display(layout)
 
 
-@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
 def scatter(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive scatter chart that allows users to change the
@@ -378,7 +408,10 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
     display(fig)
 
 
-@use_options(['title', 'aspect_ratio', 'xlabel', 'ylabel', 'xlim', 'ylim'])
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
 def line(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive line chart that allows users to change the
@@ -467,13 +500,22 @@ _default_params = {
         'axes': lambda opts: [opts['x_ax'], opts['y_ax']],
         'title': tz.get('title'),
         'max_aspect_ratio': tz.get('aspect_ratio'),
+        'animation_duration': tz.get('animation_duration'),
     },
 }
 
 
-def _create_plot(*, x_sc=bq.LinearScale, y_sc=bq.LinearScale,
-                 x_ax=bq.Axis, y_ax=bq.Axis, mark=bq.Mark, fig=bq.Figure,
-                 options={}, params={}):
+def _create_plot(
+    *,
+    x_sc=bq.LinearScale,
+    y_sc=bq.LinearScale,
+    x_ax=bq.Axis,
+    y_ax=bq.Axis,
+    mark=bq.Mark,
+    fig=bq.Figure,
+    options={},
+    params={},
+):
     """
     Initializes all components of a bqplot figure and returns resulting
     (mark, figure) tuple. Each plot component is passed in as a class.
@@ -490,14 +532,17 @@ def _create_plot(*, x_sc=bq.LinearScale, y_sc=bq.LinearScale,
     dependencies on plot elements:
     { 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
     """
+
     def maybe_call(maybe_fn, opts):
         if callable(maybe_fn):
             return maybe_fn(opts)
         return maybe_fn
 
     def call_params(component, opts):
-        return {trait: maybe_call(val, opts)
-                for trait, val in params[component].items()}
+        return {
+            trait: maybe_call(val, opts)
+            for trait, val in params[component].items()
+        }
 
     # Perform a 2-level deep merge
     params = tz.merge_with(tz.merge, _default_params, params)
@@ -518,8 +563,9 @@ def _create_plot(*, x_sc=bq.LinearScale, y_sc=bq.LinearScale,
     return mark, fig
 
 
-def _array_or_placeholder(maybe_iterable,
-                          placeholder=PLACEHOLDER_ZEROS) -> np.array:
+def _array_or_placeholder(
+    maybe_iterable, placeholder=PLACEHOLDER_ZEROS
+) -> np.array:
     """
     Return maybe_iterable's contents or a placeholder array.
 
