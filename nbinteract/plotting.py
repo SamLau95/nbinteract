@@ -1,8 +1,24 @@
+"""
+Plot functions for nbinteract.
+
+To test code without having to restart kernel, use:
+
+```
+import bqplot as bq
+import nbinteract as nbi
+import toolz.curried as tz
+from importlib import reload
+
+reload(nbi.plotting)
+
+```
+"""
 import numpy as np
 import bqplot as bq
 import collections
 import ipywidgets as widgets
 from IPython.display import display
+import itertools
 import functools
 import logging
 import toolz.curried as tz
@@ -44,10 +60,8 @@ option_doc = {
         'Title of the plot',
     'aspect_ratio':
         'Aspect ratio of plot figure (float)',
-    'animation_duration': (
-        'Duration of transition on change of data attributes, in '
-        'milliseconds.'
-    ),
+    'animation_duration':
+        'Duration of transition on change of data, in milliseconds.',
     'xlabel':
         'Label of the x-axis',
     'ylabel':
@@ -182,17 +196,17 @@ def hist(hist_function, *, options={}, **interact_params):
     interactive(...)
     """
     params = {
-        'mark': {
+        'marks': [{
             'sample': _array_or_placeholder(hist_function),
             'bins': tz.get('bins'),
             'normalized': tz.get('normalized'),
             'scales': (
                 lambda opts: {'sample': opts['x_sc'], 'count': opts['y_sc']}
             ),
-        },
+        }],
     }
 
-    hist, fig = _create_plot(mark=bq.Hist, options=options, params=params)
+    [hist], fig = _create_plot(marks=[bq.Hist], options=options, params=params)
 
     def wrapped(**interact_params):
         hist.sample = util.call_if_needed(hist_function, interact_params)
@@ -253,14 +267,14 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     interactive(...)
     """
     params = {
-        'mark': {
+        'marks': [{
             'x': _array_or_placeholder(x_fn, PLACEHOLDER_RANGE),
             'y': _array_or_placeholder(y_fn)
-        }
+        }]
     }
 
-    bar, fig = _create_plot(
-        x_sc=bq.OrdinalScale, mark=bq.Bars, options=options, params=params
+    [bar], fig = _create_plot(
+        x_sc=bq.OrdinalScale, marks=[bq.Bars], options=options, params=params
     )
 
     def wrapped(**interact_params):
@@ -307,41 +321,38 @@ def scatter_drag(
     VBox(...)
     """
     params = {
-        'mark': {
+        'marks': [{
             'x': x_points,
             'y': y_points,
             'enable_move': True,
-        }
+        }, {
+            'colors': [GOLDENROD],
+        }]
     }
 
-    scat, fig = _create_plot(mark=bq.Scatter, options=options, params=params)
-
-    # Add line to figure
-    lin = bq.Lines(
-        scales=scat.scales, animation_duration=5000, colors=[GOLDENROD]
+    [scat, lin], fig = _create_plot(
+        marks=[bq.Scatter, bq.Lines], options=options, params=params
     )
-    fig.marks = [scat, lin]
 
-    # equation label
-    label = widgets.Label()
+    equation = widgets.Label()
 
     # create line fit to data and display equation
     def update_line(change=None):
         x_sc = scat.scales['x']
         lin.x = [
-            x_sc.min if x_sc.min is not None else np.min(scat.x), x_sc.max
-            if x_sc.max is not None else np.max(scat.x)
+            x_sc.min if x_sc.min is not None else np.min(scat.x),
+            x_sc.max if x_sc.max is not None else np.max(scat.x),
         ]
         poly = np.polyfit(scat.x, scat.y, deg=1)
         lin.y = np.polyval(poly, lin.x)
         if show_eqn:
-            label.value = 'y = {:.2f} + {:.2f}x'.format(poly[1], poly[0])
+            equation.value = 'y = {:.2f}x + {:.2f}'.format(poly[0], poly[1])
 
     update_line()
 
     scat.observe(update_line, names=['x', 'y'])
 
-    layout = widgets.VBox([label, fig])
+    layout = widgets.VBox([equation, fig])
     display(layout)
 
 
@@ -388,13 +399,15 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
     interactive(...)
     """
     params = {
-        'mark': {
+        'marks': [{
             'x': _array_or_placeholder(x_fn),
             'y': _array_or_placeholder(y_fn),
-        }
+        }]
     }
 
-    scat, fig = _create_plot(mark=bq.Scatter, options=options, params=params)
+    [scat], fig = _create_plot(
+        marks=[bq.Scatter], options=options, params=params
+    )
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -454,7 +467,7 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     interactive(...)
     """
-    line, fig = _create_plot(mark=bq.Lines, options=options)
+    [line], fig = _create_plot(marks=[bq.Lines], options=options)
 
     def wrapped(**interact_params):
         x_data = util.call_if_needed(x_fn, interact_params, prefix='x')
@@ -490,13 +503,13 @@ _default_params = {
         'scale': tz.get('y_sc'),
         'orientation': 'vertical',
     },
-    'mark': {
+    'marks': {
         'scales': lambda opts: {'x': opts['x_sc'], 'y': opts['y_sc']},
         'colors': [DARK_BLUE],
         'stroke': DARK_BLUE,
     },
     'fig': {
-        'marks': lambda opts: [opts['mark']],
+        'marks': tz.get('marks'),
         'axes': lambda opts: [opts['x_ax'], opts['y_ax']],
         'title': tz.get('title'),
         'max_aspect_ratio': tz.get('aspect_ratio'),
@@ -505,32 +518,63 @@ _default_params = {
 }
 
 
+def _merge_with_defaults(params):
+    """
+    Performs a 2-level deep merge of params with _default_params with corrent
+    merging of params for each mark.
+
+    This is a bit complicated since params['marks'] is a list and we need to
+    make sure each mark gets the default params.
+    """
+    marks_params = [
+        {**default, **param}
+        for default, param
+        in zip(itertools.repeat(_default_params['marks']), params['marks'])
+    ] if 'marks' in params else [_default_params['marks']]
+
+    merged_without_marks = tz.merge_with(
+        tz.merge, tz.dissoc(_default_params, 'marks'),
+        tz.dissoc(params, 'marks')
+    )
+
+    return {**merged_without_marks, **{'marks': marks_params}}
+
+
 def _create_plot(
     *,
     x_sc=bq.LinearScale,
     y_sc=bq.LinearScale,
     x_ax=bq.Axis,
     y_ax=bq.Axis,
-    mark=bq.Mark,
+    marks=[bq.Mark],
     fig=bq.Figure,
     options={},
-    params={},
+    params={}
 ):
     """
     Initializes all components of a bqplot figure and returns resulting
-    (mark, figure) tuple. Each plot component is passed in as a class.
+    (marks, figure) tuple. Each plot component is passed in as a class.
 
-    The plot options should be passed into options. Any additional parameters
-    required by the plot components are passed into params as a dict of
-    { plot_component: { trait: value, ... } }.
+    The plot options should be passed into options.
+
+    Any additional parameters required by the plot components are passed into
+    params as a dict of { plot_component: { trait: value, ... } }
 
     For example, to change the grid lines of the x-axis:
-    { 'x_ax': {'grid_lines' : 'solid'} }.
+    params={ 'x_ax': {'grid_lines' : 'solid'} }
+
+    And to give two marks different colors:
+    params={
+        'marks': [
+            {'colors': [DARK_BLUE]},
+            {'colors': [GOLDENROD]},
+        ]
+    }
 
     If the param value is a function, it will be called with the options dict
     augmented with all previously created plot elements. This permits
     dependencies on plot elements:
-    { 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
+    params={ 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
     """
 
     def maybe_call(maybe_fn, opts):
@@ -541,26 +585,29 @@ def _create_plot(
     def call_params(component, opts):
         return {
             trait: maybe_call(val, opts)
-            for trait, val in params[component].items()
+            for trait, val in component.items()
         }
 
     # Perform a 2-level deep merge
-    params = tz.merge_with(tz.merge, _default_params, params)
+    params = _merge_with_defaults(params)
 
-    x_sc = x_sc(**call_params('x_sc', options))
-    y_sc = y_sc(**call_params('y_sc', options))
+    x_sc = x_sc(**call_params(params['x_sc'], options))
+    y_sc = y_sc(**call_params(params['y_sc'], options))
     options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
 
-    x_ax = x_ax(**call_params('x_ax', options))
-    y_ax = y_ax(**call_params('y_ax', options))
+    x_ax = x_ax(**call_params(params['x_ax'], options))
+    y_ax = y_ax(**call_params(params['y_ax'], options))
     options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
 
-    mark = mark(**call_params('mark', options))
-    options = {**options, **{'mark': mark}}
+    marks = [
+        mark_cls(**call_params(mark_params, options))
+        for mark_cls, mark_params in zip(marks, params['marks'])
+    ]
+    options = {**options, **{'marks': marks}}
 
-    fig = fig(**call_params('fig', options))
+    fig = fig(**call_params(params['fig'], options))
 
-    return mark, fig
+    return marks, fig
 
 
 def _array_or_placeholder(
