@@ -90,7 +90,7 @@ def get_fn_args(fn, kwargs: dict, prefix: str = None):
 
 def get_all_args(fn) -> list:
     """
-    Returns a list of required arguments for the function fn.
+    Returns a list of all arguments for the function fn.
 
     >>> def foo(x, y, z=100): return x + y + z
     >>> get_all_args(foo)

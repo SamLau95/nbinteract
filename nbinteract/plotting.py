@@ -17,7 +17,6 @@ import numpy as np
 import bqplot as bq
 import collections
 import ipywidgets as widgets
-from IPython.display import display
 import itertools
 import functools
 import logging
@@ -110,9 +109,9 @@ def use_options(allowed, defaults=default_options):
     wrapped function. Fills in missing options with their default values if not
     present.
 
-    Requires that wrapped function has an keyword-only argument named `option`.
-    If wrapped function has {option} in its docstring, fills in with the docs
-    for allowed options.
+    Requires that wrapped function has an keyword-only argument named
+    `options`. If wrapped function has {options} in its docstring, fills in
+    with the docs for allowed options.
 
     Args:
         allowed (list str): list of option keys allowed. If the wrapped
@@ -188,12 +187,12 @@ def hist(hist_function, *, options={}, **interact_params):
             of `hist_function`.
 
     Returns:
-        None
+        VBox with two children: the interactive controls and the figure.
 
     >>> def gen_random(n_points):
     ...     return np.random.normal(size=n_points)
     >>> hist(gen_random, n_points=(0, 1000, 10))
-    interactive(...)
+    VBox(...)
     """
     params = {
         'marks': [{
@@ -211,9 +210,9 @@ def hist(hist_function, *, options={}, **interact_params):
     def wrapped(**interact_params):
         hist.sample = util.maybe_call(hist_function, interact_params)
 
-    display_widgets = widgets.interactive(wrapped, **interact_params)
-    display(display_widgets)
-    display(fig)
+    controls = widgets.interactive(wrapped, **interact_params)
+
+    return widgets.VBox([controls, fig])
 
 
 @use_options([
@@ -250,21 +249,21 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
             `y__`.
 
     Returns:
-        None
+        VBox with two children: the interactive controls and the figure.
 
     >>> bar(['a', 'b', 'c'], [4, 7, 10])
-    interactive(...)
+    VBox(...)
 
     >>> def categories(n): return np.arange(n)
     >>> def heights(xs, offset):
     ...     return xs + offset
     >>> bar(categories, heights, n=(0, 10), offset=(1, 10))
-    interactive(...)
+    VBox(...)
 
     >>> def multiply(xs, n):
     ...     return xs * n
     >>> bar(categories, multiply, x__n=(0, 10), y__n=(1, 10))
-    interactive(...)
+    VBox(...)
     """
     params = {
         'marks': [{
@@ -284,9 +283,9 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
         y_bound = util.maybe_curry(y_fn, x_data)
         bar.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
-    display_widgets = widgets.interactive(wrapped, **interact_params)
-    display(display_widgets)
-    display(fig)
+    controls = widgets.interactive(wrapped, **interact_params)
+
+    return widgets.VBox([controls, fig])
 
 
 @use_options([
@@ -313,7 +312,7 @@ def scatter_drag(
         {options}
 
     Returns:
-        None
+        VBox with two children: the equation widget and the figure.
 
     >>> xs = np.arange(10)
     >>> ys = np.arange(10) + np.random.rand(10)
@@ -352,8 +351,7 @@ def scatter_drag(
 
     scat.observe(update_line, names=['x', 'y'])
 
-    layout = widgets.VBox([equation, fig])
-    display(layout)
+    return widgets.VBox([equation, fig])
 
 
 @use_options([
@@ -391,12 +389,12 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
             `y__`.
 
     Returns:
-        None
+        VBox with two children: the interactive controls and the figure.
 
     >>> def x_values(n): return np.random.choice(100, n)
     >>> def y_values(xs): return np.random.choice(100, len(xs))
     >>> scatter(x_values, y_values, n=(0,200))
-    interactive(...)
+    VBox(...)
     """
     params = {
         'marks': [{
@@ -416,9 +414,9 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
         y_bound = util.maybe_curry(y_fn, x_data)
         scat.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
-    display_widgets = widgets.interactive(wrapped, **interact_params)
-    display(display_widgets)
-    display(fig)
+    controls = widgets.interactive(wrapped, **interact_params)
+
+    return widgets.VBox([controls, fig])
 
 
 @use_options([
@@ -456,16 +454,16 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
             `y__`.
 
     Returns:
-        None
+        VBox with two children: the interactive controls and the figure.
 
     >>> line([1, 2, 3], [4, 7, 10])
-    interactive(...)
+    VBox(...)
 
     >>> def x_values(max): return np.arange(0, max)
     >>> def y_values(xs, sd):
     ...     return xs + np.random.normal(len(xs), scale=sd)
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
-    interactive(...)
+    VBox(...)
     """
     [line], fig = _create_plot(marks=[bq.Lines], options=options)
 
@@ -476,9 +474,9 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
         y_bound = util.maybe_curry(y_fn, x_data)
         line.y = util.maybe_call(y_bound, interact_params, prefix='y')
 
-    display_widgets = widgets.interactive(wrapped, **interact_params)
-    display(display_widgets)
-    display(fig)
+    controls = widgets.interactive(wrapped, **interact_params)
+
+    return widgets.VBox([controls, fig])
 
 
 ##############################################################################
@@ -588,7 +586,6 @@ def _create_plot(
             for trait, val in component.items()
         }
 
-    # Perform a 2-level deep merge
     params = _merge_with_defaults(params)
 
     x_sc = x_sc(**call_params(params['x_sc'], options))
