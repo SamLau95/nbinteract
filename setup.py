@@ -2,7 +2,6 @@
 A Jupyter nbconvert exporter to convert notebooks and their widgets to publicly
 runnable HTML files.
 """
-
 # Always prefer setuptools over distutils
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
@@ -11,6 +10,9 @@ from setuptools.command.test import test as TestCommand
 from codecs import open
 from os import path
 import sys
+
+# Package version
+version = '0.0.21'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -42,7 +44,7 @@ class PyTest(TestCommand):
 
 setup(
     name='nbinteract',
-    version='0.0.19',
+    version=version,
     description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
     url='https://github.com/SamLau95/nbinteract',
