@@ -50,7 +50,7 @@ start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
 start_webpack:
-	yarn run serve
+	lerna run serve --stream
 
 build_py: ## Build python package
 	rm -rf dist/*

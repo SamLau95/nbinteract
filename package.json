@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap --hoist",
-    "serve": "lerna run serve --stream"
+    "install": "lerna bootstrap --hoist"
   },
   "devDependencies": {
     "@types/requirejs": "^2.1.28",
