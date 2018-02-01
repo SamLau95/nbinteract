@@ -1,4 +1,6 @@
+import 'babel-polyfill'
 import './bqplot.css'
+
 import NbInteract from './NbInteract'
 
 // Define globally for use in browser.
