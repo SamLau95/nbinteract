@@ -6,9 +6,9 @@
   "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "stats": "webpack --profile --json --config webpack.dev.js > stats.json",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development",
+    "stats": "webpack --profile --json --mode development > stats.json",
     "clean": "rimraf lib/*"
   },
   "repository": {
@@ -37,8 +37,7 @@
     "bqplot": "^0.3.1",
     "font-awesome": "^4.7.0",
     "lodash.debounce": "^4.0.8",
-    "lodash.once": "^4.1.1",
-    "uglifyjs-webpack-plugin": "^1.1.4"
+    "lodash.once": "^4.1.1"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
