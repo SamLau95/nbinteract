@@ -33,6 +33,7 @@ export default class NbInteract {
     record_messages = false,
   ) {
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
+    this._kernelHeartbeat = this._kernelHeartbeat.bind(this)
 
     this.binder = new BinderHub(spec, provider)
 
@@ -47,22 +48,37 @@ export default class NbInteract {
 
       // Warm up kernel so the next run is faster
       this._getOrStartKernel()
-
       return
     }
-
-    // Generates a semi-random length-4 string. Just used for logging, so no
-    // need to be super complicated.
-    // From https://stackoverflow.com/a/8084248
-    const run_id = (Math.random() + 1).toString(36).substring(2, 6)
 
     try {
       this.kernel = await this._getOrStartKernel()
       this.manager = new WidgetManager(this.kernel)
+
+      this._kernelHeartbeat()
     } catch (err) {
       debugger
-      console.log('Error in code initialization!');
+      console.log('Error in code initialization!')
       throw err
+    }
+  }
+
+  /**
+   * Checks kernel connection every seconds_between_check seconds. If the
+   * kernel is dead, starts a new kernel and re-creates widgets.
+   */
+  async _kernelHeartbeat(seconds_between_check = 5) {
+    try {
+      const { kernelModel } = await this._getKernelModel()
+    } catch (err) {
+      console.log('Looks like the kernel died:', err.toString())
+      console.log('Starting a new kernel...')
+
+      const kernel = await this._startKernel()
+      this.kernel = kernel
+      this.manager.setKernel(kernel)
+    } finally {
+      setTimeout(this._kernelHeartbeat, seconds_between_check * 1000)
     }
   }
 
@@ -77,10 +93,13 @@ export default class NbInteract {
   async _getOrStartKernel() {
     try {
       const kernel = await this._getKernel()
-      console.log('Connected to cached kernel.');
+      console.log('Connected to cached kernel.')
       return kernel
     } catch (err) {
-      console.log('No cached kernel, starting kernel on BinderHub.')
+      console.log(
+        'No cached kernel, starting kernel on BinderHub:',
+        err.toString(),
+      )
       const kernel = await this._startKernel()
       return kernel
     }
@@ -91,6 +110,15 @@ export default class NbInteract {
    * if kernel connection fails for any reason.
    */
   async _getKernel() {
+    const { serverSettings, kernelModel } = this._getKernelModel()
+    return await Kernel.connectTo(kernelModel, serverSettings)
+  }
+
+  /**
+   * Retrieves kernel model using cached info from localStorage. Throws
+   * exception if kernel doesn't exist.
+   */
+  async _getKernelModel() {
     const { serverParams, kernelId } = localStorage
     const { url, token } = JSON.parse(serverParams)
 
@@ -101,9 +129,7 @@ export default class NbInteract {
     })
 
     const kernelModel = await Kernel.findById(kernelId, serverSettings)
-    const kernel = await Kernel.connectTo(kernelModel, serverSettings)
-
-    return kernel
+    return { serverSettings, kernelModel }
   }
 
   /**

@@ -2,7 +2,7 @@ import { HTMLManager } from '@jupyter-widgets/html-manager'
 import * as controls from '@jupyter-widgets/controls'
 import { Widget } from '@phosphor/widgets'
 import * as base from '@jupyter-widgets/base'
-import * as bqplot from 'bqplot';
+import * as bqplot from 'bqplot'
 
 import * as util from './util.js'
 import * as outputWidgets from './outputWidgets'
@@ -18,8 +18,19 @@ export class WidgetManager extends HTMLManager {
     this.setKernel(kernel)
   }
 
-  async setKernel(kernel) {
-    await this.clear_state()
+  setKernel(kernel) {
+    // Clear old models to remove old widgets. Normally we'd use
+    // this.clear_state() but we need to set comm_closed = true for the models
+    // since the comms are already closed when the kernel is dead.
+    Object.values(this._models).forEach(async modelPromise => {
+      const model = await modelPromise
+      model.close(true)
+    })
+    this._models = {}
+
+    if (this.kernel) {
+      this.kernel.dispose()
+    }
 
     this.kernel = kernel
     this._registerKernel(kernel)
