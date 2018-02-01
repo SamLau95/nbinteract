@@ -4,6 +4,7 @@ import { Widget } from '@phosphor/widgets'
 import * as base from '@jupyter-widgets/base'
 import * as bqplot from 'bqplot';
 
+import * as util from './util.js'
 import * as outputWidgets from './outputWidgets'
 
 import '@jupyter-widgets/controls/css/widgets.css'
@@ -11,8 +12,53 @@ import '@jupyter-widgets/controls/css/widgets.css'
 export class WidgetManager extends HTMLManager {
   constructor(kernel) {
     super()
+    this.generateWidgets = this.generateWidgets.bind(this)
+    this._displayWidget = this._displayWidget.bind(this)
+
+    this.setKernel(kernel)
+  }
+
+  async setKernel(kernel) {
+    await this.clear_state()
+
     this.kernel = kernel
     this._registerKernel(kernel)
+
+    this.generateWidgets()
+  }
+
+  generateWidgets() {
+    const codeCells = util.codeCells()
+    codeCells.forEach((cell, i) => {
+      const code = util.cellToCode(cell)
+      const execution = this.kernel.requestExecute({ code })
+      execution.onIOPub = msg => this._displayWidget(cell, msg)
+    })
+  }
+
+  /**
+   * Callback for kernel execution requests
+   */
+  async _displayWidget(cell, msg) {
+    if (this.messages) {
+      this.messages.push(msg)
+    }
+
+    if (util.isErrorMsg(msg)) {
+      console.error('Error in code run:', msg.content)
+    }
+
+    if (!util.isWidgetCell(cell)) {
+      return
+    }
+
+    // If we have a display message, display the widget.
+    const model = await util.msgToModel(msg, this)
+    if (model) {
+      const outputEl = util.cellToWidgetOutput(cell)
+      this.display_model(msg, model, { el: outputEl })
+      util.removeLoadingFromCell(cell)
+    }
   }
 
   _registerKernel(kernel) {
