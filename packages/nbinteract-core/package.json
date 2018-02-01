@@ -6,9 +6,9 @@
   "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "stats": "webpack --profile --json --config webpack.dev.js > stats.json",
+    "build": "webpack --mode production --devtool source-map",
+    "watch": "webpack --watch --mode development",
+    "stats": "webpack --profile --json --mode development > stats.json",
     "clean": "rimraf lib/*"
   },
   "repository": {
@@ -29,16 +29,15 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "@jupyter-widgets/base": "^1.0.1",
-    "@jupyter-widgets/controls": "^1.0.1",
-    "@jupyter-widgets/html-manager": "^0.10.1",
-    "@jupyter-widgets/output": "^1.0.1",
-    "@jupyterlab/services": "^0.49.0",
-    "bqplot": "^0.3.1",
+    "@jupyter-widgets/base": "^1.1.8",
+    "@jupyter-widgets/controls": "^1.1.5",
+    "@jupyter-widgets/html-manager": "^0.11.9",
+    "@jupyter-widgets/output": "^1.0.15",
+    "@jupyterlab/services": "^1.1.2",
+    "bqplot": "^0.3.2",
     "font-awesome": "^4.7.0",
     "lodash.debounce": "^4.0.8",
-    "lodash.once": "^4.1.1",
-    "uglifyjs-webpack-plugin": "^1.1.4"
+    "lodash.once": "^4.1.1"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"

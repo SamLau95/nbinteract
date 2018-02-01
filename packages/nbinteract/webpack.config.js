@@ -1,12 +1,13 @@
 const path = require('path')
 
-module.exports = {
+const config = {
   entry: './src/index.js',
   output: {
     filename: 'index.bundle.js',
     path: path.resolve(__dirname, 'built'),
     publicPath: 'built/',
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -15,7 +16,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
+            presets: [['env', { targets: { browsers: ['last 2 versions'] } }]],
             cacheDirectory: true,
             plugins: [
               'transform-runtime',
@@ -31,3 +32,5 @@ module.exports = {
     ],
   },
 }
+
+module.exports = config
