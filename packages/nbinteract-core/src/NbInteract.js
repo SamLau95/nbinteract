@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce'
-import once from 'lodash.once'
 
 import { Kernel, ServerConnection } from '@jupyterlab/services'
 
@@ -110,7 +109,7 @@ export default class NbInteract {
    * if kernel connection fails for any reason.
    */
   async _getKernel() {
-    const { serverSettings, kernelModel } = this._getKernelModel()
+    const { serverSettings, kernelModel } = await this._getKernelModel()
     return await Kernel.connectTo(kernelModel, serverSettings)
   }
 
