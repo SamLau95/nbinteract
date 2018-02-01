@@ -35,8 +35,10 @@ export default class NbInteract {
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
 
     this.binder = new BinderHub(spec, provider)
-    // Record messages for debugging
-    this.messages = record_messages ? [] : false
+
+    // Keep track of properties for debugging
+    this.kernel = null
+    this.manager = null
   }
 
   async run() {
@@ -55,8 +57,8 @@ export default class NbInteract {
     const run_id = (Math.random() + 1).toString(36).substring(2, 6)
 
     try {
-      const kernel = await this._getOrStartKernel()
-      const manager = new WidgetManager(kernel)
+      this.kernel = await this._getOrStartKernel()
+      this.manager = new WidgetManager(this.kernel)
     } catch (err) {
       debugger
       console.log('Error in code initialization!');
