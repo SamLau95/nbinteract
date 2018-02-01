@@ -16,12 +16,16 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['env', { targets: { browsers: ['last 2 versions'] } }]],
-            cacheDirectory: true,
-            plugins: [
-              'transform-runtime',
-              'babel-plugin-transform-object-rest-spread',
+            presets: [
+              [
+                'env',
+                {
+                  targets: { browsers: ['last 2 Chrome versions'] },
+                  useBuiltIns: true,
+                },
+              ],
             ],
+            cacheDirectory: true,
           },
         },
       },

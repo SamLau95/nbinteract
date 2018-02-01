@@ -1,5 +1,4 @@
 import debounce from 'lodash.debounce'
-import once from 'lodash.once'
 
 import { Kernel, ServerConnection } from '@jupyterlab/services'
 
@@ -32,107 +31,146 @@ export default class NbInteract {
     provider = DEFAULT_PROVIDER,
     record_messages = false,
   ) {
-    this._getOrStartKernel = once(this._getOrStartKernel)
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
+    this._kernelHeartbeat = this._kernelHeartbeat.bind(this)
+
     this.binder = new BinderHub(spec, provider)
-    // Record messages for debugging
-    this.messages = record_messages ? [] : false
+
+    // Keep track of properties for debugging
+    this.kernel = null
+    this.manager = null
   }
 
-  run() {
+  async run() {
     if (!util.pageHasWidgets()) {
       console.log('No widgets detected, stopping nbinteract.')
 
       // Warm up kernel so the next run is faster
       this._getOrStartKernel()
-
       return
     }
 
-    // Generates a semi-random length-4 string. Just used for logging, so no
-    // need to be super complicated.
-    // From https://stackoverflow.com/a/8084248
-    const run_id = (Math.random() + 1).toString(36).substring(2, 6)
+    try {
+      this.kernel = await this._getOrStartKernel()
+      this.manager = new WidgetManager(this.kernel)
 
-    this._getOrStartKernel()
-      .then(kernel => {
-        const codeCells = document.querySelectorAll('.code_cell')
-
-        const manager = new WidgetManager(kernel)
-
-        codeCells.forEach((cell, i) => {
-          console.time(`cell_${i}_${run_id}`)
-          const code = util.cellToCode(cell)
-          const execution = kernel.requestExecute({ code })
-
-          execution.onIOPub = msg => {
-            if (this.messages) {
-              this.messages.push(msg)
-            }
-
-            if (util.isErrorMsg(msg)) {
-              console.error('Error in code run:', msg.content)
-            }
-
-            // If we have a display message, display the widget.
-            if (!util.isWidgetCell(cell)) {
-              return
-            }
-
-            const model = util.msgToModel(msg, manager)
-            if (model !== undefined) {
-              const outputEl = util.cellToWidgetOutput(cell)
-              model.then(model => {
-                manager.display_model(msg, model, { el: outputEl })
-                util.removeLoadingFromCell(cell)
-                console.timeEnd(`cell_${i}_${run_id}`)
-              })
-            }
-          }
-        })
-      })
-      .catch(err => {
-        debugger
-        console.error('Error in running code:', err)
-      })
+      this._kernelHeartbeat()
+    } catch (err) {
+      debugger
+      console.log('Error in code initialization!')
+      throw err
+    }
   }
 
-  _getOrStartKernel() {
-    if (this.kernel !== undefined) {
-      console.log('Returned cached kernel:', this.kernel.id)
-      return new Promise((resolve, reject) => resolve(this.kernel))
-    }
+  /**
+   * Checks kernel connection every seconds_between_check seconds. If the
+   * kernel is dead, starts a new kernel and re-creates widgets.
+   */
+  async _kernelHeartbeat(seconds_between_check = 5) {
+    try {
+      const { kernelModel } = await this._getKernelModel()
+    } catch (err) {
+      console.log('Looks like the kernel died:', err.toString())
+      console.log('Starting a new kernel...')
 
-    console.time('start_server')
-    return this.binder.start_server().then(({ url, token }) => {
+      const kernel = await this._startKernel()
+      this.kernel = kernel
+      this.manager.setKernel(kernel)
+    } finally {
+      setTimeout(this._kernelHeartbeat, seconds_between_check * 1000)
+    }
+  }
+
+  /**
+   * Private method that starts a Binder server, then starts a kernel and
+   * returns the kernel information.
+   *
+   * Once initialized, this function caches the server and kernel info in
+   * localStorage. Future calls will attempt to use the cached info, falling
+   * back to starting a new server and kernel.
+   */
+  async _getOrStartKernel() {
+    try {
+      const kernel = await this._getKernel()
+      console.log('Connected to cached kernel.')
+      return kernel
+    } catch (err) {
+      console.log(
+        'No cached kernel, starting kernel on BinderHub:',
+        err.toString(),
+      )
+      const kernel = await this._startKernel()
+      return kernel
+    }
+  }
+
+  /**
+   * Connects to kernel using cached info from localStorage. Throws exception
+   * if kernel connection fails for any reason.
+   */
+  async _getKernel() {
+    const { serverSettings, kernelModel } = await this._getKernelModel()
+    return await Kernel.connectTo(kernelModel, serverSettings)
+  }
+
+  /**
+   * Retrieves kernel model using cached info from localStorage. Throws
+   * exception if kernel doesn't exist.
+   */
+  async _getKernelModel() {
+    const { serverParams, kernelId } = localStorage
+    const { url, token } = JSON.parse(serverParams)
+
+    const serverSettings = ServerConnection.makeSettings({
+      baseUrl: url,
+      wsUrl: util.baseToWsUrl(url),
+      token: token,
+    })
+
+    const kernelModel = await Kernel.findById(kernelId, serverSettings)
+    return { serverSettings, kernelModel }
+  }
+
+  /**
+   * Starts a new kernel using Binder and returns the connected kernel. Stores
+   * localStorage.serverParams and localStorage.kernelId .
+   */
+  async _startKernel() {
+    try {
+      console.time('start_server')
+      const { url, token } = await this.binder.start_server()
+      console.timeEnd('start_server')
+
       // Connect to the notebook webserver.
       const serverSettings = ServerConnection.makeSettings({
         baseUrl: url,
         wsUrl: util.baseToWsUrl(url),
         token: token,
       })
-      console.timeEnd('start_server')
 
       console.time('start_kernel')
-      return Kernel.getSpecs(serverSettings)
-        .then(kernelSpecs => {
-          return Kernel.startNew({
-            name: kernelSpecs.default,
-            serverSettings,
-          })
-        })
-        .then(kernel => {
-          console.timeEnd('start_kernel')
-          // Cache kernel for later usage
-          this.kernel = kernel
-          console.log('Started kernel:', this.kernel.id)
+      const kernelSpecs = await Kernel.getSpecs(serverSettings)
+      const kernel = await Kernel.startNew({
+        name: kernelSpecs.default,
+        serverSettings,
+      })
+      console.timeEnd('start_kernel')
 
-          return kernel
-        })
-        .catch(err => {
-          debugger
-          console.error('Error in kernel initialization:', err)
-        })
-    })
+      // Store the params in localStorage for later use
+      localStorage.serverParams = JSON.stringify({ url, token })
+      localStorage.kernelId = kernel.id
+
+      console.log('Started kernel:', kernel.id)
+      return kernel
+    } catch (err) {
+      debugger
+      console.error('Error in kernel initialization!')
+      throw err
+    }
+  }
+
+  async _killKernel() {
+    const kernel = await this._getKernel()
+    return kernel.shutdown()
   }
 }
