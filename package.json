@@ -4,6 +4,10 @@
     "install": "lerna bootstrap --hoist"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.39",
+    "@babel/polyfill": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39",
     "@types/requirejs": "^2.1.28",
     "babel-core": "^6.26.0",
     "babel-loader": "8.0.0-beta.0",
@@ -15,16 +19,13 @@
     "lerna": "^2.4.0",
     "postcss": "^6.0.2",
     "prettier": "^1.6.1",
+    "schema-utils": "^0.4.3",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.9",
     "webpack": "next",
     "webpack-bundle-analyzer": "^2.9.2",
     "webpack-cli": "^2.0.4",
     "webpack-dev-server": "next",
-    "@babel/core": "^7.0.0-beta.39",
-    "@babel/polyfill": "^7.0.0-beta.39",
-    "@babel/preset-env": "^7.0.0-beta.39",
-    "schema-utils": "^0.4.3",
     "webpack-merge": "^4.1.1"
   }
 }
