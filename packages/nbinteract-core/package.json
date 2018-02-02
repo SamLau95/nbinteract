@@ -6,9 +6,9 @@
   "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --mode production --devtool cheap-module-source-map",
-    "watch": "webpack --watch --mode development",
-    "stats": "webpack --profile --json --mode development > stats.json",
+    "build": "webpack --mode production --devtool source-map",
+    "watch": "webpack --watch",
+    "stats": "webpack --profile --json > stats.json",
     "stats-prod": "webpack --profile --json --mode production > stats-prod.json",
     "analyze": "webpack-bundle-analyzer -p 9999 stats.json",
     "analyze-prod": "webpack-bundle-analyzer -p 9999 stats-prod.json",
