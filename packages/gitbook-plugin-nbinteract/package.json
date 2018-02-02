@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-nbinteract",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "scripts": {
