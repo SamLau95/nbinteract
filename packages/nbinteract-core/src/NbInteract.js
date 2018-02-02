@@ -2,6 +2,7 @@ import debounce from 'lodash.debounce'
 
 import { Kernel, ServerConnection } from '@jupyterlab/services'
 
+import { WidgetManager } from './manager';
 import * as util from './util.js'
 import BinderHub from './BinderHub'
 
@@ -46,14 +47,12 @@ export default class NbInteract {
 
       // Warm up kernel and load manager so the next run is faster
       this._getOrStartKernel()
-      import(/* webpackChunkName: "manager" */ './manager')
       return
     }
 
     try {
       this.kernel = await this._getOrStartKernel()
-      const manager = await import(/* webpackChunkName: "manager" */ './manager')
-      this.manager = new manager.WidgetManager(this.kernel)
+      this.manager = new WidgetManager(this.kernel)
 
       this._kernelHeartbeat()
     } catch (err) {
