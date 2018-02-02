@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import './bqplot.css'
 
 import NbInteract from './NbInteract'

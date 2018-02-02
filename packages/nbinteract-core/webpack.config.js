@@ -1,4 +1,29 @@
+const webpack = require('webpack')
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
+
+const escape = s => {
+  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+}
+
+// These modules will get a stubbed version when required. Used to cut down
+// bundle size since tree-shaking doesn't work with Typescript modules.
+const shimmed_modules = [
+  'moment',
+  'comment-json',
+  '@jupyterlab/apputils',
+  '@jupyterlab/codemirror',
+]
+const shims = shimmed_modules.map(
+  mod =>
+    new webpack.NormalModuleReplacementPlugin(
+      new RegExp(escape(mod)),
+      resource => {
+        resource.request = path.resolve(__dirname, `src/shims/${mod}`)
+      },
+    ),
+)
 
 const config = {
   entry: './src/index.js',
@@ -8,7 +33,8 @@ const config = {
     library: 'nbinteract-core',
     libraryTarget: 'umd',
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
+  plugins: [...shims],
   module: {
     rules: [
       {
@@ -17,12 +43,17 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['env', { targets: { browsers: ['last 2 versions'] } }]],
-            cacheDirectory: true,
-            plugins: [
-              'transform-runtime',
-              'babel-plugin-transform-object-rest-spread',
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  targets: { browsers: ['last 2 Chrome versions'] },
+                  useBuiltIns: 'entry',
+                  modules: false,
+                },
+              ],
             ],
+            cacheDirectory: true,
           },
         },
       },
@@ -33,5 +64,7 @@ const config = {
     ],
   },
 }
+
+console.log(config)
 
 module.exports = config

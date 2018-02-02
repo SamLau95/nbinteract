@@ -1,40 +1,28 @@
+const merge = require('webpack-merge')
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 
-const config = {
-  entry: './src/index.js',
+const coreConfig = require('../nbinteract-core/webpack.config.js')
+
+const config = merge(coreConfig, {
+  entry: {
+    index: './src/index.js',
+    test: './src/test.js',
+  },
   output: {
-    filename: 'index.bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'built'),
     publicPath: 'built/',
   },
-  devtool: 'inline-source-map',
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              [
-                'env',
-                {
-                  targets: { browsers: ['last 2 Chrome versions'] },
-                  useBuiltIns: true,
-                },
-              ],
-            ],
-            cacheDirectory: true,
-          },
-        },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-}
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      analyzerPort: 9999,
+      generateStatsFile: true,
+      openAnalyzer: false,
+    }),
+  ],
+})
 
 module.exports = config

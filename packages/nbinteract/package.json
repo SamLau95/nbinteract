@@ -5,7 +5,7 @@
   "main": "built/index.bundle.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --mode production --devtool source-map",
+    "build": "webpack --mode production --devtool cheap-module-source-map",
     "watch": "webpack --watch --mode development",
     "serve": "webpack --watch --mode development",
     "serve-old": "webpack-dev-server --open",
