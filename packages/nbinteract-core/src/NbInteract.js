@@ -4,7 +4,6 @@ import { Kernel, ServerConnection } from '@jupyterlab/services'
 
 import * as util from './util.js'
 import BinderHub from './BinderHub'
-import { WidgetManager } from './manager'
 
 const DEFAULT_PROVIDER = 'gh'
 const DEFAULT_SPEC = 'SamLau95/nbinteract-image/master'
@@ -45,14 +44,16 @@ export default class NbInteract {
     if (!util.pageHasWidgets()) {
       console.log('No widgets detected, stopping nbinteract.')
 
-      // Warm up kernel so the next run is faster
+      // Warm up kernel and load manager so the next run is faster
       this._getOrStartKernel()
+      import(/* webpackChunkName: "manager" */ './manager')
       return
     }
 
     try {
       this.kernel = await this._getOrStartKernel()
-      this.manager = new WidgetManager(this.kernel)
+      const manager = await import(/* webpackChunkName: "manager" */ './manager')
+      this.manager = new manager.WidgetManager(this.kernel)
 
       this._kernelHeartbeat()
     } catch (err) {

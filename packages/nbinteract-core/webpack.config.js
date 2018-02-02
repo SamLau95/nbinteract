@@ -26,7 +26,9 @@ const shims = shimmed_modules.map(
 )
 
 const config = {
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+  },
   output: {
     filename: 'index.bundle.js',
     path: path.resolve(__dirname, 'lib'),
@@ -53,6 +55,7 @@ const config = {
                 },
               ],
             ],
+            plugins: ["@babel/plugin-syntax-dynamic-import"],
             cacheDirectory: true,
           },
         },
