@@ -1,1 +1,0 @@
-{"version":3,"file":"1.index.bundle.js","sources":["webpack://nbinteract-core/./src/shims/@jupyterlab/apputils.js"],"sourcesContent":["export default {}\n\n\n\n// WEBPACK FOOTER //\n// ./src/shims/@jupyterlab/apputils.js"],"mappings":"AAAA","sourceRoot":""}
