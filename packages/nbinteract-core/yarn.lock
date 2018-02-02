@@ -380,9 +380,9 @@ base64-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.1.tgz#a91947da1f4a516ea38e5b4ec0ec3773675e0886"
 
-bqplot@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/bqplot/-/bqplot-0.3.2.tgz#740a9524418d44073b8d7ba6ac84baf7fa59c816"
+bqplot@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/bqplot/-/bqplot-0.3.0.tgz#c60d934fd7d81e2121ac7e57617affa16812dbe6"
   dependencies:
     "@jupyter-widgets/base" "^1.0.0"
     d3 "^3.5.16"

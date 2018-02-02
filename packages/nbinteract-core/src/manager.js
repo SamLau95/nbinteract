@@ -1,3 +1,7 @@
+/**
+ * Widget manager for nbinteract. Loosely based on
+ * jupyterlab-manager/src/manager.ts
+ */
 import { HTMLManager } from '@jupyter-widgets/html-manager'
 import * as controls from '@jupyter-widgets/controls'
 import { Widget } from '@phosphor/widgets'
@@ -28,14 +32,13 @@ export class WidgetManager extends HTMLManager {
     })
     this._models = {}
 
+    // Close old kernel connection
     if (this.kernel) {
       this.kernel.dispose()
     }
 
     this.kernel = kernel
     this._registerKernel(kernel)
-
-    this.generateWidgets()
   }
 
   generateWidgets() {

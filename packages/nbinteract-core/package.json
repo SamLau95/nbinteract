@@ -8,6 +8,7 @@
     "test": "echo \"Error: no tests available\" && exit 1",
     "build": "webpack --mode production --devtool source-map",
     "watch": "webpack --watch",
+    "link": "rm -f ../../_book/gitbook/gitbook-plugin-nbinteract/index.bundle.js && ln -s $(pwd)/lib/index.bundle.js ../../_book/gitbook/gitbook-plugin-nbinteract",
     "stats": "webpack --profile --json > stats.json",
     "stats-prod": "webpack --profile --json --mode production > stats-prod.json",
     "analyze": "webpack-bundle-analyzer -p 9999 stats.json",
@@ -37,7 +38,7 @@
     "@jupyter-widgets/html-manager": "^0.11.9",
     "@jupyter-widgets/output": "^1.0.15",
     "@jupyterlab/services": "^1.1.2",
-    "bqplot": "^0.3.2",
+    "bqplot": "0.3.0",
     "font-awesome": "^4.7.0",
     "lodash.debounce": "^4.0.8",
     "lodash.once": "^4.1.1"

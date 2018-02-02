@@ -2,7 +2,7 @@ import debounce from 'lodash.debounce'
 
 import { Kernel, ServerConnection } from '@jupyterlab/services'
 
-import { WidgetManager } from './manager';
+import { WidgetManager } from './manager'
 import * as util from './util.js'
 import BinderHub from './BinderHub'
 
@@ -45,16 +45,20 @@ export default class NbInteract {
     if (!util.pageHasWidgets()) {
       console.log('No widgets detected, stopping nbinteract.')
 
-      // Warm up kernel and load manager so the next run is faster
-      this._getOrStartKernel()
+      // Warm up kernel so the next run is faster
+      if (!this.kernel) {
+        this.kernel = await this._getOrStartKernel()
+      }
       return
     }
 
+    const firstRun = !this.kernel || !this.manager
     try {
       this.kernel = await this._getOrStartKernel()
-      this.manager = new WidgetManager(this.kernel)
+      this.manager = this.manager || new WidgetManager(this.kernel)
+      this.manager.generateWidgets()
 
-      this._kernelHeartbeat()
+      if (!firstRun) this._kernelHeartbeat()
     } catch (err) {
       debugger
       console.log('Error in code initialization!')
@@ -69,13 +73,16 @@ export default class NbInteract {
   async _kernelHeartbeat(seconds_between_check = 5) {
     try {
       const { kernelModel } = await this._getKernelModel()
+      console.log('Kernel heartbeat');
     } catch (err) {
       console.log('Looks like the kernel died:', err.toString())
       console.log('Starting a new kernel...')
 
       const kernel = await this._startKernel()
       this.kernel = kernel
+
       this.manager.setKernel(kernel)
+      this.manager.generateWidgets()
     } finally {
       setTimeout(this._kernelHeartbeat, seconds_between_check * 1000)
     }
@@ -90,6 +97,10 @@ export default class NbInteract {
    * back to starting a new server and kernel.
    */
   async _getOrStartKernel() {
+    if (this.kernel) {
+      return this.kernel
+    }
+
     try {
       const kernel = await this._getKernel()
       console.log('Connected to cached kernel.')
