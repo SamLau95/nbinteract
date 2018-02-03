@@ -1,11 +1,12 @@
 {
   "name": "gitbook-plugin-nbinteract",
-  "version": "0.0.27",
+  "version": "0.0.30",
   "description": "Gitbook plugin for nbinteract",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "load": "cp ../nbinteract-core/lib/index.bundle.js ../nbinteract-core/lib/index.bundle.js.map js/"
+    "load": "cp ../nbinteract-core/lib/* js/",
+    "clean": "rm js/*.bundle.js*"
   },
   "repository": {
     "type": "git",

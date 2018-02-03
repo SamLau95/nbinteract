@@ -1,10 +1,13 @@
 import * as outputBase from '@jupyter-widgets/output'
 import { OutputAreaModel, OutputArea } from '@jupyterlab/outputarea'
-import { RenderMime, defaultRendererFactories } from '@jupyterlab/rendermime'
+import {
+  RenderMimeRegistry,
+  standardRendererFactories,
+} from '@jupyterlab/rendermime'
 import { Panel } from '@phosphor/widgets'
 
-const RENDER_MIME = new RenderMime({
-  initialFactories: defaultRendererFactories,
+const RENDER_MIME = new RenderMimeRegistry({
+  initialFactories: standardRendererFactories,
 })
 
 export class OutputModel extends outputBase.OutputModel {

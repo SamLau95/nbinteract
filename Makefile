@@ -2,6 +2,8 @@
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
+BINDER_REGEXP=.*"message": "([^"]+)".*
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -36,14 +38,19 @@ bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	git add requirements.txt ;\
 	git commit -m "nbinteract v$$VERSION" ;\
 	git push origin master ;\
-	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb &
+	make ping_binder
 
+
+ping_binder: ## Force-updates BinderHub image
+	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
+		grep -E '${BINDER_REGEXP}' |\
+		sed -E 's/${BINDER_REGEXP}/\1/' &
 
 start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
 start_webpack:
-	yarn run serve
+	lerna run serve --stream
 
 build_py: ## Build python package
 	rm -rf dist/*

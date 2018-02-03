@@ -1,16 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap --hoist",
-    "serve": "lerna run serve --stream"
+    "install": "lerna bootstrap --hoist"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.39",
+    "@babel/polyfill": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39",
     "@types/requirejs": "^2.1.28",
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-loader": "8.0.0-beta.0",
     "babel-runtime": "^6.26.0",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
@@ -19,11 +19,13 @@
     "lerna": "^2.4.0",
     "postcss": "^6.0.2",
     "prettier": "^1.6.1",
+    "schema-utils": "^0.4.3",
     "style-loader": "^0.18.1",
-    "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.9",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-merge": "^4.1.0"
+    "webpack": "next",
+    "webpack-bundle-analyzer": "^2.9.2",
+    "webpack-cli": "^2.0.4",
+    "webpack-dev-server": "next",
+    "webpack-merge": "^4.1.1"
   }
 }

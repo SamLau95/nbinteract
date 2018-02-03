@@ -1,13 +1,14 @@
 {
   "name": "nbinteract",
-  "version": "0.0.27",
+  "version": "0.0.30",
   "description": "Script to allow public interactive Jupyter notebooks",
   "main": "built/index.bundle.js",
   "scripts": {
     "test": "echo \"Error: no tests available\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "serve": "webpack-dev-server --config webpack.dev.js --open",
+    "build": "webpack --mode production --devtool source-map",
+    "watch": "webpack --watch",
+    "serve": "webpack --watch",
+    "serve-old": "webpack-dev-server --open",
     "clean": "rimraf built/*"
   },
   "repository": {
@@ -28,7 +29,6 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "nbinteract-core": "^0.0.27",
-    "uglifyjs-webpack-plugin": "^1.1.4"
+    "nbinteract-core": "^0.0.30"
   }
 }
