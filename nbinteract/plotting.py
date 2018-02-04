@@ -529,16 +529,6 @@ _default_params = {
     },
 }
 
-_default_mark_params = {
-    # 'x_sc': {
-    #     'min': tz.compose(tz.first, tz.get(''))
-    # }
-    'marks': {
-        'scales': lambda opts: {'x': opts['x_sc'], 'y': opts['y_sc']},
-        'colors': [DARK_BLUE],
-        'stroke': DARK_BLUE,
-    }
-}
 
 def _merge_with_defaults(params):
     """
@@ -633,7 +623,6 @@ def _create_plot(
                 ]
         options = {**options, **{'marks': marks}}
         fig.marks = fig.marks+marks
-        print(fig.marks)
     return marks, fig
 
 
@@ -658,7 +647,6 @@ class Figure:
         self.options = options
         self.figure = figure(options=options)
         self.widget_lst = []
-
 
 
     def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
