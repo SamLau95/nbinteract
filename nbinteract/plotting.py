@@ -21,10 +21,10 @@ import itertools
 import functools
 import logging
 import toolz.curried as tz
-
+from IPython.display import display
 from . import util
 
-__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line']
+__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line', 'figure', 'Figure']
 
 PLACEHOLDER_ZEROS = np.zeros(10)
 PLACEHOLDER_RANGE = np.arange(10)
@@ -47,6 +47,7 @@ default_options = {
     'animation_duration': 0,
     'bins': 10,
     'normalized': True,
+    'marker': 'circle',
 }
 
 options_docstring = '''options (dict): Options for the plot. Available options:
@@ -74,6 +75,11 @@ option_doc = {
     'normalized': (
         'Normalize histogram area to 1 if True. If False, plot '
         'unmodified counts. (default True)'
+    ),
+    'marker':(
+        'Shape of marker plots. Possible values: {‘circle’, ‘cross’, '
+         '‘diamond’, ‘square’, ‘triangle-down’, ‘triangle-up’, ‘arrow’, '
+         '‘rectangle’, ‘ellipse’}'
     ),
 }
 
@@ -162,7 +168,13 @@ def use_options(allowed, defaults=default_options):
 ##############################################################################
 # Plotting functions
 ##############################################################################
-
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
+def figure(*, options={}):
+    fig = _create_plot(options=options)
+    return fig[1]
 
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
@@ -356,9 +368,9 @@ def scatter_drag(
 
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
+    'ylim', 'marker'
 ])
-def scatter(x_fn, y_fn, *, options={}, **interact_params):
+def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     """
     Generates an interactive scatter chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -400,11 +412,13 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
         'marks': [{
             'x': _array_or_placeholder(x_fn),
             'y': _array_or_placeholder(y_fn),
+            'marker': tz.get('marker'),
         }]
     }
+    fig = fig or figure()
 
     [scat], fig = _create_plot(
-        marks=[bq.Scatter], options=options, params=params
+        marks=[bq.Scatter], fig=fig, options=options, params=params
     )
 
     def wrapped(**interact_params):
@@ -515,6 +529,16 @@ _default_params = {
     },
 }
 
+_default_mark_params = {
+    # 'x_sc': {
+    #     'min': tz.compose(tz.first, tz.get(''))
+    # }
+    'marks': {
+        'scales': lambda opts: {'x': opts['x_sc'], 'y': opts['y_sc']},
+        'colors': [DARK_BLUE],
+        'stroke': DARK_BLUE,
+    }
+}
 
 def _merge_with_defaults(params):
     """
@@ -585,25 +609,31 @@ def _create_plot(
             trait: maybe_call(val, opts)
             for trait, val in component.items()
         }
+    if callable(fig):
+        params = _merge_with_defaults(params)
 
-    params = _merge_with_defaults(params)
+        x_sc = x_sc(**call_params(params['x_sc'], options))
+        y_sc = y_sc(**call_params(params['y_sc'], options))
+        options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
 
-    x_sc = x_sc(**call_params(params['x_sc'], options))
-    y_sc = y_sc(**call_params(params['y_sc'], options))
-    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
-
-    x_ax = x_ax(**call_params(params['x_ax'], options))
-    y_ax = y_ax(**call_params(params['y_ax'], options))
-    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
-
-    marks = [
-        mark_cls(**call_params(mark_params, options))
-        for mark_cls, mark_params in zip(marks, params['marks'])
-    ]
-    options = {**options, **{'marks': marks}}
-
-    fig = fig(**call_params(params['fig'], options))
-
+        x_ax = x_ax(**call_params(params['x_ax'], options))
+        y_ax = y_ax(**call_params(params['y_ax'], options))
+        options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
+        marks = []
+        options = {**options, **{'marks': marks}}
+        fig = fig(**call_params(params['fig'], options))
+    else:
+        params = _merge_with_defaults(params)
+        x_sc = fig.axes[0].scale
+        y_sc = fig.axes[1].scale
+        options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+        marks = [
+            mark_cls(**call_params(mark_params, options))
+            for mark_cls, mark_params in zip(marks, params['marks'])
+                ]
+        options = {**options, **{'marks': marks}}
+        fig.marks = fig.marks+marks
+        print(fig.marks)
     return marks, fig
 
 
@@ -619,3 +649,27 @@ def _array_or_placeholder(
     if isinstance(maybe_iterable, collections.Iterable):
         return np.array([i for i in maybe_iterable])
     return placeholder
+
+##############################################################################
+# Figure Class
+##############################################################################
+class Figure:
+    def __init__(self, options={}):
+        self.options = options
+        self.figure = figure(options=options)
+        self.widget_lst = []
+
+
+
+    def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
+        box = scatter(x_fn, y_fn, fig=self.figure,
+                                 options=options, **interact_params)
+        widget = box.children[0]
+        fig = box.children[1]
+        self.widget_lst.append(widget)
+
+    def show(self):
+        for widget in self.widget_lst:
+            display(widget)
+        display(self.figure)
+
