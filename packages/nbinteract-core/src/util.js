@@ -8,7 +8,7 @@ import { KernelMessage } from '@jupyterlab/services'
  * Converts a notebook HTTP URL to a WebSocket URL
  */
 export const baseToWsUrl = baseUrl =>
-  'wss:' +
+  (baseUrl.includes('localhost') ? 'ws:' : 'wss:') +
   baseUrl
     .split(':')
     .slice(1)
