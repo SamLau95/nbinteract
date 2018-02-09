@@ -22,14 +22,10 @@ export default class NbInteract {
    *     `${username}/${repo}/${branch}`. Uses nbinteract-image by default.
    *
    * @param {String} [provider] - BinderHub provider. Uses GitHub by default.
-   *
-   * @param {bool} [record_messages=false] - Debugging argument that records
-   *     all messages sent by kernel. Will increase memory usage!
    */
   constructor(
     spec = DEFAULT_SPEC,
     provider = DEFAULT_PROVIDER,
-    record_messages = false,
   ) {
     this.run = debounce(this.run, 500, { leading: true, trailing: false })
     this._kernelHeartbeat = this._kernelHeartbeat.bind(this)

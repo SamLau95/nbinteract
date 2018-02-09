@@ -54,10 +54,6 @@ export class WidgetManager extends HTMLManager {
    * Callback for kernel execution requests
    */
   async _displayWidget(cell, msg) {
-    if (this.messages) {
-      this.messages.push(msg)
-    }
-
     if (util.isErrorMsg(msg)) {
       console.error('Error in code run:', msg.content)
     }
