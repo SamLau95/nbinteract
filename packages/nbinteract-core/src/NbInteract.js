@@ -73,7 +73,6 @@ export default class NbInteract {
   async _kernelHeartbeat(seconds_between_check = 5) {
     try {
       const { kernelModel } = await this._getKernelModel()
-      console.log('Kernel heartbeat');
     } catch (err) {
       console.log('Looks like the kernel died:', err.toString())
       console.log('Starting a new kernel...')
