@@ -19,17 +19,6 @@ import nbformat
 from nbconvert import HTMLExporter
 from traitlets.config import Config
 
-scripts = """
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$']],
-      processEscapes: true
-    }
-  });
-</script>
-"""
-
 # Use ExtractOutputPreprocessor to extract the images to separate files
 config = Config()
 config.HTMLExporter.preprocessors = [
@@ -48,25 +37,22 @@ NOTEBOOK_HTML_DIR = 'notebooks-html'
 # Output notebook HTML images into this directory
 NOTEBOOK_IMAGE_DIR = 'notebooks-images'
 
-# The prefix for the interact button links. The path format string gets filled
-# in with the notebook as well as any datasets the notebook requires.
-INTERACT_LINK = ('http://datahub.berkeley.edu/user-redirect/'
-                 'interact?repo=textbook&{paths}')
-
 # The prefix for each notebook + its dependencies
 PATH_PREFIX = 'path=notebooks/{}'
 
 # The regex used to find file dependencies for notebooks. I could have used
 # triple quotes here but it messes up Python syntax highlighting :(
 DATASET_REGEX = re.compile(
-    r"read_table\("        # We look for a line containing read_table(
-    r"('|\")"              # Then either a single or double quote
-    r"(?P<dataset>"        # Start our named match -- dataset
-    r"    (?!https?://)"   # Don't match http(s) since those aren't local files
-    r"    \w+.csv\w*"      # It has to have .csv in there (might end in .gz)
-    r")"                   # Finish our match
-    r"\1\)"                # Make sure the quotes match
-, re.VERBOSE)
+    r"read_table\("  # We look for a line containing read_table(
+    r"('|\")"  # Then either a single or double quote
+    r"(?P<dataset>"  # Start our named match -- dataset
+    r"    (?!https?://)"  # Don't match http(s) since those aren't local files
+    r"    \w+.csv\w*"  # It has to have .csv in there (might end in .gz)
+    r")"  # Finish our match
+    r"\1\)"  # Make sure the quotes match
+    ,
+    re.VERBOSE
+)
 
 # Used to ensure all the closing div tags are on the same line for Markdown to
 # parse them properly
@@ -100,9 +86,10 @@ def convert_notebooks_to_html_partial(notebook_paths):
 
         notebook = nbformat.read(notebook_path, 4)
         raw_html, resources = html_exporter.from_notebook_node(
-            notebook, resources=extract_output_config)
+            notebook, resources=extract_output_config
+        )
 
-        html = _extract_cells(raw_html) + scripts
+        html = _extract_cells(raw_html)
 
         with_wrapper = """<div id="ipython-notebook">
             {html}
@@ -145,6 +132,7 @@ def _extract_cells(html):
         # TODO(sam): Figure out a better way to remove empty cell outputs
         for t in tag.find_all('div', class_='prompt'):
             t.decompose()
+
     [remove_empty_spans_and_prompts(div) for div in divs]
 
     return '\n'.join(map(str, divs))

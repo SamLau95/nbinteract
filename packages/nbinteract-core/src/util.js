@@ -37,7 +37,7 @@ export const cellToWidgetOutput = cell =>
 
 export const removeLoadingFromCell = cell => {
   // Keep in sync with interact_template.tpl
-  const el = cell.querySelector('.js-widget-loading-indicator')
+  const el = cell.querySelector('.nbinteract-js-widget')
   if (el) el.remove()
 }
 

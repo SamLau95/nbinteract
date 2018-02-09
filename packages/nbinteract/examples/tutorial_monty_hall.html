@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>bqplot_ols_demo</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<title>tutorial_monty_hall</title>
 
 <style type="text/css">
     /*!
@@ -11771,19 +11770,77 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="An-Interactive-Monty-Hall-Simulation">An Interactive Monty Hall Simulation<a class="anchor-link" href="#An-Interactive-Monty-Hall-Simulation">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>nbinteract</code> was designed to make interactive explanations easy to create. In this tutorial, we will show the process of writing a simulation from scratch and visualizing the results interactively.</p>
+<p>In this section, you will create an interactive simulation of the Monty Hall Problem. You may continue writing code in the notebook from the previous section or create a new one for this section.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Monty-Hall-Problem">The Monty Hall Problem<a class="anchor-link" href="#The-Monty-Hall-Problem">&#182;</a></h2><p>The Monty Hall Problem (<a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia</a>) is a famous probability problem that has stumped many, mathematicians included. The problem goes something like this:</p>
+<blockquote><p>Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who knows what's behind the doors, opens another door, say No. 3, which has a goat. He then says to you, "Do you want to switch your choice to door No. 2?" Is it to your advantage to switch your choice?</p>
+</blockquote>
+<p>Perhaps unintuitively, you will win the prize about twice as often if you switch doors. We can show this through simulation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simulating-a-Game">Simulating a Game<a class="anchor-link" href="#Simulating-a-Game">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One way to write an interactive explanation is to write functions and create interactions for each one as applicable. Composing the functions allows you to create more complicated processes. <code>nbinteract</code> also provides tools for interactive visualizations as we will soon see.</p>
+<p>Let's start with defining a function to simulate one round of the Monty Hall Problem.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">bqplot</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">bqplot.marks</span> <span class="k">as</span> <span class="nn">bqm</span>
-<span class="kn">import</span> <span class="nn">bqplot.scales</span> <span class="k">as</span> <span class="nn">bqs</span>
-<span class="kn">import</span> <span class="nn">bqplot.axes</span> <span class="k">as</span> <span class="nn">bqa</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">bqplot</span> <span class="k">as</span> <span class="nn">bq</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
-<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">PRIZES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">,</span> <span class="s1">&#39;Goat 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Goat 2&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">monty_hall</span><span class="p">(</span><span class="n">example_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Simulates one round of the Monty Hall Problem. Outputs a tuple of</span>
+<span class="sd">    (result if stay, result if switch, result behind opened door) where</span>
+<span class="sd">    each results is one of PRIZES.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pick</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">PRIZES</span><span class="p">)</span>
+    <span class="n">opened</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="s1">&#39;Car&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">opened</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pick</span><span class="p">,</span> <span class="n">remainder</span><span class="p">,</span> <span class="n">opened</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11791,49 +11848,21 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that the <code>example_num</code> argument is passed in but not used in the <code>monty_hall</code> function. Although it's unneeded for the function, it is easier to use <code>interact</code> to call functions when they have arguments to manipulate:</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">update_line</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="c1"># create line fit to data and display equation</span>
-    <span class="n">lin</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
-    <span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">scat</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">lin</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">lin</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-
-<span class="c1"># create initial data set</span>
-<span class="n">size</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-
-<span class="c1"># set up plot elements</span>
-<span class="n">sc_x</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
-<span class="n">sc_y</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
-<span class="n">ax_x</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_x</span><span class="p">)</span>
-<span class="n">ax_y</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_y</span><span class="p">,</span> <span class="n">tick_format</span><span class="o">=</span><span class="s1">&#39;0.2f&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
-
-<span class="c1"># place data on scatter plot that allows point dragging</span>
-<span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_data</span><span class="p">,</span>
-                   <span class="n">y</span><span class="o">=</span><span class="n">y_data</span><span class="p">,</span>
-                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span>
-                   <span class="n">enable_move</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># set up callback</span>
-<span class="n">scat</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">update_line</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
-
-<span class="c1"># linear fit line</span>
-<span class="n">lin</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span> <span class="n">animation_duration</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-<span class="c1"># equation label</span>
-<span class="n">label</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">()</span>
-<span class="c1"># containers</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">bq</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">scat</span><span class="p">,</span> <span class="n">lin</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="n">ax_x</span><span class="p">,</span> <span class="n">ax_y</span><span class="p">])</span>
-<span class="n">box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">label</span><span class="p">,</span> <span class="n">fig</span><span class="p">])</span>
-
-<span class="c1"># initialize plot and equation and display</span>
-<span class="n">update_line</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">monty_hall</span><span class="p">,</span> <span class="n">example_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
 </pre></div>
 
 </div>
@@ -11854,14 +11883,10 @@ div#notebook {
 
 
 
-<div id="f608bfe1-131c-47bd-8bcd-89f69c6db20c"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#f608bfe1-131c-47bd-8bcd-89f69c6db20c');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "5a7b02e839f54edba5dc09f125e84401"}
-</script>
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
 </div>
 
 </div>
@@ -11869,55 +11894,99 @@ var element = $('#f608bfe1-131c-47bd-8bcd-89f69c6db20c');
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By interacting with the function above, we are able to informally verify that the function never allows the host to open a door with a car behind it. Even though the function is random we are able to use interaction to examine its long-term behavior!</p>
+<p>We'll continue by defining a function to simulate a game of Monty Hall and output the winning strategy for that game:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">winner</span><span class="p">(</span><span class="n">example_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plays a game of Monty Hall. If staying with the original door wins</span>
+<span class="sd">    a car, return &#39;stay&#39;. Otherwise, the remaining door contains the car</span>
+<span class="sd">    so &#39;switch&#39; would have won.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">picked</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">monty_hall</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39;stay&#39;</span> <span class="k">if</span> <span class="n">picked</span> <span class="o">==</span> <span class="s1">&#39;Car&#39;</span> <span class="k">else</span> <span class="s1">&#39;switch&#39;</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">winner</span><span class="p">,</span> <span class="n">example_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, a bit of interaction lets us quickly examine the behavior of <code>winner</code>. We can see that <code>switch</code> appears more often than <code>stay</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Brief-Introduction-to-Plotting-with-nbinteract">Brief Introduction to Plotting with <code>nbinteract</code><a class="anchor-link" href="#Brief-Introduction-to-Plotting-with-nbinteract">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's create an interactive bar chart of the number of times each strategy wins. We'll use <code>nbinteract</code>'s plotting functionality.</p>
+<p><code>nbi.bar</code> creates a bar chart:</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">x_points</span><span class="p">,</span> <span class="n">y_points</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">update_line</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="c1"># create line fit to data and display equation</span>
-        <span class="n">lin</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
-        <span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">scat</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">scat</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">lin</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">lin</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;y = </span><span class="si">{:.2f}</span><span class="s1"> + </span><span class="si">{:.2f}</span><span class="s1">x&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">poly</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">poly</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">sc_x</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
-    <span class="n">sc_y</span> <span class="o">=</span> <span class="n">bqs</span><span class="o">.</span><span class="n">LinearScale</span><span class="p">()</span>
-    <span class="n">ax_x</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_x</span><span class="p">)</span>
-    <span class="n">ax_y</span> <span class="o">=</span> <span class="n">bqa</span><span class="o">.</span><span class="n">Axis</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">sc_y</span><span class="p">,</span> <span class="n">tick_format</span><span class="o">=</span><span class="s1">&#39;0.2f&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
-    <span class="n">scat</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_points</span><span class="p">,</span>
-                   <span class="n">y</span><span class="o">=</span><span class="n">y_points</span><span class="p">,</span>
-                   <span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span>
-                   <span class="n">enable_move</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># set up callback</span>
-    <span class="c1"># set up callback</span>
-    <span class="n">scat</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">update_line</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 
-    <span class="c1"># linear fit line</span>
-    <span class="n">lin</span> <span class="o">=</span> <span class="n">bqm</span><span class="o">.</span><span class="n">Lines</span><span class="p">(</span><span class="n">scales</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">sc_x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">sc_y</span><span class="p">},</span> <span class="n">animation_duration</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-    <span class="c1"># equation label</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">()</span>
-    <span class="c1"># containers</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">bq</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">scat</span><span class="p">,</span> <span class="n">lin</span><span class="p">],</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="n">ax_x</span><span class="p">,</span> <span class="n">ax_y</span><span class="p">])</span>
-    <span class="n">box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">label</span><span class="p">,</span> <span class="n">fig</span><span class="p">])</span>
-
-    <span class="c1"># initialize plot and equation and display</span>
-    <span class="n">update_line</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -11938,14 +12007,28 @@ var element = $('#f608bfe1-131c-47bd-8bcd-89f69c6db20c');
 
 
 
-<div id="bbf236ec-fd67-47f4-9de6-f4cffef544c4"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#bbf236ec-fd67-47f4-9de6-f4cffef544c4');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"version_major": 2, "version_minor": 0, "model_id": "fa0eb7effe394a08813f7f003b579d09"}
-</script>
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
 </div>
 
 </div>
@@ -11953,11 +12036,809 @@ var element = $('#bbf236ec-fd67-47f4-9de6-f4cffef544c4');
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To make an interactive chart, pass a response function in place of one or both of <code>bar</code>'s arguments.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This function generates the x-values</span>
+<span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcdefg&#39;</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
+
+<span class="c1"># This function generates the y-values (heights of bars)</span>
+<span class="c1"># The y response function always takes in the x-values as its</span>
+<span class="c1"># first argument</span>
+<span class="k">def</span> <span class="nf">offset_y</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+    <span class="n">num_categories</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_categories</span><span class="p">)</span> <span class="o">+</span> <span class="n">offset</span>
+
+<span class="c1"># Each argument of the response functions is passed in as a keyword</span>
+<span class="c1"># argument to `nbi.bar` in the same format as `interact`</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">offset_y</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Visualizing-the-Winners">Visualizing the Winners<a class="anchor-link" href="#Visualizing-the-Winners">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, let's turn back to our original goal: plotting the winners as games are played.</p>
+<p>We can call <code>winner</code> many times and use <code>nbi.bar</code> to show the bar chart as it's built over the trials.</p>
+<p>Note that we compute the results before defining our function <code>won</code>. This has two benefits over running the simulation directly in <code>won</code>:</p>
+<ol>
+<li>It gives us consistency in our interaction. If we run a random simulation in <code>won</code>, moving the slider from 500 to a different number back to 500 will give us a slightly different bar chart.</li>
+<li>It makes the interaction smoother since less work is being done each time the slider is moved.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stay&#39;</span><span class="p">,</span> <span class="s1">&#39;switch&#39;</span><span class="p">]</span>
+
+<span class="n">winners</span> <span class="o">=</span> <span class="p">[</span><span class="n">winner</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span>
+
+<span class="c1"># Note that the the first argument to the y response function</span>
+<span class="c1"># will be the x-values which we don&#39;t need</span>
+<span class="k">def</span> <span class="nf">won</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">num_games</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Outputs a 2-tuple of the number of times each strategy won</span>
+<span class="sd">    after num_games games.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;stay&#39;</span><span class="p">),</span>
+            <span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;switch&#39;</span><span class="p">))</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">won</span><span class="p">,</span> <span class="n">num_games</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that by default the plot will adjust its y-axis to match the limits of the data. We can manually set the y-axis limits to better visualize this plot being built up. We will also add labels to our plot:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of times each strategy wins&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Strategy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of wins&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">won</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">num_games</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can get even fancy and use the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Play-(Animation)-widget"><code>Play</code> widget</a> from <code>ipywidgets</code> to animate the plot.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">Play</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">won</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+        <span class="n">num_games</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have an interactive, animated bar plot showing the distribution of wins over time for both Monty Hall strategies. This is a convincing argument that switching is better than staying. In fact, the bar plot above suggests that switching is about twice as likely to win as staying!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simulating-Sets-of-Games">Simulating Sets of Games<a class="anchor-link" href="#Simulating-Sets-of-Games">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Is switching actually twice as likely to win? We can again use simulation to answer this question by simulating sets of 50 games at a time. recording the proportion of times <code>switch</code> wins.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prop_wins</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Returns proportion of times switching wins after sample_size games.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">winner</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;switch&#39;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span> <span class="o">/</span> <span class="n">sample_size</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">prop_wins</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can then define a function to play sets of games and generate a list of win proportions for each set:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns an array of length reptitions. Each element in the list is the</span>
+<span class="sd">    proportion of times switching won in sample_size games.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">prop_wins</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">)])</span>
+
+<span class="n">interact</span><span class="p">(</span><span class="n">generate_proportions</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">repetitions</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Interacting with <code>generate_proportions</code> shows the relationship between its arguments <code>sample_size</code> and <code>repetitions</code> more quickly than reading the function itself!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Visualizing-Proportions">Visualizing Proportions<a class="anchor-link" href="#Visualizing-Proportions">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can then use <code>nbi.hist</code> to show these proportions being computed over runs.</p>
+<p>Again, we pre-compute the simulations and interact with a function that takes a slice of the simulations to make the interaction faster.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Play the game 10 times, recording the proportion of times switching wins.</span>
+<span class="c1"># Repeat 100 times to record 100 proportions</span>
+<span class="n">proportions</span> <span class="o">=</span> <span class="n">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">props_up_to</span><span class="p">(</span><span class="n">num_sets</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">proportions</span><span class="p">[:</span><span class="n">num_sets</span><span class="p">]</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_up_to</span><span class="p">,</span> <span class="n">num_sets</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As with last time, it's illustrative to specify the limits of the axes:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportion over 100 sets of 10 games when switching&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Proportions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Percent per area&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_up_to</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">num_sets</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that the distribution of wins is centered at roughly 0.66 but the distribution almost spans the entire x-axis. Will increasing the sample size make our distribution more narrow? Will increasing repetitions do the trick? Or both? We can find out through simulation and interaction.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll start with increasing the sample size:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">varying_sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">sample_size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">props_for_sample_size</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">varying_sample_size</span><span class="p">[</span><span class="n">sample_size</span> <span class="o">-</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">changed_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportions as sample size increases&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_for_sample_size</span><span class="p">,</span>
+         <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">changed_options</span><span class="p">},</span>
+         <span class="n">sample_size</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So increasing the sample size makes the distribution narrower. We can now see more clearly that the distribution is centered at 0.66.</p>
+<p>We can repeat the process for the number of repetitions:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">varying_reps</span> <span class="o">=</span> <span class="p">[</span><span class="n">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span> <span class="k">for</span> <span class="n">reps</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">props_for_reps</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">varying_reps</span><span class="p">[</span><span class="n">reps</span> <span class="o">-</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">changed_options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportions as repetitions increase&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_for_reps</span><span class="p">,</span>
+         <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="o">**</span><span class="n">options</span><span class="p">,</span> <span class="o">**</span><span class="n">changed_options</span><span class="p">},</span>
+         <span class="n">reps</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our distribution gets smoother as the number of repetitions increases since we have more proportions to plot. However, the spread of the distribution remains the same.</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>Through simulation, we've shown that increasing the sample size causes our distribution of proportions to become more narrowly distributed. Increasing the number of repetitions makes our distribution look smoother when plotted but doesn't affect the distribution spread.</p>
+<p>We've also seen through increasing the sample size shows that our distribution is centered at 0.66. This implies that the probability of winning the Monty Hall game when switching is around 0.66, and thus the probability of winning the Monty Hall game when staying is around 0.33.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Through this extended example, we've shown how interaction and visualization can help explore ideas and convincingly explain concepts. Congrats on making it through the tutorial! Let's now publish your results to the web.</p>
+<p>Like the previous section of the tutorial, you may simply paste this code in a cell (replace <code>tutorial.ipynb</code> with the name of your notebook if needed):</p>
+
+<pre><code>nbi.publish('tutorial.ipynb')
+
+</code></pre>
+<p>It will output a link to download an HTML file.</p>
+<p>You may now open your GitHub repo and upload your HTML file by dragging onto the page. Commit your changes, and you now have an interactive explanation of the Monty Hall problem to show the world!</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
   <!-- This line contains the JS to run the widget code -->
-  <script src="built/index.bundle.js"></script>
+  <script src="../built/index.bundle.js"></script>
 </body>
 
 
