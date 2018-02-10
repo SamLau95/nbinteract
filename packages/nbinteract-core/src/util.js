@@ -8,7 +8,7 @@ import { KernelMessage } from '@jupyterlab/services'
  * Converts a notebook HTTP URL to a WebSocket URL
  */
 export const baseToWsUrl = baseUrl =>
-  'wss:' +
+  (baseUrl.includes('localhost') ? 'ws:' : 'wss:') +
   baseUrl
     .split(':')
     .slice(1)
@@ -37,7 +37,7 @@ export const cellToWidgetOutput = cell =>
 
 export const removeLoadingFromCell = cell => {
   // Keep in sync with interact_template.tpl
-  const el = cell.querySelector('.js-widget-loading-indicator')
+  const el = cell.querySelector('.nbinteract-js-widget')
   if (el) el.remove()
 }
 

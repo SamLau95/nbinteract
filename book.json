@@ -7,7 +7,7 @@
   ],
   "pluginsConfig": {
     "nbinteract": {
-      "auto_run": true
+      "auto_run": false
     },
     "ga": {
       "token": "UA-42949369-5"

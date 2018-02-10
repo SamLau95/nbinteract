@@ -23,6 +23,9 @@ const VALID_STATES = new Set([
   'ready',
 ])
 
+// This is hard-coded to the server started using `make start_notebook`
+const LOCAL_SERVER_URL = 'http://localhost:8889/'
+
 /**
  * Implements the Binder API to start kernels.
  */
@@ -35,9 +38,13 @@ export default class BinderHub {
    *
    * @param {Object} [callbacks] - Mapping from state to callback fired when
    *     BinderHub transitions to that state.
+   *
+   * @param {Boolean} [local] - If true, uses locally running notebook server
+   *     instead of mybinder.org server. Used for development only.
    */
-  constructor(spec, provider, callbacks = {}) {
+  constructor(spec, provider, callbacks = {}, local = false) {
     this.image = new Image(provider, spec)
+    this.local = local
 
     // Register all callbacks at once
     Object.entries(callbacks).map(([state, cb]) =>
@@ -46,6 +53,12 @@ export default class BinderHub {
   }
 
   start_server() {
+    if (this.local) {
+      return Promise.resolve({
+        url: LOCAL_SERVER_URL,
+      })
+    }
+
     return new Promise((resolve, reject) => {
       this.register_callback('*', (oldState, newState, data) => {
         if (data.message !== undefined) {

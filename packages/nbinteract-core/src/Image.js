@@ -20,11 +20,14 @@
 
 const BASE_URL = 'https://mybinder.org'
 
+const MAX_CONNECTION_ATTEMPTS = 3
+
 function Image(provider, spec) {
   this.provider = provider
   this.spec = spec
   this.callbacks = {}
   this.state = null
+  this.failed_connection_attempts = 0
 }
 
 Image.prototype.onStateChange = function(state, cb) {
@@ -61,6 +64,13 @@ Image.prototype.fetch = function() {
     that.changeState('failed', {
       message: 'Failed to connect to event stream\n',
     })
+
+    that.failed_connection_attempts++
+    if (that.failed_connection_attempts >= MAX_CONNECTION_ATTEMPTS) {
+      console.error('Maximum number of failed connection attempts reached.',
+                    'Aborting nbinteract initialization...')
+      that.eventSource.close()
+    }
   }
   this.eventSource.addEventListener('message', function(event) {
     var data = JSON.parse(event.data)

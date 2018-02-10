@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Variability_of_the_Sample_Mean</title>
+<title>examples_variability_of_the_sample_mean</title>
 
 <style type="text/css">
     /*!
@@ -11783,6 +11783,7 @@ div#notebook {
 <span class="n">plots</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div>
 
 </div>
@@ -11859,13 +11860,18 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
-<span class="n">delay</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pop_mean</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0008</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
-<span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.004</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Delay (minute)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Percent per minute&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.037</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">united</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">delay_opts</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11883,161 +11889,31 @@ div#notebook {
 
 
 
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-Q3FxcapXr57WrFkjHx8fZ5ZVqO7e67rjzt5XUTr3BQBFidMv2Bg4cKAGDhzo7DKc5u69rjvu7H1t
-3Up4AUBOnP54qEdZTntdd3DuCwBy5/Q9r0fZL78kqWXLx2WxWLLNs9ls+vnnJA4dAkAOCC8nGjDA
-XwMG+Du7DAAwHQ4bAgBMh/ACAJgO4QUAMB3CCwBgOoQXAMB0CC8AgOkQXgAA0yG8AACmQ3gBAEyH
-8AIAmI4lKSnJ5uwiAADID/a8AACmQ3gBAEyH8AIAmA7hBQAwHcILAGA6hNcDiIiIUIMGDVSpUiW1
-bt1ae/fudXZJ+RYWFiar1Zrlp3bt2pnzbTabwsLCVLduXVWuXFmdO3fWTz/95MSKc7dnzx716NFD
-9erVk9VqVWRkZJb5Rnq5ceOGRo8erRo1aqhKlSrq0aOHzp8/X5ht5Oh+vQ0dOjTbdmzXrl2WMUW1
-t9mzZ+u5556Tt7e3atasqe7du+vYsWNZxph12xnpzazbbtGiRWrZsqW8vb3l7e2t9u3bKyoqKnO+
-o7cZ4VVAGzZs0Lhx4zRy5Eh98803at68uUJDQ/Xrr786u7R88/Pz0/HjxzN/7g7hOXPmaP78+QoP
-D9eOHTvk5eWll156Sb///rsTK85Zamqq/P39NX36dJUsWTLbfCO9jB8/Xlu2bNG//vUvffbZZ/r9
-99/VvXt3paenF2Yr2dyvN0l69tlns2zHtWvXZplfVHvbvXu3BgwYoKioKG3evFnFihVT165ddeXK
-lcwxZt12RnqTzLntqlSpoilTpujrr7/Wzp07FRQUpN69e+vIkSOSHL/NuM+rgNq2bauAgADNnTs3
-c1rjxo0VEhKiSZMmObGy/AkLC9PmzZu1b9++bPNsNpvq1q2rQYMGadSoUZKkP/74Q35+fnrvvffU
-v3//wi7XsCeeeEL/+Mc/1Lt3b0nGeklOTlatWrU0f/58vfzyy5Kkc+fOqX79+lq3bp3atm3rtH7u
-dm9v0u3/vV++fFmrV6/O8Ttm6U2SUlJS5OPjo8jISHXs2PGh2nb39iY9XNvO19dXkyZNUr9+/Ry+
-zdjzKoC0tDQdPHhQbdq0yTK9TZs2+vbbb51UVcGdPn1adevWVYMGDfTqq6/q9OnTkqQzZ84oLi4u
-S58lS5ZUy5YtTdenkV4OHjyomzdvZhlTtWpV1alTxxT97tu3T7Vq1VKTJk00fPhwJSQkZM4zU28p
-KSnKyMiQ1WqV9HBtu3t7u8Ps2y49PV3r169XamqqmjdvXijbrJj923j4JSYmKj09XV5eXlmme3l5
-KT4+3klVFUzTpk21YMEC+fn56dKlS5oxY4aCg4MVExOjuLg4ScqxzwsXLjij3AIz0kt8fLxcXV3l
-6emZbUxR367t2rVTly5dVK1aNZ09e1ZTp07Viy++qF27dumxxx4zVW/jxo1T/fr11bx5c0kP17a7
-tzfJ3Nvu6NGjCg4O1vXr1+Xh4aEVK1YoICAgM3wcuc0Ir0dc+/bts3xu1qyZGjZsqJUrV6pZs2ZO
-qgr51a1bt8zfAwIC1KhRI9WvX19RUVF68cUXnVhZ/kyYMEExMTH64osv5Orq6uxy7Cq33sy87fz8
-/BQdHa2rV69q06ZNGjp0qLZu3Voo6+awYQF4enrK1dU1y669JCUkJKhixYpOqso+PDw8VLduXZ08
-eVKVKlWSpIeiTyO9VKxYUenp6UpMTMx1jFk8/vjjqlKlik6ePCnJHL2NHz9e69ev1+bNm+Xr65s5
-/WHYdrn1lhMzbTs3NzfVqFFDjRo10qRJk1S/fn0tWLCgULYZ4VUAbm5uatSokXbu3Jll+s6dO9Wi
-RQsnVWUf169fV2xsrCpVqqRq1aqpUqVKWfq8fv269u3bZ7o+jfTSqFEjFS9ePMuY8+fP6/jx46br
-99KlS7pw4ULmH5Gi3tvYsWMz/7jffauGZP5tl1dvOTHbtrtbRkaG0tLSCmWbuY4bN26y3Tt4BJQu
-XVphYWGqXLmySpQooRkzZmjv3r2aN2+eypYt6+zyDHvrrbfk5uamjIwM/d///Z9Gjx6tkydP6v33
-35fValV6ero++OAD1axZU+np6Zo4caLi4uL0wQcf6LHHHnN2+VmkpKTo559/VlxcnJYvXy5/f3+V
-KVNGaWlpKlu27H17KVGihC5evKiIiAgFBAQoOTlZI0aMUJkyZTRlyhS5uDjv/3p59ebq6qp3331X
-pUqV0q1bt3T48GENHz5c6enpmjFjRpHvbdSoUVq1apWWLl2qqlWrKjU1VampqZJu/0fRYrGYdtvd
-r7eUlBTTbrvJkydn/u04f/68Fi5cqDVr1mjy5MmZ28mR24xL5R9ARESE5syZo7i4ONWrV0/Tpk3T
-M8884+yy8uXVV1/V3r17lZiYqAoVKqhp06aaOHGi6tatK+n2JebTp0/X0qVLlZSUpCZNmmjmzJny
-9/d3cuXZRUdHq0uXLtmm9+zZUwsXLjTUy40bN/TWW29p3bp1un79uoKCgjRr1ixVrVq1MFvJJq/e
-Zs+erd69e+vQoUNKTk5WpUqVFBgYqIkTJ2apu6j2du+Vd3eMHTtW48ePl2Ts32FR7O9+vf3xxx+m
-3XZDhw5VdHS04uPjVaZMGQUEBGj48OGZl7g7epsRXgAA0+GcFwDAdAgvAIDpEF4AANMhvAAApkN4
-AQBMh/ACAJgO4QU8gMjIyCwvEaxSpYrq16+v3r17a+PGjbLZ8n8nSnR0tKxWq6Kjox1QMfBw4MG8
-gB0sW7ZMVapU0Y0bN3Tu3Dl9+eWXGjBggJYuXapVq1bl+gJJAAVDeAF2UL9+fdWoUSPzc48ePRQS
-EqJ+/frpnXfe0YwZM5xYHfDw4bAh4CAhISHq1KmTPvnkE127dk2SdO3aNU2aNEkNGjSQl5eXGjRo
-oJkzZyojIyPPZe3YsUOhoaGqU6eOHn/8cT399NP68MMPs7wuvXv37goMDMz23dOnT6tcuXJavHix
-fRsEnIg9L8CBgoODtW3bNh04cEAtWrRQt27d9PPPP2v06NEKCAjQ/v37NWPGDF25ckV///vfc13O
-6dOn1apVKw0YMEDu7u46ePCgwsPDlZiYqMmTJ0uSBgwYoJdfflk//PCDmjRpkvndZcuWycPDQ6Gh
-oY5uFyg0hBfgQHceMBoXF6d169Zp37592rZtW+YDnFu3bi1JCg8P1xtvvJHtzbN3vPrqq5m/22w2
-tWzZUmlpafrwww/1zjvvyMXFRe3atZOvr6+WLFmSGV43b95UZGSkQkNDVbp0aUe2ChQqDhsCDnTn
-akOLxaKvvvpK3t7eatGihW7dupX506ZNG928eVP79+/PdTkXL17UG2+8oSeffFJeXl6qUKGCpk6d
-quTk5MwX/rm4uKh///7asGGDkpOTJUnbtm1TfHy8+vXr5/BegcJEeAEOdP78eUm33wackJCgX3/9
-VRUqVMjy06ZNG0nS5cuXc1xGRkaGevbsqaioKI0ePVqbN2/Wzp07NWrUKEm3X/J3R58+fZSenq7V
-q1dLkhYvXqwmTZqoYcOGjmwTKHQcNgQcKCoqSiVKlFCjRo1Uvnx5VatWTUuXLs1xrI+PT47TT506
-pQMHDuijjz5S9+7dM6d//vnn2caWL19eXbt21dKlS9W2bVtFR0dr7ty5dukFKEoIL8BBNm3apM8/
-/1xDhgyRu7u72rZtq82bN8vDw8PQ6+DvuHOlYvHixTOn3bx5U2vXrs1x/MCBA9W+fXu9/vrrKlOm
-jLp16/alkSj3AAABZklEQVRgjQBFEOEF2MHhw4eVmJiotLQ0nTt3TlFRUfr3v/+t5557TpMmTZIk
-vfzyy4qMjFRISIiGDRum+vXrKy0tTadOndLnn3+uyMhIubu7Z1t2nTp15O3trffee0+urq4qVqyY
-FixYkGstzZo1U4MGDbR3714NHjw4x2UCZkd4AXbwyiuvSJJKlCihChUqqGHDhlq8eLFCQkJksVgk
-3d5z2rBhg95//30tW7ZMZ86ckbu7u6pXr67g4GC5ubnluGw3NzdFRkZqzJgxGjJkiMqVK6fevXvL
-29tbw4cPz/E7Xbt21aFDh9S/f3/HNAw4mSUpKSn/D18DUKR16NBBLi4uOZ4XAx4G7HkBD4kbN27o
-xx9/1K5du/Ttt99q5cqVzi4JcBjCC3hIXLx4UcHBwSpbtqxGjhypTp06ObskwGE4bAgAMB1uUgYA
-mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
-"
->
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
 </div>
 
 </div>
@@ -12058,13 +11934,12 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;Empirical distribution of random sample means&quot;&quot;&quot;</span>
 
-<span class="k">def</span> <span class="nf">simulate_sample_mean</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">):</span>
-
+<span class="k">def</span> <span class="nf">simulate_sample_mean</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="n">means</span> <span class="o">=</span> <span class="n">make_array</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
@@ -12072,20 +11947,14 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
         <span class="n">new_sample_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">new_sample</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
         <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">new_sample_mean</span><span class="p">)</span>
 
-    <span class="n">sample_means</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="s1">&#39;Sample Means&#39;</span><span class="p">,</span> <span class="n">means</span><span class="p">)</span>
 
-    <span class="c1"># Display empirical histogram and print all relevant quantities</span>
-    <span class="n">sample_means</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample Means&#39;</span><span class="p">)</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sample Size &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span>
+    <span class="c1"># Print all relevant quantities</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample size: &quot;</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population mean:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Average of sample means: &quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Population SD:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SD of sample means:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">means</span><span class="p">))</span>
-    <span class="n">plots</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">means</span>
 </pre></div>
 
 </div>
@@ -12097,7 +11966,7 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let us simulate the mean of a random sample of 100 delays, then of 400 delays, and finally of 625 delays. We will perform 2000 repetitions of each of these process.</p>
+<p>Let us simulate the mean of a random sample of 100 delays, then of 400 delays, and finally of 625 delays. We will perform 1000 repetitions of each of these process.</p>
 
 </div>
 </div>
@@ -12113,12 +11982,20 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">interact</span><span class="p">(</span><span class="n">simulate_sample_mean</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">delay</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">),</span>
-             <span class="n">sample_size</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">625</span><span class="p">]),</span>
-             <span class="n">repetitions</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">means_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Sample Means&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Percent per unit&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">35</span><span class="p">),</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">simulate_sample_mean</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="n">delay</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">fixed</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">),</span>
+         <span class="n">sample_size</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">625</span><span class="p">]),</span>
+         <span class="n">options</span><span class="o">=</span><span class="n">means_opts</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12139,11 +12016,28 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 
 
 
-<div id="f247e95e-4af8-46bf-ac1d-61bd01f4f4b5"></div>
 <div class="output_subarea output_widget_view ">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "3b2f7cf047544e91857f5f5aad30f247", "version_major": 2, "version_minor": 0}
-</script>
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <div class="nbinteract-js-widget">
+    Show Widget
+  </div>
 </div>
 
 </div>
@@ -12174,7 +12068,7 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pop_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">delay</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s1">&#39;Delay&#39;</span><span class="p">))</span>
@@ -12191,7 +12085,7 @@ mA7hBQAwHcILAGA6hBcAwHQILwCA6RBeAADT+X8g1P8mLL+kUAAAAABJRU5ErkJggg==
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+<div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -12774,7 +12668,7 @@ $$</p>
     </div>
   </div>
   <!-- This line contains the JS to run the widget code -->
-  <script src="built/index.bundle.js"></script>
+  <script src="../built/index.bundle.js"></script>
 </body>
 
 
