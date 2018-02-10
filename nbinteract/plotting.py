@@ -172,7 +172,7 @@ def use_options(allowed, defaults=default_options):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'bins', 'normalized'
 ])
-def hist(hist_function, *, options={}, **interact_params):
+def hist(hist_function, *, fig=None, options={}, **interact_params):
     """
     Generates an interactive histogram that allows users to change the
     parameters of the input hist_function.
@@ -208,8 +208,11 @@ def hist(hist_function, *, options={}, **interact_params):
             ),
         }],
     }
+    fig = fig or _create_fig(options=options)
+    [hist] = _create_marks(fig=fig, marks=[bq.Hist],
+                           options=options, params=params)
+    _add_marks(fig, [hist])
 
-    [hist], fig = _create_plot(marks=[bq.Hist], options=options, params=params)
 
     def wrapped(**interact_params):
         hist.sample = util.maybe_call(hist_function, interact_params)
@@ -222,7 +225,7 @@ def hist(hist_function, *, options={}, **interact_params):
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'ylim'
 ])
-def bar(x_fn, y_fn, *, options={}, **interact_params):
+def bar(x_fn, y_fn, *, fig=None,options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -275,10 +278,10 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
             'y': _array_or_placeholder(y_fn)
         }]
     }
-
-    [bar], fig = _create_plot(
-        x_sc=bq.OrdinalScale, marks=[bq.Bars], options=options, params=params
-    )
+    fig = fig or _create_fig(x_sc=bq.OrdinalScale, options=options)
+    [bar] = _create_marks(fig=fig, marks=[bq.Bars],
+                          options=options, params=params)
+    _add_marks(fig, [bar])
 
     def wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -296,9 +299,8 @@ def bar(x_fn, y_fn, *, options={}, **interact_params):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim'
 ])
-def scatter_drag(
-    x_points: 'Array', y_points: 'Array', *, show_eqn=True, options={}
-):
+def scatter_drag(x_points: 'Array', y_points: 'Array', *, fig=None,
+                 show_eqn=True, options={}):
     """
     Generates an interactive scatter plot with the best fit line plotted over
     the points. The points can be dragged by the user and the line will
@@ -332,10 +334,11 @@ def scatter_drag(
             'colors': [GOLDENROD],
         }]
     }
-
-    [scat, lin], fig = _create_plot(
-        marks=[bq.Scatter, bq.Lines], options=options, params=params
+    fig = fig or _create_fig(options=options)
+    [scat, lin] = _create_marks(
+        fig=fig, marks=[bq.Scatter, bq.Lines], options=options, params=params
     )
+    _add_marks(fig, [scat, lin])
 
     equation = widgets.Label()
 
@@ -400,7 +403,6 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     >>> scatter(x_values, y_values, n=(0,200))
     VBox(...)
     """
-    marks_lst = []
     params = {
         'marks': [{
             'x': _array_or_placeholder(x_fn),
@@ -409,12 +411,10 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
         }]
     }
     fig = fig or _create_fig(options=options)
-
     [scat] = (_create_marks(
         fig=fig, marks=[bq.Scatter], options=options, params=params
     ))
-    marks_lst.append([scat])
-    _add_marks(fig, marks_lst)
+    _add_marks(fig, [scat])
 
     def wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -432,7 +432,7 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim'
 ])
-def line(x_fn, y_fn, *, options={}, **interact_params):
+def line(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     """
     Generates an interactive line chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -474,7 +474,10 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     VBox(...)
     """
-    [line], fig = _create_plot(marks=[bq.Lines], options=options)
+    fig = fig or _create_fig(options=options)
+    [line] = (_create_marks(
+        fig=fig, marks=[bq.Lines], options=options,))
+    _add_marks(fig, [line])
 
     def wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -621,7 +624,7 @@ def _add_marks(fig, marks_lst):
     marks_lst to the figure.
     """
     for marks in marks_lst:
-        fig.marks = fig.marks+marks
+        fig.marks = fig.marks+[marks]
 
 
 def _array_or_placeholder(
@@ -671,6 +674,31 @@ class Figure:
         self.widget_lst = []
 
 
+    def hist(self, hist_function, *, fig=None, options={}, **interact_params):
+        box = hist(hist_function, fig=self.figure,
+                   options=options, **interact_params)
+        widget = box.children[0]
+        self.widget_lst.append(widget)
+        return self._ipython_display()
+
+
+    def bar(self, x_fn, y_fn, *, fig=None,options={}, **interact_params):
+        box = bar(x_fn, y_fn, fig=self.figure,
+                  options=options, **interact_params)
+        widget = box.children[0]
+        self.widget_lst.append(widget)
+        return self._ipython_display()
+
+
+    def scatter_drag(self, x_points: 'Array', y_points: 'Array', *, fig=None,
+                 show_eqn=True, options={}):
+        box = scatter_drag(x_points, y_points, fig=self.figure,
+                           show_eqn=show_eqn, options=options)
+        widget = box.children[0]
+        self.widget_lst.append(widget)
+        return self._ipython_display()
+
+
     def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
         """
         Utilizes the scatter function written in plotting to generate a plot
@@ -678,6 +706,14 @@ class Figure:
         """
         box = scatter(x_fn, y_fn, fig=self.figure,
                       options=options, **interact_params)
+        widget = box.children[0]
+        self.widget_lst.append(widget)
+        return self._ipython_display()
+
+
+    def line(self, x_fn, y_fn, *, fig=None, options={}, **interact_params):
+        box = line(x_fn, y_fn, fig=self.figure,
+                   options=options, **interact_params)
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
