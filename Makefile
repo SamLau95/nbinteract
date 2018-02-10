@@ -31,6 +31,11 @@ gitbook: ## Runs gitbook locally
 test: ## Run tests
 	python setup.py test
 
+ping_binder: ## Force-updates BinderHub image
+	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
+		grep -E '${BINDER_REGEXP}' |\
+		sed -E 's/${BINDER_REGEXP}/\1/' &
+
 bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	VERSION=$$(grep -E -o [0-9]+\.[0-9]+\.[0-9]+ setup.py) ;\
 	cd ../nbinteract-image ;\
@@ -39,12 +44,6 @@ bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	git commit -m "nbinteract v$$VERSION" ;\
 	git push origin master ;\
 	make ping_binder
-
-
-ping_binder: ## Force-updates BinderHub image
-	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
-		grep -E '${BINDER_REGEXP}' |\
-		sed -E 's/${BINDER_REGEXP}/\1/' &
 
 start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
