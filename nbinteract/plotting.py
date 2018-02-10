@@ -24,7 +24,7 @@ import toolz.curried as tz
 from IPython.display import display
 from . import util
 
-__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line', 'figure', 'Figure']
+__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line', 'Figure']
 
 PLACEHOLDER_ZEROS = np.zeros(10)
 PLACEHOLDER_RANGE = np.arange(10)
@@ -168,14 +168,6 @@ def use_options(allowed, defaults=default_options):
 ##############################################################################
 # Plotting functions
 ##############################################################################
-@use_options([
-    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
-])
-def figure(*, options={}):
-    fig = _create_plot(options=options)
-    return fig[1]
-
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'bins', 'normalized'
@@ -416,7 +408,7 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
             'marker': tz.get('marker'),
         }]
     }
-    fig = fig or _create_fig(options=options, params=params)
+    fig = fig or _create_fig(options=options)
 
     [scat] = (_create_marks(
         fig=fig, marks=[bq.Scatter], options=options, params=params
@@ -592,6 +584,7 @@ def _create_fig(
     params={ 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
     """
     params = _merge_with_defaults(params)
+    print(options)
 
     x_sc = x_sc(**_call_params(params['x_sc'], options))
     y_sc = y_sc(**_call_params(params['y_sc'], options))
@@ -621,6 +614,7 @@ def _create_marks(fig, marks, options={}, params={}):
             ]
     return marks
 
+
 def _add_marks(fig, marks_lst):
     """
     Takes in a figure and a list of marks. Adds each set of marks in the
@@ -628,6 +622,7 @@ def _add_marks(fig, marks_lst):
     """
     for marks in marks_lst:
         fig.marks = fig.marks+marks
+
 
 def _array_or_placeholder(
     maybe_iterable, placeholder=PLACEHOLDER_ZEROS
@@ -648,31 +643,53 @@ def _maybe_call(maybe_fn, opts):
             return maybe_fn(opts)
         return maybe_fn
 
+
 def _call_params(component, opts):
     return {
         trait: _maybe_call(val, opts)
         for trait, val in component.items()
     }
 
+
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
+def _create_fig_with_options(*, options={}):
+    """
+    Creates an empty figure that uses the default options.
+    """
+    fig = _create_fig(options=options)
+    return fig
 ##############################################################################
 # Figure Class
 ##############################################################################
 class Figure:
     def __init__(self, options={}):
         self.options = options
-        self.figure = figure(options=options)
+        self.figure = _create_fig_with_options(options=options)
         self.widget_lst = []
 
 
     def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
+        """
+        Utilizes the scatter function written in plotting to generate a plot
+        that modifies self.figure. Adds the widget produced to widget_lst.
+        """
         box = scatter(x_fn, y_fn, fig=self.figure,
-                                 options=options, **interact_params)
+                      options=options, **interact_params)
         widget = box.children[0]
-        fig = box.children[1]
         self.widget_lst.append(widget)
+        return self._ipython_display()
 
-    def show(self):
+
+    def _ipython_display(self):
+        """
+        Consolidates all the widgets that have been added and the figure into
+        one VBox.
+        """
+        display_lst = []
         for widget in self.widget_lst:
-            display(widget)
-        display(self.figure)
-
+            display_lst.append(widget)
+        display_lst.append(self.figure)
+        return widgets.VBox(display_lst)
