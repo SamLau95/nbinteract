@@ -587,7 +587,6 @@ def _create_fig(
     params={ 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
     """
     params = _merge_with_defaults(params)
-    print(options)
 
     x_sc = x_sc(**_call_params(params['x_sc'], options))
     y_sc = y_sc(**_call_params(params['y_sc'], options))
@@ -664,10 +663,13 @@ def _create_fig_with_options(*, options={}):
     """
     fig = _create_fig(options=options)
     return fig
+
 ##############################################################################
 # Figure Class
 ##############################################################################
+
 class Figure:
+
     def __init__(self, options={}):
         self.options = options
         self.figure = _create_fig_with_options(options=options)
