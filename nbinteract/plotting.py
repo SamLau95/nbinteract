@@ -77,9 +77,9 @@ option_doc = {
         'unmodified counts. (default True)'
     ),
     'marker':(
-        'Shape of marker plots. Possible values: {‘circle’, ‘cross’, '
-         '‘diamond’, ‘square’, ‘triangle-down’, ‘triangle-up’, ‘arrow’, '
-         '‘rectangle’, ‘ellipse’}'
+        'Shape of marker plots. Possible values: {"circle", "cross", '
+         '"diamond", "square", "triangle-down", "triangle-up", "arrow", '
+         '"rectangle", "ellipse"}'
     ),
 }
 
@@ -408,6 +408,7 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     >>> scatter(x_values, y_values, n=(0,200))
     VBox(...)
     """
+    marks_lst = []
     params = {
         'marks': [{
             'x': _array_or_placeholder(x_fn),
@@ -415,11 +416,13 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
             'marker': tz.get('marker'),
         }]
     }
-    fig = fig or figure()
+    fig = fig or _create_fig(options=options, params=params)
 
-    [scat], fig = _create_plot(
-        marks=[bq.Scatter], fig=fig, options=options, params=params
-    )
+    [scat] = (_create_marks(
+        fig=fig, marks=[bq.Scatter], options=options, params=params
+    ))
+    marks_lst.append([scat])
+    _add_marks(fig, marks_lst)
 
     def wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -552,7 +555,7 @@ def _merge_with_defaults(params):
     return {**merged_without_marks, **{'marks': marks_params}}
 
 
-def _create_plot(
+def _create_fig(
     *,
     x_sc=bq.LinearScale,
     y_sc=bq.LinearScale,
@@ -588,43 +591,43 @@ def _create_plot(
     dependencies on plot elements:
     params={ 'x_ax': {'scale': lambda opts: opts['x_sc'] } }
     """
+    params = _merge_with_defaults(params)
 
-    def maybe_call(maybe_fn, opts):
-        if callable(maybe_fn):
-            return maybe_fn(opts)
-        return maybe_fn
+    x_sc = x_sc(**_call_params(params['x_sc'], options))
+    y_sc = y_sc(**_call_params(params['y_sc'], options))
+    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
 
-    def call_params(component, opts):
-        return {
-            trait: maybe_call(val, opts)
-            for trait, val in component.items()
-        }
-    if callable(fig):
-        params = _merge_with_defaults(params)
+    x_ax = x_ax(**_call_params(params['x_ax'], options))
+    y_ax = y_ax(**_call_params(params['y_ax'], options))
+    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
+    marks = []
+    options = {**options, **{'marks': marks}}
+    fig = fig(**_call_params(params['fig'], options))
+    return fig
 
-        x_sc = x_sc(**call_params(params['x_sc'], options))
-        y_sc = y_sc(**call_params(params['y_sc'], options))
-        options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
 
-        x_ax = x_ax(**call_params(params['x_ax'], options))
-        y_ax = y_ax(**call_params(params['y_ax'], options))
-        options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
-        marks = []
-        options = {**options, **{'marks': marks}}
-        fig = fig(**call_params(params['fig'], options))
-    else:
-        params = _merge_with_defaults(params)
-        x_sc = fig.axes[0].scale
-        y_sc = fig.axes[1].scale
-        options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
-        marks = [
-            mark_cls(**call_params(mark_params, options))
-            for mark_cls, mark_params in zip(marks, params['marks'])
-                ]
-        options = {**options, **{'marks': marks}}
+def _create_marks(fig, marks, options={}, params={}):
+    """
+    Initializes the mark component of the bqplot based on the parameters
+    passed in.
+    """
+    params = _merge_with_defaults(params)
+    x_sc = fig.axes[0].scale
+    y_sc = fig.axes[1].scale
+    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+    marks = [
+        mark_cls(**_call_params(mark_params, options))
+        for mark_cls, mark_params in zip(marks, params['marks'])
+            ]
+    return marks
+
+def _add_marks(fig, marks_lst):
+    """
+    Takes in a figure and a list of marks. Adds each set of marks in the
+    marks_lst to the figure.
+    """
+    for marks in marks_lst:
         fig.marks = fig.marks+marks
-    return marks, fig
-
 
 def _array_or_placeholder(
     maybe_iterable, placeholder=PLACEHOLDER_ZEROS
@@ -638,6 +641,18 @@ def _array_or_placeholder(
     if isinstance(maybe_iterable, collections.Iterable):
         return np.array([i for i in maybe_iterable])
     return placeholder
+
+
+def _maybe_call(maybe_fn, opts):
+        if callable(maybe_fn):
+            return maybe_fn(opts)
+        return maybe_fn
+
+def _call_params(component, opts):
+    return {
+        trait: _maybe_call(val, opts)
+        for trait, val in component.items()
+    }
 
 ##############################################################################
 # Figure Class
