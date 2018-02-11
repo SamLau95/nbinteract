@@ -76,10 +76,10 @@ option_doc = {
         'Normalize histogram area to 1 if True. If False, plot '
         'unmodified counts. (default True)'
     ),
-    'marker':(
+    'marker': (
         'Shape of marker plots. Possible values: {"circle", "cross", '
-         '"diamond", "square", "triangle-down", "triangle-up", "arrow", '
-         '"rectangle", "ellipse"}'
+        '"diamond", "square", "triangle-down", "triangle-up", "arrow", '
+        '"rectangle", "ellipse"}'
     ),
 }
 
@@ -209,10 +209,10 @@ def hist(hist_function, *, fig=None, options={}, **interact_params):
         }],
     }
     fig = fig or _create_fig(options=options)
-    [hist] = _create_marks(fig=fig, marks=[bq.Hist],
-                           options=options, params=params)
+    [hist] = _create_marks(
+        fig=fig, marks=[bq.Hist], options=options, params=params
+    )
     _add_marks(fig, [hist])
-
 
     def wrapped(**interact_params):
         hist.sample = util.maybe_call(hist_function, interact_params)
@@ -225,7 +225,7 @@ def hist(hist_function, *, fig=None, options={}, **interact_params):
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'ylim'
 ])
-def bar(x_fn, y_fn, *, fig=None,options={}, **interact_params):
+def bar(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -279,8 +279,9 @@ def bar(x_fn, y_fn, *, fig=None,options={}, **interact_params):
         }]
     }
     fig = fig or _create_fig(x_sc=bq.OrdinalScale, options=options)
-    [bar] = _create_marks(fig=fig, marks=[bq.Bars],
-                          options=options, params=params)
+    [bar] = _create_marks(
+        fig=fig, marks=[bq.Bars], options=options, params=params
+    )
     _add_marks(fig, [bar])
 
     def wrapped(**interact_params):
@@ -299,8 +300,14 @@ def bar(x_fn, y_fn, *, fig=None,options={}, **interact_params):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim'
 ])
-def scatter_drag(x_points: 'Array', y_points: 'Array', *, fig=None,
-                 show_eqn=True, options={}):
+def scatter_drag(
+    x_points: 'Array',
+    y_points: 'Array',
+    *,
+    fig=None,
+    show_eqn=True,
+    options={}
+):
     """
     Generates an interactive scatter plot with the best fit line plotted over
     the points. The points can be dragged by the user and the line will
@@ -411,9 +418,9 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
         }]
     }
     fig = fig or _create_fig(options=options)
-    [scat] = (_create_marks(
+    [scat] = _create_marks(
         fig=fig, marks=[bq.Scatter], options=options, params=params
-    ))
+    )
     _add_marks(fig, [scat])
 
     def wrapped(**interact_params):
@@ -475,8 +482,7 @@ def line(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     VBox(...)
     """
     fig = fig or _create_fig(options=options)
-    [line] = (_create_marks(
-        fig=fig, marks=[bq.Lines], options=options,))
+    [line] = (_create_marks(fig=fig, marks=[bq.Lines], options=options))
     _add_marks(fig, [line])
 
     def wrapped(**interact_params):
@@ -613,7 +619,7 @@ def _create_marks(fig, marks, options={}, params={}):
     marks = [
         mark_cls(**_call_params(mark_params, options))
         for mark_cls, mark_params in zip(marks, params['marks'])
-            ]
+    ]
     return marks
 
 
@@ -622,8 +628,7 @@ def _add_marks(fig, marks_lst):
     Takes in a figure and a list of marks. Adds each set of marks in the
     marks_lst to the figure.
     """
-    for marks in marks_lst:
-        fig.marks = fig.marks+[marks]
+    fig.marks = fig.marks + marks_lst
 
 
 def _array_or_placeholder(
@@ -641,16 +646,13 @@ def _array_or_placeholder(
 
 
 def _maybe_call(maybe_fn, opts):
-        if callable(maybe_fn):
-            return maybe_fn(opts)
-        return maybe_fn
+    if callable(maybe_fn):
+        return maybe_fn(opts)
+    return maybe_fn
 
 
 def _call_params(component, opts):
-    return {
-        trait: _maybe_call(val, opts)
-        for trait, val in component.items()
-    }
+    return {trait: _maybe_call(val, opts) for trait, val in component.items()}
 
 
 @use_options([
@@ -664,62 +666,73 @@ def _create_fig_with_options(*, options={}):
     fig = _create_fig(options=options)
     return fig
 
+
 ##############################################################################
 # Figure Class
 ##############################################################################
 
-class Figure:
 
+class Figure:
     def __init__(self, options={}):
         self.options = options
         self.figure = _create_fig_with_options(options=options)
         self.widget_lst = []
 
-
     def hist(self, hist_function, *, fig=None, options={}, **interact_params):
-        box = hist(hist_function, fig=self.figure,
-                   options=options, **interact_params)
+        box = hist(
+            hist_function, fig=self.figure, options=options, **interact_params
+        )
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
 
-
-    def bar(self, x_fn, y_fn, *, fig=None,options={}, **interact_params):
-        box = bar(x_fn, y_fn, fig=self.figure,
-                  options=options, **interact_params)
+    def bar(self, x_fn, y_fn, *, fig=None, options={}, **interact_params):
+        box = bar(
+            x_fn, y_fn, fig=self.figure, options=options, **interact_params
+        )
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
 
-
-    def scatter_drag(self, x_points: 'Array', y_points: 'Array', *, fig=None,
-                 show_eqn=True, options={}):
-        box = scatter_drag(x_points, y_points, fig=self.figure,
-                           show_eqn=show_eqn, options=options)
+    def scatter_drag(
+        self,
+        x_points: 'Array',
+        y_points: 'Array',
+        *,
+        fig=None,
+        show_eqn=True,
+        options={}
+    ):
+        box = scatter_drag(
+            x_points,
+            y_points,
+            fig=self.figure,
+            show_eqn=show_eqn,
+            options=options
+        )
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
-
 
     def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
         """
         Utilizes the scatter function written in plotting to generate a plot
         that modifies self.figure. Adds the widget produced to widget_lst.
         """
-        box = scatter(x_fn, y_fn, fig=self.figure,
-                      options=options, **interact_params)
+        box = scatter(
+            x_fn, y_fn, fig=self.figure, options=options, **interact_params
+        )
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
-
 
     def line(self, x_fn, y_fn, *, fig=None, options={}, **interact_params):
-        box = line(x_fn, y_fn, fig=self.figure,
-                   options=options, **interact_params)
+        box = line(
+            x_fn, y_fn, fig=self.figure, options=options, **interact_params
+        )
         widget = box.children[0]
         self.widget_lst.append(widget)
         return self._ipython_display()
-
 
     def _ipython_display(self):
         """
