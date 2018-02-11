@@ -81,7 +81,18 @@ option_doc = {
         '"diamond", "square", "triangle-down", "triangle-up", "arrow", '
         '"rectangle", "ellipse"}'
     ),
+
+    # Private options for internal use
+    '_fig':
+        'Existing figure to plot mark on instead of creating a new one.',
 }
+
+
+def _get_option(opt):
+    """
+    Returns getter that defaults to a param in default_options
+    """
+    return tz.get(opt, default=default_options[opt])
 
 
 def _update_option_docstring(func, allowed, indent='    ' * 3):
@@ -109,11 +120,10 @@ def _update_option_docstring(func, allowed, indent='    ' * 3):
     return func
 
 
-def use_options(allowed, defaults=default_options):
+def use_options(allowed):
     """
     Decorator that logs warnings when unpermitted options are passed into its
-    wrapped function. Fills in missing options with their default values if not
-    present.
+    wrapped function.
 
     Requires that wrapped function has an keyword-only argument named
     `options`. If wrapped function has {options} in its docstring, fills in
@@ -124,9 +134,6 @@ def use_options(allowed, defaults=default_options):
             function is called with an option not in allowed, log a warning.
             All values in allowed must also be present in `defaults`.
 
-    Kwargs:
-        defaults (dict): Dict of default option values.
-
     Returns:
         Wrapped function with options validation.
 
@@ -136,7 +143,7 @@ def use_options(allowed, defaults=default_options):
     >>> test(options={'title': 'Hello'})
     'Hello'
 
-    >>> test(options={'not_allowed': 123}) # Also logs error message
+    >>> # test(options={'not_allowed': 123}) # Also logs error message
     ''
     """
 
@@ -148,6 +155,8 @@ def use_options(allowed, defaults=default_options):
             options = kwargs.get('options', {})
             not_allowed = [
                 option for option in options if option not in allowed
+                # Don't validate private options
+                and not option.startswith('_')
             ]
             if not_allowed:
                 logging.warning(
@@ -155,10 +164,8 @@ def use_options(allowed, defaults=default_options):
                     'this function and will likely result in '
                     'undefined behavior: {}.'.format(not_allowed)
                 )
-            options_with_defaults = {**defaults, **options}
-            kwargs_with_defaults = {**kwargs, 'options': options_with_defaults}
 
-            return f(*args, **kwargs_with_defaults)
+            return f(*args, **kwargs)
 
         return check_options
 
@@ -172,7 +179,7 @@ def use_options(allowed, defaults=default_options):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'bins', 'normalized'
 ])
-def hist(hist_function, *, fig=None, options={}, **interact_params):
+def hist(hist_function, *, options={}, **interact_params):
     """
     Generates an interactive histogram that allows users to change the
     parameters of the input hist_function.
@@ -201,14 +208,14 @@ def hist(hist_function, *, fig=None, options={}, **interact_params):
     params = {
         'marks': [{
             'sample': _array_or_placeholder(hist_function),
-            'bins': tz.get('bins'),
-            'normalized': tz.get('normalized'),
+            'bins': _get_option('bins'),
+            'normalized': _get_option('normalized'),
             'scales': (
                 lambda opts: {'sample': opts['x_sc'], 'count': opts['y_sc']}
             ),
         }],
     }
-    fig = fig or _create_fig(options=options)
+    fig = options.get('_fig', False) or _create_fig(options=options)
     [hist] = _create_marks(
         fig=fig, marks=[bq.Hist], options=options, params=params
     )
@@ -225,7 +232,7 @@ def hist(hist_function, *, fig=None, options={}, **interact_params):
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'ylim'
 ])
-def bar(x_fn, y_fn, *, fig=None, options={}, **interact_params):
+def bar(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive bar chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -278,7 +285,9 @@ def bar(x_fn, y_fn, *, fig=None, options={}, **interact_params):
             'y': _array_or_placeholder(y_fn)
         }]
     }
-    fig = fig or _create_fig(x_sc=bq.OrdinalScale, options=options)
+    fig = options.get('_fig', False) or _create_fig(
+        x_sc=bq.OrdinalScale, options=options
+    )
     [bar] = _create_marks(
         fig=fig, marks=[bq.Bars], options=options, params=params
     )
@@ -341,7 +350,7 @@ def scatter_drag(
             'colors': [GOLDENROD],
         }]
     }
-    fig = fig or _create_fig(options=options)
+    fig = options.get('_fig', False) or _create_fig(options=options)
     [scat, lin] = _create_marks(
         fig=fig, marks=[bq.Scatter, bq.Lines], options=options, params=params
     )
@@ -372,7 +381,7 @@ def scatter_drag(
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'marker'
 ])
-def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
+def scatter(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive scatter chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -414,10 +423,10 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
         'marks': [{
             'x': _array_or_placeholder(x_fn),
             'y': _array_or_placeholder(y_fn),
-            'marker': tz.get('marker'),
+            'marker': _get_option('marker'),
         }]
     }
-    fig = fig or _create_fig(options=options)
+    fig = options.get('_fig', False) or _create_fig(options=options)
     [scat] = _create_marks(
         fig=fig, marks=[bq.Scatter], options=options, params=params
     )
@@ -439,7 +448,7 @@ def scatter(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim'
 ])
-def line(x_fn, y_fn, *, fig=None, options={}, **interact_params):
+def line(x_fn, y_fn, *, options={}, **interact_params):
     """
     Generates an interactive line chart that allows users to change the
     parameters of the inputs x_fn and y_fn.
@@ -481,7 +490,7 @@ def line(x_fn, y_fn, *, fig=None, options={}, **interact_params):
     >>> line(x_values, y_values, max=(10, 50), sd=(1, 10))
     VBox(...)
     """
-    fig = fig or _create_fig(options=options)
+    fig = options.get('_fig', False) or _create_fig(options=options)
     [line] = (_create_marks(fig=fig, marks=[bq.Lines], options=options))
     _add_marks(fig, [line])
 
@@ -498,24 +507,114 @@ def line(x_fn, y_fn, *, fig=None, options={}, **interact_params):
 
 
 ##############################################################################
+# Figure Class
+##############################################################################
+
+
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
+def _create_fig_with_options(*, options={}):
+    """
+    Creates an empty figure that uses the default options. This method is just
+    used to validate options for the Figure class.
+    """
+    return _create_fig(options=options)
+
+
+class Figure(object):
+    """
+    Allows nbinteract plotting methods to be called on a single bqplot figure.
+    Used to generate multiple sets of widgets for the same figure.
+
+    >>> fig = Figure()
+    >>> fig.scatter([1, 2, 3, 4], [3, 4, 5, 6])
+    <nbinteract.plotting.Figure...
+    >>> fig.line([1, 2, 3, 4], [3, 4, 5, 6])
+    <nbinteract.plotting.Figure...
+    >>> fig
+    <nbinteract.plotting.Figure...
+    """
+
+    def __init__(self, options={}):
+        self.options = options
+        self.figure = _create_fig_with_options(options=options)
+        self.widgets = []
+
+    @use_options(['bins', 'normalized'])
+    def hist(self, hist_function, *, options={}, **interact_params):
+        options = tz.assoc(options, '_fig', self.figure)
+        box = hist(hist_function, options=options, **interact_params)
+        widget = box.children[0]
+        self.widgets.append(widget)
+        return self
+
+    def bar(self, x_fn, y_fn, *, options={}, **interact_params):
+        options = tz.assoc(options, '_fig', self.figure)
+        box = bar(x_fn, y_fn, options=options, **interact_params)
+        widget = box.children[0]
+        self.widgets.append(widget)
+        return self
+
+    def scatter_drag(
+        self,
+        x_points: 'Array',
+        y_points: 'Array',
+        *,
+        show_eqn=True,
+        options={}
+    ):
+        options = tz.assoc(options, '_fig', self.figure)
+        box = scatter_drag(
+            x_points, y_points, show_eqn=show_eqn, options=options
+        )
+        widget = box.children[0]
+        self.widgets.append(widget)
+        return self
+
+    def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
+        options = tz.assoc(options, '_fig', self.figure)
+        box = scatter(x_fn, y_fn, options=options, **interact_params)
+        widget = box.children[0]
+        self.widgets.append(widget)
+        return self
+
+    def line(self, x_fn, y_fn, *, options={}, **interact_params):
+        options = tz.assoc(options, '_fig', self.figure)
+        box = line(x_fn, y_fn, options=options, **interact_params)
+        widget = box.children[0]
+        self.widgets.append(widget)
+        return self
+
+    def _ipython_display_(self):
+        """
+        Called when a Figure is returned on the last line of a Jupyter cell to
+        automagically display the widgets and Figure.
+        """
+        display(widgets.VBox(self.widgets + [self.figure]))
+
+
+##############################################################################
 # Private helper functions
 ##############################################################################
 
+
 _default_params = {
     'x_sc': {
-        'min': tz.compose(tz.first, tz.get('xlim')),
-        'max': tz.compose(tz.second, tz.get('xlim')),
+        'min': tz.compose(tz.first, _get_option('xlim')),
+        'max': tz.compose(tz.second, _get_option('xlim')),
     },
     'y_sc': {
-        'min': tz.compose(tz.first, tz.get('ylim')),
-        'max': tz.compose(tz.second, tz.get('ylim')),
+        'min': tz.compose(tz.first, _get_option('ylim')),
+        'max': tz.compose(tz.second, _get_option('ylim')),
     },
     'x_ax': {
-        'label': tz.get('xlabel'),
+        'label': _get_option('xlabel'),
         'scale': tz.get('x_sc'),
     },
     'y_ax': {
-        'label': tz.get('ylabel'),
+        'label': _get_option('ylabel'),
         'scale': tz.get('y_sc'),
         'orientation': 'vertical',
     },
@@ -527,9 +626,9 @@ _default_params = {
     'fig': {
         'marks': tz.get('marks'),
         'axes': lambda opts: [opts['x_ax'], opts['y_ax']],
-        'title': tz.get('title'),
-        'max_aspect_ratio': tz.get('aspect_ratio'),
-        'animation_duration': tz.get('animation_duration'),
+        'title': _get_option('title'),
+        'max_aspect_ratio': _get_option('aspect_ratio'),
+        'animation_duration': _get_option('animation_duration'),
     },
 }
 
@@ -562,30 +661,20 @@ def _create_fig(
     y_sc=bq.LinearScale,
     x_ax=bq.Axis,
     y_ax=bq.Axis,
-    marks=[bq.Mark],
     fig=bq.Figure,
     options={},
     params={}
 ):
     """
-    Initializes all components of a bqplot figure and returns resulting
-    (marks, figure) tuple. Each plot component is passed in as a class.
+    Initializes scales and axes for a bqplot figure and returns the resulting
+    blank figure. Each plot component is passed in as a class. The plot options
+    should be passed into options.
 
-    The plot options should be passed into options.
-
-    Any additional parameters required by the plot components are passed into
+    Any additional parameters to initialize plot components are passed into
     params as a dict of { plot_component: { trait: value, ... } }
 
     For example, to change the grid lines of the x-axis:
     params={ 'x_ax': {'grid_lines' : 'solid'} }
-
-    And to give two marks different colors:
-    params={
-        'marks': [
-            {'colors': [DARK_BLUE]},
-            {'colors': [GOLDENROD]},
-        ]
-    }
 
     If the param value is a function, it will be called with the options dict
     augmented with all previously created plot elements. This permits
@@ -600,22 +689,44 @@ def _create_fig(
 
     x_ax = x_ax(**_call_params(params['x_ax'], options))
     y_ax = y_ax(**_call_params(params['y_ax'], options))
-    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax}}
-    marks = []
-    options = {**options, **{'marks': marks}}
+    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax, 'marks': []}}
+
     fig = fig(**_call_params(params['fig'], options))
     return fig
 
 
-def _create_marks(fig, marks, options={}, params={}):
+def _create_marks(fig, marks=[bq.Mark], options={}, params={}):
     """
-    Initializes the mark component of the bqplot based on the parameters
-    passed in.
+    Initializes and returns marks for a figure as a list. Each mark is passed
+    in as a class. The plot options should be passed into options.
+
+    Any additional parameters to initialize plot components are passed into
+    params as a dict of { 'mark': [{ trait: value, ... }, ...] }
+
+    For example, when initializing two marks you can assign different colors to
+    each one:
+
+    params={
+        'marks': [
+            {'colors': [DARK_BLUE]},
+            {'colors': [GOLDENROD]},
+        ]
+    }
+
+    If the param value is a function, it will be called with the options dict
+    augmented with all previously created plot elements. This permits
+    dependencies on plot elements:
+    params={ 'marks': {'scale': lambda opts: opts['x_sc'] } }
     """
     params = _merge_with_defaults(params)
-    x_sc = fig.axes[0].scale
-    y_sc = fig.axes[1].scale
+
+    # Although fig provides scale_x and scale_y properties, the scales on the
+    # axes are the only ones that are actually used.
+    x_ax, y_ax = fig.axes
+    x_sc, y_sc = x_ax.scale, y_ax.scale
+
     options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+
     marks = [
         mark_cls(**_call_params(mark_params, options))
         for mark_cls, mark_params in zip(marks, params['marks'])
@@ -623,12 +734,11 @@ def _create_marks(fig, marks, options={}, params={}):
     return marks
 
 
-def _add_marks(fig, marks_lst):
+def _add_marks(fig, marks):
     """
-    Takes in a figure and a list of marks. Adds each set of marks in the
-    marks_lst to the figure.
+    Mutates fig to add marks
     """
-    fig.marks = fig.marks + marks_lst
+    fig.marks = fig.marks + marks
 
 
 def _array_or_placeholder(
@@ -653,94 +763,3 @@ def _maybe_call(maybe_fn, opts):
 
 def _call_params(component, opts):
     return {trait: _maybe_call(val, opts) for trait, val in component.items()}
-
-
-@use_options([
-    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
-])
-def _create_fig_with_options(*, options={}):
-    """
-    Creates an empty figure that uses the default options.
-    """
-    fig = _create_fig(options=options)
-    return fig
-
-
-##############################################################################
-# Figure Class
-##############################################################################
-
-
-class Figure:
-    def __init__(self, options={}):
-        self.options = options
-        self.figure = _create_fig_with_options(options=options)
-        self.widget_lst = []
-
-    def hist(self, hist_function, *, fig=None, options={}, **interact_params):
-        box = hist(
-            hist_function, fig=self.figure, options=options, **interact_params
-        )
-        widget = box.children[0]
-        self.widget_lst.append(widget)
-        return self._ipython_display()
-
-    def bar(self, x_fn, y_fn, *, fig=None, options={}, **interact_params):
-        box = bar(
-            x_fn, y_fn, fig=self.figure, options=options, **interact_params
-        )
-        widget = box.children[0]
-        self.widget_lst.append(widget)
-        return self._ipython_display()
-
-    def scatter_drag(
-        self,
-        x_points: 'Array',
-        y_points: 'Array',
-        *,
-        fig=None,
-        show_eqn=True,
-        options={}
-    ):
-        box = scatter_drag(
-            x_points,
-            y_points,
-            fig=self.figure,
-            show_eqn=show_eqn,
-            options=options
-        )
-        widget = box.children[0]
-        self.widget_lst.append(widget)
-        return self._ipython_display()
-
-    def scatter(self, x_fn, y_fn, *, options={}, **interact_params):
-        """
-        Utilizes the scatter function written in plotting to generate a plot
-        that modifies self.figure. Adds the widget produced to widget_lst.
-        """
-        box = scatter(
-            x_fn, y_fn, fig=self.figure, options=options, **interact_params
-        )
-        widget = box.children[0]
-        self.widget_lst.append(widget)
-        return self._ipython_display()
-
-    def line(self, x_fn, y_fn, *, fig=None, options={}, **interact_params):
-        box = line(
-            x_fn, y_fn, fig=self.figure, options=options, **interact_params
-        )
-        widget = box.children[0]
-        self.widget_lst.append(widget)
-        return self._ipython_display()
-
-    def _ipython_display(self):
-        """
-        Consolidates all the widgets that have been added and the figure into
-        one VBox.
-        """
-        display_lst = []
-        for widget in self.widget_lst:
-            display_lst.append(widget)
-        display_lst.append(self.figure)
-        return widgets.VBox(display_lst)
