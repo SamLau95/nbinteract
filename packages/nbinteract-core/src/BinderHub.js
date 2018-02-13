@@ -6,9 +6,6 @@ import { Kernel, ServerConnection } from '@jupyterlab/services'
 
 import Image from './Image'
 
-const DEFAULT_PROVIDER = 'gh'
-const DEFAULT_SPEC = 'SamLau95/nbinteract-image/master'
-
 // States that you can register callbacks on
 // Keep in sync with https://github.com/jupyterhub/binderhub/blob/master/doc/api.rst#events
 const VALID_STATES = new Set([
@@ -31,28 +28,36 @@ const LOCAL_SERVER_URL = 'http://localhost:8889/'
  */
 export default class BinderHub {
   /**
-   * @param {String} spec - BinderHub spec for Jupyter image. Must be in the
-   *     format: `${username}/${repo}/${branch}`.
    *
-   * @param {String} provider - BinderHub provider
+   * @param {Object} [config] - Config for BinderHub
    *
-   * @param {Object} [callbacks] - Mapping from state to callback fired when
-   *     BinderHub transitions to that state.
+   * @param {String} [config.spec] - BinderHub spec for Jupyter image. Must be
+   *     in the format: `${username}/${repo}/${branch}`.
    *
-   * @param {Boolean} [local] - If true, uses locally running notebook server
-   *     instead of mybinder.org server. Used for development only.
+   * @param {String} [config.baseUrl] - Binder URL to start server.
+   *
+   * @param {String} [config.provider] - BinderHub provider (e.g. 'gh' for
+   * Github)
+   *
+   * @param {Object} [config.callbacks] - Mapping from state to callback fired
+   *     when BinderHub transitions to that state.
+   *
+   * @param {Boolean} [config.local] - If true, uses locally running notebook
+   *     server instead of mybinder.org server. Used for development only.
    */
-  constructor(spec, provider, callbacks = {}, local = false) {
-    this.image = new Image(provider, spec)
+  constructor(
+    { spec, baseUrl, provider, callbacks = {}, local = false } = {},
+  ) {
+    this.image = new Image({ spec, baseUrl, provider })
     this.local = local
 
     // Register all callbacks at once
     Object.entries(callbacks).map(([state, cb]) =>
-      this.register_callback(state, cb),
+      this.registerCallback(state, cb),
     )
   }
 
-  start_server() {
+  startServer() {
     if (this.local) {
       return Promise.resolve({
         url: LOCAL_SERVER_URL,
@@ -60,7 +65,7 @@ export default class BinderHub {
     }
 
     return new Promise((resolve, reject) => {
-      this.register_callback('*', (oldState, newState, data) => {
+      this.registerCallback('*', (oldState, newState, data) => {
         if (data.message !== undefined) {
           console.log(data.message)
         } else {
@@ -68,7 +73,7 @@ export default class BinderHub {
         }
       })
 
-      this.register_callback('ready', (oldState, newState, data) => {
+      this.registerCallback('ready', (oldState, newState, data) => {
         this.image.close()
         resolve(data)
       })
@@ -77,7 +82,7 @@ export default class BinderHub {
     })
   }
 
-  register_callback(state, cb) {
+  registerCallback(state, cb) {
     if (!VALID_STATES.has(state)) {
       console.error(`Tried to register callback on invalid state: ${state}`)
       return

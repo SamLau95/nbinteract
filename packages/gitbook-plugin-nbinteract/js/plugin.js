@@ -8,10 +8,11 @@ require(['gitbook'], function(gitbook) {
 
     if (interact === undefined) {
       console.log('Initializing interact...')
-      interact = new window.NbInteract(
-        (spec = config.spec),
-        (provider = config.provider),
-      )
+      interact = new window.NbInteract({
+        baseUrl: config.baseUrl,
+        spec: config.spec,
+        provider: config.provider,
+      })
       window.interact = interact
     }
 
@@ -24,7 +25,8 @@ require(['gitbook'], function(gitbook) {
     var el = document.querySelector('#nbinteract')
     if (!el) {
       console.log(
-        `No HTML element with id="nbinteract" found. nbinteract is disabled for this page.`,
+        'No HTML element with id="nbinteract" found. nbinteract is ',
+        'disabled for this page.',
       )
       return
     }

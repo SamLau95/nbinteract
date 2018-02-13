@@ -6,6 +6,7 @@ import { WidgetManager } from './manager'
 import * as util from './util.js'
 import BinderHub from './BinderHub'
 
+const DEFAULT_BASE_URL = 'https://mybinder.org'
 const DEFAULT_PROVIDER = 'gh'
 const DEFAULT_SPEC = 'SamLau95/nbinteract-image/master'
 
@@ -18,19 +19,32 @@ export default class NbInteract {
   /**
    * Initialize NbInteract. Does not start kernel until run() is called.
    *
-   * @param {String} [spec] - Spec for BinderHub image. Must be in the format:
-   *     `${username}/${repo}/${branch}`. Uses nbinteract-image by default.
+   * @param {Object} [config] - Configuration for NbInteract
    *
-   * @param {String} [provider] - BinderHub provider. Uses GitHub by default.
+   * @param {String} [config.spec] - BinderHub spec for Jupyter image. Must be
+   *     in the format: `${username}/${repo}/${branch}`. Defaults to
+   *     'SamLau95/nbinteract-image/master'.
+   *
+   * @param {String} [config.baseUrl] - Binder URL to start server. Defaults to
+   *     https://mybinder.org.
+   *
+   * @param {String} [config.provider] - BinderHub provider. Defaults to 'gh'
+   *     for GitHub.
    */
   constructor(
-    spec = DEFAULT_SPEC,
-    provider = DEFAULT_PROVIDER,
+    {
+      spec = DEFAULT_SPEC,
+      baseUrl = DEFAULT_BASE_URL,
+      provider = DEFAULT_PROVIDER,
+    } = {},
   ) {
-    this.run = debounce(this.run, 500, { leading: true, trailing: false })
+    this.run = debounce(this.run, 500, {
+      leading: true,
+      trailing: false,
+    })
     this._kernelHeartbeat = this._kernelHeartbeat.bind(this)
 
-    this.binder = new BinderHub(spec, provider)
+    this.binder = new BinderHub({ spec, baseUrl, provider, local: false })
 
     // Keep track of properties for debugging
     this.kernel = null
@@ -54,7 +68,7 @@ export default class NbInteract {
       this.manager = this.manager || new WidgetManager(this.kernel)
       this.manager.generateWidgets()
 
-      if (!firstRun) this._kernelHeartbeat()
+      if (firstRun) this._kernelHeartbeat()
     } catch (err) {
       debugger
       console.log('Error in code initialization!')
@@ -67,6 +81,7 @@ export default class NbInteract {
    * kernel is dead, starts a new kernel and re-creates widgets.
    */
   async _kernelHeartbeat(seconds_between_check = 5) {
+    console.log('Kernel heartbeat')
     try {
       const { kernelModel } = await this._getKernelModel()
     } catch (err) {
@@ -144,7 +159,7 @@ export default class NbInteract {
   async _startKernel() {
     try {
       console.time('start_server')
-      const { url, token } = await this.binder.start_server()
+      const { url, token } = await this.binder.startServer()
       console.timeEnd('start_server')
 
       // Connect to the notebook webserver.

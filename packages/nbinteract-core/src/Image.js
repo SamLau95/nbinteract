@@ -18,13 +18,13 @@
   pushing -> failed
 */
 
-const BASE_URL = 'https://mybinder.org'
-
 const MAX_CONNECTION_ATTEMPTS = 3
 
-function Image(provider, spec) {
+function Image({ spec, baseUrl, provider }) {
+  this.baseUrl = baseUrl
   this.provider = provider
   this.spec = spec
+
   this.callbacks = {}
   this.state = null
   this.failed_connection_attempts = 0
@@ -56,7 +56,7 @@ Image.prototype.changeState = function(state, data) {
 }
 
 Image.prototype.fetch = function() {
-  var apiUrl = `${BASE_URL}/build/${this.provider}/${this.spec}`
+  var apiUrl = `${this.baseUrl}/build/${this.provider}/${this.spec}`
   this.eventSource = new EventSource(apiUrl)
   var that = this
   this.eventSource.onerror = function(err) {
@@ -67,8 +67,10 @@ Image.prototype.fetch = function() {
 
     that.failed_connection_attempts++
     if (that.failed_connection_attempts >= MAX_CONNECTION_ATTEMPTS) {
-      console.error('Maximum number of failed connection attempts reached.',
-                    'Aborting nbinteract initialization...')
+      console.error(
+        'Maximum number of failed connection attempts reached.',
+        'Aborting nbinteract initialization...',
+      )
       that.eventSource.close()
     }
   }
