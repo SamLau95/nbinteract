@@ -58,6 +58,7 @@ build_py: ## Build python package
 build_js: ## Build Javascript bundle
 	lerna run build --stream
 	lerna run load
+	lerna run link
 	git add packages
 	git commit -m 'Build JS'
 
