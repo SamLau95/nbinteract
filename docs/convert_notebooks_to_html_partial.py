@@ -19,6 +19,15 @@ import nbformat
 from nbconvert import HTMLExporter
 from traitlets.config import Config
 
+wrapper = """
+<div id="ipython-notebook">
+    <div class="buttons">
+        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a>
+    </div>
+    {html}
+</div>
+"""
+
 # Use ExtractOutputPreprocessor to extract the images to separate files
 config = Config()
 config.HTMLExporter.preprocessors = [
@@ -51,8 +60,7 @@ DATASET_REGEX = re.compile(
     r")"  # Finish our match
     r"\1\)"  # Make sure the quotes match
     ,
-    re.VERBOSE
-)
+    re.VERBOSE)
 
 # Used to ensure all the closing div tags are on the same line for Markdown to
 # parse them properly
@@ -86,14 +94,11 @@ def convert_notebooks_to_html_partial(notebook_paths):
 
         notebook = nbformat.read(notebook_path, 4)
         raw_html, resources = html_exporter.from_notebook_node(
-            notebook, resources=extract_output_config
-        )
+            notebook, resources=extract_output_config)
 
         html = _extract_cells(raw_html)
 
-        with_wrapper = """<div id="ipython-notebook">
-            {html}
-        </div>""".format(html=html)
+        with_wrapper = wrapper.format(html=html, )
 
         # Remove newlines before closing div tags
         final_output = CLOSING_DIV_REGEX.sub('</div>', with_wrapper)
