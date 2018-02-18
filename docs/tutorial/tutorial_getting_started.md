@@ -27,6 +27,8 @@ package. To install the package, you must first have
 
 ```
 pip install nbinteract
+jupyter nbextension enable --py --sys-prefix bqplot  # can be skipped for notebook version 5.3 and above
+jupyter nbextension enable --py widgetsnbextension # can be skipped for notebook version 5.3 and above
 ```
 
 Then, start your Jupyter notebook server using
