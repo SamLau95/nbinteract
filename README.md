@@ -5,52 +5,103 @@ nbinteract
 [![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/)
 [![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
 
-`nbinteract` is a set of tools to create interactive webpages using Jupyter
-notebooks. Before, creating an interactive webpage required authors to know
-HTML, CSS, and Javascript. With `nbinteract`, if you know Python you know how
-to create an interactive webpage. `nbinteract` makes explanations that make use
-of data especially easy because of its support for interactive visualizations.
 
-Currently, `nbinteract` is in an alpha stage because of its quickly-changing
-API.
+`nbinteract` is a Python package that creates interactive webpages from Jupyter
+notebooks. `nbinteract` has built-in support for interactive plotting. These
+interactions are driven by data, not callbacks, allowing authors to focus on
+the logic of their programs.
 
-## Demo
+`nbinteract` is most useful for:
 
-![nbinteract](https://user-images.githubusercontent.com/2468904/34280356-01a147a2-e66c-11e7-8c81-6e06b5445e38.gif)
-
-[Click this link to view live.][demo]
-
-## Use Cases
-
-`nbinteract` can be used by:
-
-- Data scientists that want to create an interactive blog post without having
+- Data scientists that want to create simple interactive blog posts without having
   to know / work with Javascript.
 - Instructors that want to include interactive examples in their textbooks.
 - Students that want to publish data analysis that contains interactive demos.
 
+Currently, `nbinteract` is in an alpha stage because of its quickly-changing
+API.
+
+## Examples
+
+Most plotting functions from other libraries (e.g. `matplotlib`) take data as
+input. `nbinteract`'s plotting functions take functions as input.
+
+```python
+import numpy as np
+import nbinteract as nbi
+
+def normal(mean, sd):
+    '''Returns 1000 points drawn at random fron N(mean, sd)'''
+    return np.random.normal(mean, sd, 1000)
+
+# Pass in the `normal` function and let user change mean and sd.
+# Whenever the user interacts with the sliders, the `normal` function
+# is called and the returned data are plotted.
+nbi.hist(normal, mean=(0, 10), sd=(0, 2.0), options=options)
+```
+
+![example1](https://github.com/SamLau95/nbinteract/raw/master/docs/images/example1.gif)
+
+Simulations are easy to create using `nbinteract`. In this simulation, we roll
+a die and plot the running average of the rolls. We can see that with more
+rolls, the average gets closer to the expected value: 3.5.
+
+```python
+rolls = np.random.choice([1, 2, 3, 4, 5, 6], size=300)
+averages = np.cumsum(rolls) / np.arange(1, 301)
+
+def x_vals(num_rolls):
+    return range(num_rolls)
+
+# The function to generate y-values gets called with the
+# x-values as its first argument.
+def y_vals(xs):
+    return averages[:len(xs)]
+
+nbi.line(x_vals, y_vals, num_rolls=(1, 300))
+```
+
+![example2](https://github.com/SamLau95/nbinteract/raw/master/docs/images/example2.gif)
+
+## Publishing
+
+From a notebook cell:
+
+```python
+# Run in a notebook cell to convert the notebook into a
+# publishable HTML page
+nbi.publish('landing_page.ipynb')
+```
+
+From the command line:
+
+```bash
+# Run on the command line to convert the notebook into a
+# publishable HTML page.
+nbinteract landing_page.ipynb
+```
+
+For more information on publishing, see the [tutorial][] which has a complete
+walkthrough on publishing a notebook to the web.
+
+## Installation
+
+Using `pip`:
+
+```bash
+pip install nbinteract
+
+# The next two lines can be skipped for notebook version 5.3 and above
+jupyter nbextension enable --py --sys-prefix widgetsnbextension
+jupyter nbextension enable --py --sys-prefix bqplot
+```
+
+You may now import the `nbinteract` package in Python code and use the
+`nbinteract` CLI command to convert notebooks to HTML pages.
+
 ## Tutorial and Documentation
 
 [Here's a link to the tutorial and docs for this project.][docs]
-
-## Getting Started
-
-To install the package, you must first have
-[Jupyter Notebook installed][install-nb]. Then, run:
-
-```
-pip install nbinteract
-```
-
-Navigate to a folder containing notebooks you'd like to convert, then run:
-
-```
-nbinteract YOUR_NOTEBOOK.ipynb
-```
-
-Replace `YOUR_NOTEBOOK.ipynb` with the name of your notebook file. You will now
-have an HTML file in the same directory. You can open that HTML file in your
-browser and interact with widgets there.
 
 ## Developer Install
 
@@ -78,9 +129,11 @@ make -j2 serve
 
 ## Contributors
 
-This project is developed by [Sam Lau][sam] and Caleb Siu as part of a Masters
-project at UC Berkeley.
+`nbinteract` is originally developed by [Sam Lau][sam] and Caleb Siu as part of
+a Masters project at UC Berkeley. The code lives under a BSD 3 license and we
+welcome contributions and pull requests from the community.
 
+[tutorial]: /tutorial/tutorial_getting_started.html
 [demo]: https://samlau95.gitbooks.io/nbinteract/content/examples/Correlation.html
 [ipywidgets]: https://github.com/jupyter-widgets/ipywidgets
 [bqplot]: https://github.com/bloomberg/bqplot
