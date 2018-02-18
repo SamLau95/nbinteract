@@ -134,12 +134,11 @@ a Masters project at UC Berkeley. The code lives under a BSD 3 license and we
 welcome contributions and pull requests from the community.
 
 [tutorial]: /tutorial/tutorial_getting_started.html
-[demo]: https://samlau95.gitbooks.io/nbinteract/content/examples/Correlation.html
 [ipywidgets]: https://github.com/jupyter-widgets/ipywidgets
 [bqplot]: https://github.com/bloomberg/bqplot
 [widgets]: http://jupyter.org/widgets.html
 [gh-pages]: https://pages.github.com/
 [gitbook]: http://gitbook.com/
 [install-nb]: http://jupyter.readthedocs.io/en/latest/install.html
-[docs]: https://samlau95.gitbooks.io/nbinteract/content/
+[docs]: https://www.nbinteract.com/
 [sam]: http://www.samlau.me/
