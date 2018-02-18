@@ -14,8 +14,7 @@
 ----
 
 * [Recipes](recipes/README.md)
-  * [Basic Graphing](recipes/recipes_basic_graphing.md)
-  * [nbinteract Graphing](recipes/recipes_nbinteract_graphing.md)
+  * [Graphing](recipes/recipes_graphing.md)
   * [Interactive Questions](recipes/recipes_interactive_questions.md)
 
 * [Examples](examples/README.md)
