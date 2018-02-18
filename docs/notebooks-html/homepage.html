@@ -1,0 +1,185 @@
+
+<div id="ipython-notebook">
+    <div class="buttons">
+        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a></div>
+    <div class="cell border-box-sizing code_cell rendered hidden">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="nbinteract">nbinteract<a class="anchor-link" href="#nbinteract">¶</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>nbinteract</code> is a Python package that creates interactive webpages from Jupyter notebooks. <code>nbinteract</code> has built-in support for interactive plotting. These interactions are driven by data, not callbacks, allowing authors to focus on the logic of their programs.</p>
+<p><code>nbinteract</code> is most useful for:</p>
+<ul>
+<li>Data scientists that want to create simple interactive blog posts without having
+to know / work with Javascript.</li>
+<li>Instructors that want to include interactive examples in their textbooks.</li>
+<li>Students that want to publish data analysis that contains interactive demos.</li>
+</ul></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examples">Examples<a class="anchor-link" href="#Examples">¶</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Most plotting functions from other libraries (e.g. <code>matplotlib</code>) take data as input. <code>nbinteract</code>'s plotting functions take functions as input.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
+
+<span class="k">def</span> <span class="nf">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">sd</span><span class="p">):</span>
+    <span class="sd">'''Returns 1000 points drawn at random fron N(mean, sd)'''</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 11.10032294,   8.01737258,   8.84975049, ...,   9.86721442,
+        11.06511688,  10.88371858])</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Plot aesthetics</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span>
+    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">20</span>
+<span class="p">}</span>
+
+<span class="c1"># Pass in the `normal` function and let user change mean and sd.</span>
+<span class="c1"># Whenever the user interacts with the sliders, the `normal` function</span>
+<span class="c1"># is called and the returned data are plotted.</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="02aacf68-497a-46d1-b713-12d20c661bb8"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#02aacf68-497a-46d1-b713-12d20c661bb8');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "a8697ebd419f4cbfbfda7d8d4489d539", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Simulations are easy to create using <code>nbinteract</code>. In this simulation, we roll a die and plot the running average of the rolls. We can see that with more rolls, the average gets closer to the expected value: 3.5.</p></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rolls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">averages</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">rolls</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">x_vals</span><span class="p">(</span><span class="n">num_rolls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_rolls</span><span class="p">)</span>
+
+<span class="c1"># The function to generate y-values gets called with the</span>
+<span class="c1"># x-values as its first argument.</span>
+<span class="k">def</span> <span class="nf">y_vals</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">averages</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)]</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">num_rolls</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+</pre></div></div></div></div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+
+
+
+
+
+
+ 
+ 
+<div id="1fd57fc9-39b6-4d6c-adec-edcb53d4ab93"></div>
+<div class="output_subarea output_widget_view ">
+<script type="text/javascript">
+var element = $('#1fd57fc9-39b6-4d6c-adec-edcb53d4ab93');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "083faded26d2404b8e5e2b7210780f3e", "version_major": 2, "version_minor": 0}
+</script></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Publishing">Publishing<a class="anchor-link" href="#Publishing">¶</a></h2><p>From a notebook cell:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Run in a notebook cell to convert the notebook into a</span>
+<span class="c1"># publishable HTML page</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">'landing_page.ipynb'</span><span class="p">)</span>
+</pre></div>
+<p>From the command line:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Run on the command line to convert the notebook into a</span>
+<span class="c1"># publishable HTML page.</span>
+nbinteract landing_page.ipynb
+</pre></div>
+<p>For more information on publishing, see the <a href="/tutorial/tutorial_getting_started.html">tutorial</a> which has a complete walkthrough on publishing a notebook to the web.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Using <code>pip</code>:</p>
+<div class="highlight"><pre><span></span>pip install nbinteract
+
+<span class="c1"># The next two lines can be skipped for notebook version 5.3 and above</span>
+jupyter nbextension <span class="nb">enable</span> --py --sys-prefix widgetsnbextension
+jupyter nbextension <span class="nb">enable</span> --py --sys-prefix bqplot
+</pre></div>
+<p>You may now import the <code>nbinteract</code> package in Python code and use the <code>nbinteract</code> CLI command to convert notebooks to HTML pages.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">¶</a></h2><p>Access the tutorials, examples, and documentation for <code>nbinteract</code> using the links in the sidebar.</p></div></div></div></div>
