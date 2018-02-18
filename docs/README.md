@@ -1,1 +1,1 @@
-{% include "../notebooks-html/homepage.html" %}
+{% include "notebooks-html/homepage.html" %}
