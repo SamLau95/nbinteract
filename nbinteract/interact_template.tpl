@@ -25,9 +25,10 @@ easy hook into the spot just before the body closes.
 {% set datatype_list = output.data | filter_data_type %}
 {% set datatype = datatype_list[0]%}
 <div class="output_subarea output_widget_view {{ extra_class }}">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 {%- endblock data_widget_view -%}
 
