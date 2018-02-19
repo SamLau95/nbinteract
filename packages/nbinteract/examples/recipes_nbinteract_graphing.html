@@ -8450,15 +8450,15 @@ label {
 }
 /* Flexible box model classes */
 /* Taken from Alex Russell http://infrequently.org/2009/08/css-3-progress/ */
-/* This file is a compatability layer.  It allows the usage of flexible box
+/* This file is a compatability layer.  It allows the usage of flexible box 
 model layouts accross multiple browsers, including older browsers.  The newest,
 universal implementation of the flexible box model is used when available (see
-`Modern browsers` comments below).  Browsers that are known to implement this
+`Modern browsers` comments below).  Browsers that are known to implement this 
 new spec completely include:
 
     Firefox 28.0+
     Chrome 29.0+
-    Internet Explorer 11+
+    Internet Explorer 11+ 
     Opera 17.0+
 
 Browsers not listed, including Safari, are supported via the styling under the
@@ -11232,7 +11232,7 @@ div#pager .ui-resizable-handle {
   background: #f7f7f7;
   border-top: 1px solid #cfcfcf;
   border-bottom: 1px solid #cfcfcf;
-  /* This injects handle bars (a short, wide = symbol) for
+  /* This injects handle bars (a short, wide = symbol) for 
         the resize handle. */
 }
 div#pager .ui-resizable-handle::after {
@@ -11675,7 +11675,7 @@ ul.typeahead-list > li > a {
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 <style type="text/css">
-
+    
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
 .ansi-black-fg { color: #3E424D; }
 .ansi-black-bg { background-color: #3E424D; }
@@ -11769,7 +11769,7 @@ div#notebook {
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
-
+      
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -11887,9 +11887,10 @@ div#notebook {
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -11939,9 +11940,10 @@ div#notebook {
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -11986,9 +11988,10 @@ div#notebook {
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -12021,7 +12024,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">heights</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
@@ -12053,9 +12056,10 @@ div#notebook {
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -12115,9 +12119,10 @@ div#notebook {
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -12138,7 +12143,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>scatter</code> generates a scatter plot that allows interaction with the parameters to the response functions.
+<p><code>scatter</code> generates a scatter plot that allows interaction with the parameters to the response functions. 
 This is different from scatter_drag which facilitates interaction using click and drag actions.</p>
 <p>The first two arguments of <code>scatter</code> are response functions that return the x and y-axis coordinates, respectively. Either argument can be arrays themselves. Arguments for the response functions must be passed in as keyword arguments to <code>scatter</code> in the format expected by interact. The response function for the y-coordinates will be called with the x-coordinates as its first argument.</p>
 
@@ -12175,9 +12180,10 @@ This is different from scatter_drag which facilitates interaction using click an
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -12206,7 +12212,7 @@ This is different from scatter_drag which facilitates interaction using click an
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">x_values</span><span class="p">(</span><span class="nb">max</span><span class="p">):</span> <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
@@ -12241,9 +12247,10 @@ This is different from scatter_drag which facilitates interaction using click an
 
 
 <div class="output_subarea output_widget_view ">
-  <div class="nbinteract-js-widget">
+  <!-- Keep class in sync with util.js -->
+  <button class="js-nbinteract-widget">
     Show Widget
-  </div>
+  </button>
 </div>
 
 </div>
@@ -12258,7 +12265,7 @@ This is different from scatter_drag which facilitates interaction using click an
   <script src="../built/index.bundle.js"></script>
 </body>
 
-
+ 
 
 
 </html>
