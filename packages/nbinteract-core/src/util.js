@@ -35,7 +35,20 @@ export const isWidgetCell = cell =>
 export const cellToWidgetOutput = cell =>
   cell.querySelector('.output_widget_view')
 
-export const removeLoadingFromCell = cell => {
+/**
+ * Functions to work with nbinteract status buttons
+ */
+export const statusButtons = () =>
+  document.querySelectorAll('.js-nbinteract-widget')
+
+export const setButtonsStatus = message => {
+  statusButtons().forEach(button => {
+    button.disabled = true
+    button.textContent = message
+  })
+}
+
+export const removeButton = cell => {
   // Keep in sync with interact_template.tpl
   const el = cell.querySelector('.js-nbinteract-widget')
   if (el) el.remove()

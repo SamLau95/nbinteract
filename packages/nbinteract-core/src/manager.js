@@ -67,7 +67,10 @@ export class WidgetManager extends HTMLManager {
     if (model) {
       const outputEl = util.cellToWidgetOutput(cell)
       this.display_model(msg, model, { el: outputEl })
-      util.removeLoadingFromCell(cell)
+
+      // TODO(sam): Move this logic into Nbinteract:prepare() since it's a DOM
+      // update, not a widget update.
+      util.removeButton(cell)
     }
   }
 

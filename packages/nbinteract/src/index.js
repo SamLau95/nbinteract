@@ -5,8 +5,4 @@ const interact = new NbInteract({
 })
 window.interact = interact
 
-document.querySelectorAll('.js-nbinteract-widget').forEach(button => {
-  button.addEventListener('click', e => {
-    interact.run()
-  })
-})
+interact.prepare()
