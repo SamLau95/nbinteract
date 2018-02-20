@@ -4,6 +4,7 @@ nbinteract
 [![Read the Docs](https://img.shields.io/badge/docs-gitbook-green.svg)][docs]
 [![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/)
 [![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
+[![Gitter](https://badges.gitter.im/owner/repo.png)][gitter]
 
 
 `nbinteract` is a Python package that creates interactive webpages from Jupyter
@@ -127,6 +128,11 @@ yarn install
 make -j2 serve
 ```
 
+## Feedback
+
+If you have any questions or comments, send us a message on the
+[Gitter channel][gitter]. We appreciate your feedback!
+
 ## Contributors
 
 `nbinteract` is originally developed by [Sam Lau][sam] and Caleb Siu as part of
@@ -142,3 +148,4 @@ welcome contributions and pull requests from the community.
 [install-nb]: http://jupyter.readthedocs.io/en/latest/install.html
 [docs]: https://www.nbinteract.com/
 [sam]: http://www.samlau.me/
+[gitter]: https://gitter.im/nbinteract/Lobby/
