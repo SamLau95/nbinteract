@@ -32,7 +32,7 @@ test: ## Run tests
 	python setup.py test
 
 ping_binder: ## Force-updates BinderHub image
-	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
+	curl -s https://staging.mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
 		grep -E '${BINDER_REGEXP}' |\
 		sed -E 's/${BINDER_REGEXP}/\1/' &
 
@@ -43,6 +43,7 @@ bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	git add requirements.txt ;\
 	git commit -m "nbinteract v$$VERSION" ;\
 	git push origin master ;\
+	cd ../nbinteract ;\
 	make ping_binder
 
 start_notebook:
