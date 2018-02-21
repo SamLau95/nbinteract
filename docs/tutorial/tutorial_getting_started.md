@@ -10,7 +10,7 @@ The simplest way to follow this tutorial is to click the button below. It will
 launch a Jupyter server using Binder that comes pre-built with the necessary
 libraries.
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb)
+[![Binder](https://mybinder.org/badge.svg)](https://staging.mybinder.org/v2/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb)
 
 Clicking the button above opens an empty Jupyter Notebook you can fill in
 while going through the rest of this tutorial. (We've assumed you've worked

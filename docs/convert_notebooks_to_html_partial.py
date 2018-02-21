@@ -14,29 +14,19 @@ import glob
 import re
 import os
 
-import bs4
 import nbformat
-from nbconvert import HTMLExporter
+from nbinteract import InteractExporter
 from traitlets.config import Config
-
-wrapper = """
-<div id="ipython-notebook">
-    <div class="buttons">
-        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a>
-    </div>
-    {html}
-</div>
-"""
 
 # Use ExtractOutputPreprocessor to extract the images to separate files
 config = Config()
-config.HTMLExporter.preprocessors = [
+config.InteractExporter.preprocessors = [
     'nbconvert.preprocessors.ExtractOutputPreprocessor',
 ]
 
 # Output a HTML partial, not a complete page
-html_exporter = HTMLExporter(config=config)
-html_exporter.template_file = 'basic'
+html_exporter = InteractExporter(config=config)
+html_exporter.template_file = 'gitbook'
 
 INPUT_NOTEBOOKS = 'textbook/*.ipynb'
 
@@ -48,19 +38,6 @@ NOTEBOOK_IMAGE_DIR = 'notebooks-images'
 
 # The prefix for each notebook + its dependencies
 PATH_PREFIX = 'path=notebooks/{}'
-
-# The regex used to find file dependencies for notebooks. I could have used
-# triple quotes here but it messes up Python syntax highlighting :(
-DATASET_REGEX = re.compile(
-    r"read_table\("  # We look for a line containing read_table(
-    r"('|\")"  # Then either a single or double quote
-    r"(?P<dataset>"  # Start our named match -- dataset
-    r"    (?!https?://)"  # Don't match http(s) since those aren't local files
-    r"    \w+.csv\w*"  # It has to have .csv in there (might end in .gz)
-    r")"  # Finish our match
-    r"\1\)"  # Make sure the quotes match
-    ,
-    re.VERBOSE)
 
 # Used to ensure all the closing div tags are on the same line for Markdown to
 # parse them properly
@@ -93,15 +70,12 @@ def convert_notebooks_to_html_partial(notebook_paths):
         }
 
         notebook = nbformat.read(notebook_path, 4)
-        raw_html, resources = html_exporter.from_notebook_node(
-            notebook, resources=extract_output_config)
-
-        html = _extract_cells(raw_html)
-
-        with_wrapper = wrapper.format(html=html, )
+        html, resources = html_exporter.from_notebook_node(
+            notebook, resources=extract_output_config
+        )
 
         # Remove newlines before closing div tags
-        final_output = CLOSING_DIV_REGEX.sub('</div>', with_wrapper)
+        final_output = CLOSING_DIV_REGEX.sub('</div>', html)
 
         # Write out HTML
         outfile_path = os.path.join(os.curdir, NOTEBOOK_HTML_DIR, outfile_name)
@@ -115,32 +89,6 @@ def convert_notebooks_to_html_partial(notebook_paths):
             with open(final_image_path, 'wb') as outimage:
                 outimage.write(image_data)
         print(outfile_path + " written.")
-
-
-def _extract_cells(html):
-    """Return a html partial of divs with cell contents."""
-    doc = bs4.BeautifulSoup(html, 'html5lib')
-
-    divs = doc.find_all('div', class_='cell')
-    for div in divs:
-        if '# HIDDEN' in str(div):
-            div['class'].append('hidden')
-
-    def remove_empty_spans_and_prompts(tag):
-        # We also used to decompose these tags:
-        #
-        # tag.find_all('span', text='None')
-        #
-        # But this caused issues when None actually appeared in code eg.
-        # hello(None) so we removed it.
-        #
-        # TODO(sam): Figure out a better way to remove empty cell outputs
-        for t in tag.find_all('div', class_='prompt'):
-            t.decompose()
-
-    [remove_empty_spans_and_prompts(div) for div in divs]
-
-    return '\n'.join(map(str, divs))
 
 
 if __name__ == '__main__':

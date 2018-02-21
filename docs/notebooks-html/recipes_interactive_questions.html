@@ -1,29 +1,30 @@
 
-<div id="ipython-notebook">
-    <div class="buttons">
-        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a></div>
-    <div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Interactive-Questions">Interactive Questions<a class="anchor-link" href="#Interactive-Questions">¶</a></h1><p>nbinteract also provides built-in methods to easily create multiple choice and short answer questions.</p></div></div></div>
+<h1 id="Interactive-Questions">Interactive Questions<a class="anchor-link" href="#Interactive-Questions">&#182;</a></h1><p>nbinteract also provides built-in methods to easily create multiple choice and short answer questions.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="nbinteract.multiple_choice">nbinteract.multiple_choice<a class="anchor-link" href="#nbinteract.multiple_choice">¶</a></h2><p><code>nbinteract.multiple_choice</code> takes a question, a list of possible answer choices, and the correct answer. Clicking the buttons shows whether the choice was correct.</p></div></div></div>
+<h2 id="nbinteract.multiple_choice">nbinteract.multiple_choice<a class="anchor-link" href="#nbinteract.multiple_choice">&#182;</a></h2><p><code>nbinteract.multiple_choice</code> takes a question, a list of possible answer choices, and the correct answer. Clicking the buttons shows whether the choice was correct.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"What is 10 + 2 * 5?"</span><span class="p">,</span>
-                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">'12'</span><span class="p">,</span> <span class="s1">'60'</span><span class="p">,</span> <span class="s1">'20'</span><span class="p">],</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">&quot;What is 10 + 2 * 5?&quot;</span><span class="p">,</span>
+                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;60&#39;</span><span class="p">,</span> <span class="s1">&#39;20&#39;</span><span class="p">],</span>
                     <span class="n">answers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div></div></div></div>
 
@@ -37,25 +38,20 @@
 
 
 
-
-
- 
- 
-<div id="7a3c2ce6-36ab-4977-9c1c-d4ab2517194c"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#7a3c2ce6-36ab-4977-9c1c-d4ab2517194c');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "de2dd3509e344b108adf6ef9df75e24f", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">"Select all prime numbers."</span><span class="p">,</span>
-                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">'12'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'31'</span><span class="p">],</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">multiple_choice</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="s2">&quot;Select all prime numbers.&quot;</span><span class="p">,</span>
+                    <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;12&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;31&#39;</span><span class="p">],</span>
                     <span class="n">answers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div></div></div></div>
 
@@ -69,29 +65,24 @@ var element = $('#7a3c2ce6-36ab-4977-9c1c-d4ab2517194c');
 
 
 
-
-
- 
- 
-<div id="cd855784-77b3-45a2-8790-ca03d0a88c39"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#cd855784-77b3-45a2-8790-ca03d0a88c39');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "7c10638768f141068a8f3187c8090f45", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="nbinteract.short_answer">nbinteract.short_answer<a class="anchor-link" href="#nbinteract.short_answer">¶</a></h2><p><code>nbinteract.short_answer</code> takes a question and an answer.</p>
+<h2 id="nbinteract.short_answer">nbinteract.short_answer<a class="anchor-link" href="#nbinteract.short_answer">&#182;</a></h2><p><code>nbinteract.short_answer</code> takes a question and an answer.</p>
 <p>The answer can either be a string, a list of strings, or a function that returns <code>True</code> when called with the user's input. If the function errors, an error message will be displayed.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'What is 1+1?'</span><span class="p">,</span> <span class="n">answers</span><span class="o">=</span><span class="s1">'2'</span><span class="p">,</span> <span class="n">explanation</span><span class="o">=</span><span class="s1">'1+1 is 2'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">&#39;What is 1+1?&#39;</span><span class="p">,</span> <span class="n">answers</span><span class="o">=</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="n">explanation</span><span class="o">=</span><span class="s1">&#39;1+1 is 2&#39;</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -104,25 +95,20 @@ var element = $('#cd855784-77b3-45a2-8790-ca03d0a88c39');
 
 
 
-
-
- 
- 
-<div id="4d995890-39d7-40d2-b77f-219f95cdf857"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#4d995890-39d7-40d2-b77f-219f95cdf857');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "0f1c42124c694e838394799369ad7b76", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter the first name of a member of the Beatles.'</span><span class="p">,</span>
-                 <span class="p">[</span><span class="s1">'John'</span><span class="p">,</span> <span class="s1">'Paul'</span><span class="p">,</span> <span class="s1">'George'</span><span class="p">,</span> <span class="s1">'Ringo'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">&#39;Enter the first name of a member of the Beatles.&#39;</span><span class="p">,</span>
+                 <span class="p">[</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Paul&#39;</span><span class="p">,</span> <span class="s1">&#39;George&#39;</span><span class="p">,</span> <span class="s1">&#39;Ringo&#39;</span><span class="p">])</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -135,24 +121,19 @@ var element = $('#4d995890-39d7-40d2-b77f-219f95cdf857');
 
 
 
-
-
- 
- 
-<div id="fd97f5a6-adc8-4132-9f66-82383d7b5e16"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#fd97f5a6-adc8-4132-9f66-82383d7b5e16');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "fda85ec395ec41af999776ba2a5b39b6", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">'Enter an even number.'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">short_answer</span><span class="p">(</span><span class="s1">&#39;Enter an even number.&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -165,15 +146,8 @@ var element = $('#fd97f5a6-adc8-4132-9f66-82383d7b5e16');
 
 
 
-
-
- 
- 
-<div id="c1a1d50f-4288-452e-9215-b350729e6261"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#c1a1d50f-4288-452e-9215-b350729e6261');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "529c41f0bff549dc9683b7a17d1c0e65", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div></div>
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>

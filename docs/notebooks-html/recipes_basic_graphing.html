@@ -1,11 +1,10 @@
 
-<div id="ipython-notebook">
-    <div class="buttons">
-        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a></div>
-    <div class="cell border-box-sizing code_cell rendered hidden">
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  style="display:none;"
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 <span class="kn">import</span> <span class="nn">nbinteract</span>
@@ -15,23 +14,25 @@
 
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'fivethirtyeight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Plotting-using-Interact">Plotting using Interact<a class="anchor-link" href="#Plotting-using-Interact">¶</a></h1><p><code>ipywidgets</code> and <code>matplotlib</code> allow you to quickly create and publish interactive visualizations. We'll start with the simplest way to create interactive graphs using <code>matplotlib</code>. However, the recommended tool is to use the built-in plotting tools in <code>nbinteract</code>.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h1 id="Plotting-using-Interact">Plotting using Interact<a class="anchor-link" href="#Plotting-using-Interact">&#182;</a></h1><p><code>ipywidgets</code> and <code>matplotlib</code> allow you to quickly create and publish interactive visualizations. We'll start with the simplest way to create interactive graphs using <code>matplotlib</code>. However, the recommended tool is to use the built-in plotting tools in <code>nbinteract</code>.</p></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The easiest way to create a plot begins with writing a function that creates a plot using <code>matplotlib</code> and calling <code>interact</code> on it. Here we have a simple function that allows the user to control the height of a bar graph with 10 bars.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plt_bar</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
@@ -48,26 +49,21 @@
 
 
 
-
-
- 
- 
-<div id="41534e75-a517-4301-ac12-443a11d10783"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#41534e75-a517-4301-ac12-443a11d10783');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "f00cd1abfa04409593c7d94b5e410160", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you might notice, the example above lags and stutters when the slider is dragged around too quickly. This is a limitation of using <code>matplotlib</code> and <code>matplotlib</code>-based plotting libraries that produce images. The lag occurs because the images are too large to generate and send over the network to match the speed of interaction. This lag can be reduced if you choose to use buttons instead of a slider.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">widgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">plt_bar</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButtons</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">]));</span>
 </pre></div></div></div></div>
@@ -82,26 +78,21 @@ var element = $('#41534e75-a517-4301-ac12-443a11d10783');
 
 
 
-
-
- 
- 
-<div id="2b5ee64b-3f05-47b3-b575-81a23874e783"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#2b5ee64b-3f05-47b3-b575-81a23874e783');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "4af807cf7bf44ab5b5f041cce72b35c2", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Here's another simple example using interact to plot a scatter plot.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plt_scatter</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="n">n</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="n">n</span><span class="p">))</span>
@@ -118,20 +109,13 @@ var element = $('#2b5ee64b-3f05-47b3-b575-81a23874e783');
 
 
 
-
-
- 
- 
-<div id="7721f17d-f2e5-44d6-9314-b0776fc0e581"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#7721f17d-f2e5-44d6-9314-b0776fc0e581');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "b6c57f4503704980b901f16fe37d3e7b", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In order to handle more complicated visualizations, we recommend the <code>nbinteract</code>
-graphing functions described in the "nbinteract Graphing" section.</p></div></div></div></div>
+graphing functions described in the "nbinteract Graphing" section.</p></div></div></div>

@@ -1,6 +1,8 @@
 import NbInteract from 'nbinteract-core'
 
-const interact = new NbInteract()
+const interact = new NbInteract({
+  baseUrl: 'https://staging.mybinder.org',
+})
 window.interact = interact
 
-interact.run()
+interact.prepare()

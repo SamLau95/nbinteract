@@ -51,17 +51,38 @@ export default class NbInteract {
     this.manager = null
   }
 
+  /**
+   * Attaches event listeners to page that call run() when clicked. Updates
+   * status text of elements as server is started until widget is rendered.
+   * When widgets are rendered, removes all status elements.
+   *
+   * If a running kernel is cached in localStorage, creates widgets without
+   * needing button click.
+   */
+  async prepare() {
+    this.binder.registerCallback('failed', (oldState, newState, data) => {
+      util.setButtonsStatus(
+        `Error, try refreshing the page:<br>${data.message}`,
+      )
+    })
+
+    util.statusButtons().forEach(button => {
+      button.addEventListener('click', e => {
+        // The logic to remove the status buttons is temporarily in
+        // manager.js:_displayWidget since it's tricky to implement here.
+        // TODO(sam): Move the logic here instead.
+        util.setButtonsStatus('Initializing widgets...')
+        this.run()
+      })
+    })
+
+    this.runIfKernelExists()
+  }
+
+  /**
+   * Starts kernel if needed, runs code on page, and initializes widgets.
+   */
   async run() {
-    if (!util.pageHasWidgets()) {
-      console.log('No widgets detected, stopping nbinteract.')
-
-      // Warm up kernel so the next run is faster
-      if (!this.kernel) {
-        this.kernel = await this._getOrStartKernel()
-      }
-      return
-    }
-
     const firstRun = !this.kernel || !this.manager
     try {
       this.kernel = await this._getOrStartKernel()
@@ -71,17 +92,37 @@ export default class NbInteract {
       if (firstRun) this._kernelHeartbeat()
     } catch (err) {
       debugger
-      console.log('Error in code initialization!')
+      console.log('Error in widget initialization!')
       throw err
     }
   }
+
+  /**
+   * Same as run(), but only runs code if kernel is already started.
+   */
+  async runIfKernelExists() {
+    try {
+      this.kernel = await this._getKernel()
+    } catch (err) {
+      console.log(
+        'No kernel, stopping the runIfKernelExists() call. Use the',
+        'run() method to automatically start a kernel if needed.',
+      )
+      return
+    }
+
+    this.run()
+  }
+
+  /**********************************************************************
+   * Private methods
+   **********************************************************************/
 
   /**
    * Checks kernel connection every seconds_between_check seconds. If the
    * kernel is dead, starts a new kernel and re-creates widgets.
    */
   async _kernelHeartbeat(seconds_between_check = 5) {
-    console.log('Kernel heartbeat')
     try {
       const { kernelModel } = await this._getKernelModel()
     } catch (err) {

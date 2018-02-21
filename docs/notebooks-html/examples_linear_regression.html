@@ -1,26 +1,27 @@
 
-<div id="ipython-notebook">
-    <div class="buttons">
-        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a></div>
-    <div class="cell border-box-sizing code_cell rendered hidden">
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  style="display:none;"
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 <span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Linear-Regression">Linear Regression<a class="anchor-link" href="#Linear-Regression">¶</a></h1><h2 id="What-is-Regression?">What is Regression?<a class="anchor-link" href="#What-is-Regression?">¶</a></h2><p>In this tutorial, we're going to learn about regression, one of the the most important concepts in machine learning. Simply stated, regression allows us to take some data and make predictions for future data.</p>
+<h1 id="Linear-Regression">Linear Regression<a class="anchor-link" href="#Linear-Regression">&#182;</a></h1><h2 id="What-is-Regression?">What is Regression?<a class="anchor-link" href="#What-is-Regression?">&#182;</a></h2><p>In this tutorial, we're going to learn about regression, one of the the most important concepts in machine learning. Simply stated, regression allows us to take some data and make predictions for future data.</p>
 <p>Let's suppose we want to figure out whether a new ice cream flavor will be popular. Here, we have some data on past ice cream flavors. Each point is a flavor. The x-axis shows how highly the ice cream texture was rated. The y-axis shows how the highly the flavor was rated overall.</p>
 <p>We can expect that the better the texture, the higher the overall rating. We want to fit a line to the data to show that. Regression chooses the best line for us. Try dragging the points around and see how the regression line changes!</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">texture_rating</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">5.7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">])</span>
 <span class="n">overall_rating</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">])</span>
@@ -28,15 +29,17 @@
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">scatter_drag</span><span class="p">(</span><span class="n">texture_rating</span><span class="p">,</span> 
                  <span class="n">overall_rating</span><span class="p">,</span> 
-                 <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> 
-                          <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> 
-                          <span class="s1">'xlabel'</span><span class="p">:</span><span class="s2">"Texture Rating"</span><span class="p">,</span> 
-                          <span class="s1">'ylabel'</span><span class="p">:</span><span class="s2">"Overall Rating"</span><span class="p">,</span> 
-                          <span class="s1">'title'</span><span class="p">:</span> <span class="s2">"Simple Linear Regression"</span><span class="p">})</span>
+                 <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;xlim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> 
+                          <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> 
+                          <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span><span class="s2">&quot;Texture Rating&quot;</span><span class="p">,</span> 
+                          <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span><span class="s2">&quot;Overall Rating&quot;</span><span class="p">,</span> 
+                          <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s2">&quot;Simple Linear Regression&quot;</span><span class="p">})</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -49,19 +52,12 @@
 
 
 
-
-
- 
- 
-<div id="76c71779-b901-4336-b55c-4d7dca40ea26"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#76c71779-b901-4336-b55c-4d7dca40ea26');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "5bbb829196e147bf9b853f82d385a6a7", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That equation above is our regression line. We can use it to make predictions for data we haven't seen before. For example, if I gave you a ice cream that someone rated a 5.0 for texture, you could use the equation above the graph to predict the overall rating.</p></div></div></div></div>
+<p>That equation above is our regression line. We can use it to make predictions for data we haven't seen before. For example, if I gave you a ice cream that someone rated a 5.0 for texture, you could use the equation above the graph to predict the overall rating.</p></div></div></div>
