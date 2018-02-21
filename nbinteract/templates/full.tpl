@@ -13,17 +13,17 @@ easy hook into the spot just before the body closes.
       {{ super() }}
     </div>
   </div>
-  <!-- This line contains the JS to run the widget code -->
+
+  {% block nbinteract_script %}
+  <!-- Loads nbinteract package -->
   <script src="https://unpkg.com/nbinteract"></script>
+  {%- endblock nbinteract_script %}
 </body>
 {%- endblock body %}
 
 
-<!-- Add loading text to widget output -->
+<!-- Add loading button to widget output -->
 {%- block data_widget_view scoped %}
-{% set div_id = uuid4() %}
-{% set datatype_list = output.data | filter_data_type %}
-{% set datatype = datatype_list[0]%}
 <div class="output_subarea output_widget_view {{ extra_class }}">
   <!-- Keep class in sync with util.js -->
   <button class="js-nbinteract-widget">
@@ -88,8 +88,3 @@ div#notebook-container{
 {%- endblock html_head -%}
 </head>
 {%- endblock header -%}
-
-{% block footer %}
-{{ super() }}
-</html>
-{% endblock footer %}

@@ -57,9 +57,19 @@ stdout output:
 
 class InteractExporter(HTMLExporter):
     """
-    Custom exporter for nbconvert that outputs the same thing as the default
-    HTMLExporter with a line to load the nbinteract Javascript bundle instead
-    of the default JS libraries.
+    nbconvert Exporter that converts a notebook to an HTML page with widgets
+    enabled.
+
+    Valid templates:
+
+    - 'full': Outputs a complete standalone HTML page with default styling.
+      Automatically loads the nbinteract JS library.
+    - 'local': Like 'full', but uses a local copy of the JS package instead of
+      the live one. Used for development only.
+    - 'partial': Outputs an HTML partial that can be embedded in another page.
+        Automatically loads the nbinteract JS library.
+    - 'gitbook': Outputs an HTML partial used to embed in a Gitbook or other
+      environments where the nbinteract JS library is already loaded.
     """
 
     def __init__(self, config=None, **kw):
@@ -79,11 +89,13 @@ class InteractExporter(HTMLExporter):
         super(InteractExporter, self).__init__(config=config, **kw)
 
         # Add current dir to template_path so we can find the template
-        self.template_path.append(os.path.dirname(__file__))
+        self.template_path.insert(
+            0, os.path.join(os.path.dirname(__file__), 'templates')
+        )
 
     @default('template_file')
     def _template_file_default(self):
-        return 'interact_template.tpl'
+        return 'full.tpl'
 
 
 def publish(nb_name, save_first=True):
@@ -108,15 +120,18 @@ def publish(nb_name, save_first=True):
         None
     """
     if not os.path.isfile(nb_name):
-        raise ValueError("{} isn't a path to a file. Double check your "
-                         "filename and try again.".format(nb_name))
+        raise ValueError(
+            "{} isn't a path to a file. Double check your "
+            "filename and try again.".format(nb_name)
+        )
 
     if save_first:
         _save_nb(nb_name)
 
     print('Converting notebook...')
     process = run(['jupyter', 'nbconvert', '--to', 'interact', nb_name],
-                  stdout=PIPE, stderr=PIPE)
+                  stdout=PIPE,
+                  stderr=PIPE)
     if process.returncode != 0:
         logging.warning(ERROR_MESSAGE.format(filename=nb_name, res=process))
         return
@@ -136,9 +151,11 @@ def _save_nb(nb_name):
     if _wait_for_save(nb_name):
         print("Saved '{}'.".format(nb_name))
     else:
-        logging.warning("Could not save your notebook (timed out waiting for "
-                        "IPython save). Make sure your notebook is saved "
-                        "and export again.")
+        logging.warning(
+            "Could not save your notebook (timed out waiting for "
+            "IPython save). Make sure your notebook is saved "
+            "and export again."
+        )
 
 
 def _wait_for_save(nb_name, timeout=5):
@@ -148,8 +165,10 @@ def _wait_for_save(nb_name, timeout=5):
     modification_time = os.path.getmtime(nb_name)
     start_time = time.time()
     while time.time() < start_time + timeout:
-        if (os.path.getmtime(nb_name) > modification_time
-                and os.path.getsize(nb_name) > 0):
+        if (
+            os.path.getmtime(nb_name) > modification_time
+            and os.path.getsize(nb_name) > 0
+        ):
             return True
         time.sleep(0.2)
     return False
