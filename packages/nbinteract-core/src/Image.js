@@ -61,9 +61,6 @@ Image.prototype.fetch = function() {
   var that = this
   this.eventSource.onerror = function(err) {
     console.error('Failed to construct event stream', err)
-    that.changeState('failed', {
-      message: 'Failed to connect to event stream\n',
-    })
 
     that.failed_connection_attempts++
     if (that.failed_connection_attempts >= MAX_CONNECTION_ATTEMPTS) {

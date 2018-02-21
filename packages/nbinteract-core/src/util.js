@@ -44,7 +44,7 @@ export const statusButtons = () =>
 export const setButtonsStatus = message => {
   statusButtons().forEach(button => {
     button.disabled = true
-    button.textContent = message
+    button.innerHTML = message
   })
 }
 

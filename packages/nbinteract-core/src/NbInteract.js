@@ -60,9 +60,15 @@ export default class NbInteract {
    * needing button click.
    */
   async prepare() {
+    this.binder.registerCallback('failed', (oldState, newState, data) => {
+      util.setButtonsStatus(
+        `Error, try refreshing the page:<br>${data.message}`,
+      )
+    })
+
     util.statusButtons().forEach(button => {
       button.addEventListener('click', e => {
-        // The logic to remove the status buttons is in
+        // The logic to remove the status buttons is temporarily in
         // manager.js:_displayWidget since it's tricky to implement here.
         // TODO(sam): Move the logic here instead.
         util.setButtonsStatus('Initializing widgets...')
@@ -98,8 +104,10 @@ export default class NbInteract {
     try {
       this.kernel = await this._getKernel()
     } catch (err) {
-      console.log('No kernel, stopping the runIfKernelExists() call. Use the',
-                  'run() method to automatically start a kernel if needed.')
+      console.log(
+        'No kernel, stopping the runIfKernelExists() call. Use the',
+        'run() method to automatically start a kernel if needed.',
+      )
       return
     }
 

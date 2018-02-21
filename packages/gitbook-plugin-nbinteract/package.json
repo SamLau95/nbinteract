@@ -49,15 +49,6 @@
           "By default uses https://mybinder.org."
         ],
         "default": "https://mybinder.org"
-      },
-      "auto_run": {
-        "type": "bool",
-        "description": [
-          "If true, automatically starts kernel and runs code when ",
-          "page with widgets is loaded. If false, will look for a DOM ",
-          "element with id nbinteract and attach a click handler to run."
-        ],
-        "default": false
       }
     }
   },
