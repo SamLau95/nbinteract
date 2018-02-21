@@ -70,7 +70,7 @@ export class WidgetManager extends HTMLManager {
 
       // TODO(sam): Move this logic into Nbinteract:prepare() since it's a DOM
       // update, not a widget update.
-      util.removeButton(cell)
+      util.removeButtons()
     }
   }
 

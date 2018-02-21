@@ -37,6 +37,7 @@ export const cellToWidgetOutput = cell =>
 
 /**
  * Functions to work with nbinteract status buttons
+ * Keep CSS class in sync with nbinteract/templates/*.tpl
  */
 export const statusButtons = () =>
   document.querySelectorAll('.js-nbinteract-widget')
@@ -48,10 +49,8 @@ export const setButtonsStatus = message => {
   })
 }
 
-export const removeButton = cell => {
-  // Keep in sync with interact_template.tpl
-  const el = cell.querySelector('.js-nbinteract-widget')
-  if (el) el.remove()
+export const removeButtons = () => {
+  statusButtons().forEach(button => button.remove())
 }
 
 /**
