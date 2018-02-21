@@ -1,28 +1,25 @@
 
-<div id="ipython-notebook">
-    <div class="buttons">
-        <a class="interact-button" id="nbinteract" href="#">Run Widgets</a></div>
-    <div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="An-Interactive-Monty-Hall-Simulation">An Interactive Monty Hall Simulation<a class="anchor-link" href="#An-Interactive-Monty-Hall-Simulation">¶</a></h1></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h1 id="An-Interactive-Monty-Hall-Simulation">An Interactive Monty Hall Simulation<a class="anchor-link" href="#An-Interactive-Monty-Hall-Simulation">&#182;</a></h1></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbinteract</code> was designed to make interactive explanations easy to create. In this tutorial, we will show the process of writing a simulation from scratch and visualizing the results interactively.</p>
 <p>In this section, you will create an interactive simulation of the Monty Hall Problem. You may continue writing code in the notebook from the previous section or create a new one for this section.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Monty-Hall-Problem">The Monty Hall Problem<a class="anchor-link" href="#The-Monty-Hall-Problem">¶</a></h2><p>The Monty Hall Problem (<a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia</a>) is a famous probability problem that has stumped many, mathematicians included. The problem goes something like this:</p>
+<h2 id="The-Monty-Hall-Problem">The Monty Hall Problem<a class="anchor-link" href="#The-Monty-Hall-Problem">&#182;</a></h2><p>The Monty Hall Problem (<a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia</a>) is a famous probability problem that has stumped many, mathematicians included. The problem goes something like this:</p>
 <blockquote><p>Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who knows what's behind the doors, opens another door, say No. 3, which has a goat. He then says to you, "Do you want to switch your choice to door No. 2?" Is it to your advantage to switch your choice?</p>
 </blockquote>
 <p>Perhaps unintuitively, you will win the prize about twice as often if you switch doors. We can show this through simulation.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Simulating-a-Game">Simulating a Game<a class="anchor-link" href="#Simulating-a-Game">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h3 id="Simulating-a-Game">Simulating a Game<a class="anchor-link" href="#Simulating-a-Game">&#182;</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>One way to write an interactive explanation is to write functions and create interactions for each one as applicable. Composing the functions allows you to create more complicated processes. <code>nbinteract</code> also provides tools for interactive visualizations as we will soon see.</p>
@@ -30,35 +27,39 @@
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
-<span class="n">PRIZES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Car'</span><span class="p">,</span> <span class="s1">'Goat 1'</span><span class="p">,</span> <span class="s1">'Goat 2'</span><span class="p">]</span>
+<span class="n">PRIZES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Car&#39;</span><span class="p">,</span> <span class="s1">&#39;Goat 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Goat 2&#39;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">monty_hall</span><span class="p">(</span><span class="n">example_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">'''</span>
+    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Simulates one round of the Monty Hall Problem. Outputs a tuple of</span>
 <span class="sd">    (result if stay, result if switch, result behind opened door) where</span>
 <span class="sd">    each results is one of PRIZES.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">pick</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">PRIZES</span><span class="p">)</span>
     <span class="n">opened</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="s1">'Car'</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="s1">&#39;Car&#39;</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">remainder</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">opened</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">pick</span><span class="p">,</span> <span class="n">remainder</span><span class="p">,</span> <span class="n">opened</span><span class="p">)</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that the <code>example_num</code> argument is passed in but not used in the <code>monty_hall</code> function. Although it's unneeded for the function, it is easier to use <code>interact</code> to call functions when they have arguments to manipulate:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">interact</span><span class="p">(</span><span class="n">monty_hall</span><span class="p">,</span> <span class="n">example_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
 </pre></div></div></div></div>
@@ -73,19 +74,12 @@
 
 
 
-
-
- 
- 
-<div id="4189d81e-e369-4fd3-955f-d55b526b2353"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#4189d81e-e369-4fd3-955f-d55b526b2353');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "6090aa07b0614886a3ed5a4af58509ac", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>By interacting with the function above, we are able to informally verify that the function never allows the host to open a door with a car behind it. Even though the function is random we are able to use interaction to examine its long-term behavior!</p>
@@ -93,16 +87,18 @@ var element = $('#4189d81e-e369-4fd3-955f-d55b526b2353');
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">winner</span><span class="p">(</span><span class="n">example_num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">'''</span>
+    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Plays a game of Monty Hall. If staying with the original door wins</span>
-<span class="sd">    a car, return 'stay'. Otherwise, the remaining door contains the car</span>
-<span class="sd">    so 'switch' would have won.</span>
-<span class="sd">    '''</span>
+<span class="sd">    a car, return &#39;stay&#39;. Otherwise, the remaining door contains the car</span>
+<span class="sd">    so &#39;switch&#39; would have won.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">picked</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">monty_hall</span><span class="p">()</span>
-    <span class="k">return</span> <span class="s1">'stay'</span> <span class="k">if</span> <span class="n">picked</span> <span class="o">==</span> <span class="s1">'Car'</span> <span class="k">else</span> <span class="s1">'switch'</span>
+    <span class="k">return</span> <span class="s1">&#39;stay&#39;</span> <span class="k">if</span> <span class="n">picked</span> <span class="o">==</span> <span class="s1">&#39;Car&#39;</span> <span class="k">else</span> <span class="s1">&#39;switch&#39;</span>
 
 <span class="n">interact</span><span class="p">(</span><span class="n">winner</span><span class="p">,</span> <span class="n">example_num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
 </pre></div></div></div></div>
@@ -117,27 +113,20 @@ var element = $('#4189d81e-e369-4fd3-955f-d55b526b2353');
 
 
 
-
-
- 
- 
-<div id="d5ddd74d-b5b9-4b34-925e-5c28dc0d8dc0"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#d5ddd74d-b5b9-4b34-925e-5c28dc0d8dc0');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "7813a4f2e2ea4d9aa950b72a0c5b9c01", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Again, a bit of interaction lets us quickly examine the behavior of <code>winner</code>. We can see that <code>switch</code> appears more often than <code>stay</code>.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Brief-Introduction-to-Plotting-with-nbinteract">Brief Introduction to Plotting with <code>nbinteract</code><a class="anchor-link" href="#Brief-Introduction-to-Plotting-with-nbinteract">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h3 id="Brief-Introduction-to-Plotting-with-nbinteract">Brief Introduction to Plotting with <code>nbinteract</code><a class="anchor-link" href="#Brief-Introduction-to-Plotting-with-nbinteract">&#182;</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's create an interactive bar chart of the number of times each strategy wins. We'll use <code>nbinteract</code>'s plotting functionality.</p>
@@ -145,11 +134,13 @@ var element = $('#d5ddd74d-b5b9-4b34-925e-5c28dc0d8dc0');
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 
-<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -162,30 +153,25 @@ var element = $('#d5ddd74d-b5b9-4b34-925e-5c28dc0d8dc0');
 
 
 
-
-
- 
- 
-<div id="6e753464-3381-40bf-8e4b-576f8bc9bb19"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#6e753464-3381-40bf-8e4b-576f8bc9bb19');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "ce0247d8d1e34ee58a8f2f8387b84ebc", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To make an interactive chart, pass a response function in place of one or both of <code>bar</code>'s arguments.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This function generates the x-values</span>
 <span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="s1">'abcdefg'</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="s1">&#39;abcdefg&#39;</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span>
 
 <span class="c1"># This function generates the y-values (heights of bars)</span>
 <span class="c1"># The y response function always takes in the x-values as its</span>
@@ -209,23 +195,16 @@ var element = $('#6e753464-3381-40bf-8e4b-576f8bc9bb19');
 
 
 
-
-
- 
- 
-<div id="86f49f0d-e45f-474d-82a7-b96fa1e20c20"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#86f49f0d-e45f-474d-82a7-b96fa1e20c20');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "39058f1d04e54f0ba9c150bd763c76b1", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Visualizing-the-Winners">Visualizing the Winners<a class="anchor-link" href="#Visualizing-the-Winners">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h3 id="Visualizing-the-Winners">Visualizing the Winners<a class="anchor-link" href="#Visualizing-the-Winners">&#182;</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, let's turn back to our original goal: plotting the winners as games are played.</p>
@@ -238,21 +217,23 @@ var element = $('#86f49f0d-e45f-474d-82a7-b96fa1e20c20');
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'stay'</span><span class="p">,</span> <span class="s1">'switch'</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stay&#39;</span><span class="p">,</span> <span class="s1">&#39;switch&#39;</span><span class="p">]</span>
 
 <span class="n">winners</span> <span class="o">=</span> <span class="p">[</span><span class="n">winner</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span>
 
 <span class="c1"># Note that the the first argument to the y response function</span>
-<span class="c1"># will be the x-values which we don't need</span>
+<span class="c1"># will be the x-values which we don&#39;t need</span>
 <span class="k">def</span> <span class="nf">won</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">num_games</span><span class="p">):</span>
-    <span class="sd">'''</span>
+    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Outputs a 2-tuple of the number of times each strategy won</span>
 <span class="sd">    after num_games games.</span>
-<span class="sd">    '''</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'stay'</span><span class="p">),</span>
-            <span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'switch'</span><span class="p">))</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;stay&#39;</span><span class="p">),</span>
+            <span class="n">winners</span><span class="p">[:</span><span class="n">num_games</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;switch&#39;</span><span class="p">))</span>
 
 <span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">won</span><span class="p">,</span> <span class="n">num_games</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
 </pre></div></div></div></div>
@@ -267,32 +248,27 @@ var element = $('#86f49f0d-e45f-474d-82a7-b96fa1e20c20');
 
 
 
-
-
- 
- 
-<div id="7d2df9e1-982c-40ce-8353-b2aa3c621133"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#7d2df9e1-982c-40ce-8353-b2aa3c621133');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "3a4566af5c10400f84a0da7a79b550d9", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that by default the plot will adjust its y-axis to match the limits of the data. We can manually set the y-axis limits to better visualize this plot being built up. We will also add labels to our plot:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Number of times each strategy wins'</span><span class="p">,</span>
-    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Strategy'</span><span class="p">,</span>
-    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Number of wins'</span><span class="p">,</span>
-    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of times each strategy wins&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Strategy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Number of wins&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span>
 <span class="p">}</span>
 
 <span class="n">nbi</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">won</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">num_games</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
@@ -308,26 +284,21 @@ var element = $('#7d2df9e1-982c-40ce-8353-b2aa3c621133');
 
 
 
-
-
- 
- 
-<div id="757f48cd-9654-44fc-af86-3b376c8f2f37"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#757f48cd-9654-44fc-af86-3b376c8f2f37');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "19967317db5645f3a3e76f69c1cfd4df", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can get even fancy and use the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Play-(Animation)-widget"><code>Play</code> widget</a> from <code>ipywidgets</code> to animate the plot.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">Play</span>
 
@@ -345,38 +316,33 @@ var element = $('#757f48cd-9654-44fc-af86-3b376c8f2f37');
 
 
 
-
-
- 
- 
-<div id="14c68060-94cc-4cc3-9628-d73f4db376dc"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#14c68060-94cc-4cc3-9628-d73f4db376dc');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "2e9a558869af4dd0a5c8ff8444b2c7f4", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we have an interactive, animated bar plot showing the distribution of wins over time for both Monty Hall strategies. This is a convincing argument that switching is better than staying. In fact, the bar plot above suggests that switching is about twice as likely to win as staying!</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Simulating-Sets-of-Games">Simulating Sets of Games<a class="anchor-link" href="#Simulating-Sets-of-Games">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h3 id="Simulating-Sets-of-Games">Simulating Sets of Games<a class="anchor-link" href="#Simulating-Sets-of-Games">&#182;</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Is switching actually twice as likely to win? We can again use simulation to answer this question by simulating sets of 50 games at a time. recording the proportion of times <code>switch</code> wins.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prop_wins</span><span class="p">(</span><span class="n">sample_size</span><span class="p">):</span>
-    <span class="sd">'''Returns proportion of times switching wins after sample_size games.'''</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">winner</span><span class="p">()</span> <span class="o">==</span> <span class="s1">'switch'</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span> <span class="o">/</span> <span class="n">sample_size</span>
+    <span class="sd">&#39;&#39;&#39;Returns proportion of times switching wins after sample_size games.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">winner</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;switch&#39;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">))</span> <span class="o">/</span> <span class="n">sample_size</span>
 
 <span class="n">interact</span><span class="p">(</span><span class="n">prop_wins</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
 </pre></div></div></div></div>
@@ -391,32 +357,27 @@ var element = $('#14c68060-94cc-4cc3-9628-d73f4db376dc');
 
 
 
-
-
- 
- 
-<div id="bda90602-2be4-42f2-81a7-fe7c424d2feb"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#bda90602-2be4-42f2-81a7-fe7c424d2feb');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "95545ef7a2214dba8afddffe90b9e813", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then define a function to play sets of games and generate a list of win proportions for each set:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">):</span>
-    <span class="sd">'''</span>
+    <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Returns an array of length reptitions. Each element in the list is the</span>
 <span class="sd">    proportion of times switching won in sample_size games.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">prop_wins</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">)])</span>
 
 <span class="n">interact</span><span class="p">(</span><span class="n">generate_proportions</span><span class="p">,</span> <span class="n">sample_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">repetitions</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
@@ -432,27 +393,20 @@ var element = $('#bda90602-2be4-42f2-81a7-fe7c424d2feb');
 
 
 
-
-
- 
- 
-<div id="9b2c52dd-a73b-457e-963e-bac38a6b41cd"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#9b2c52dd-a73b-457e-963e-bac38a6b41cd');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "c71d0d0485174ac3bc920b3d5bb6222b", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interacting with <code>generate_proportions</code> shows the relationship between its arguments <code>sample_size</code> and <code>repetitions</code> more quickly than reading the function itself!</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Visualizing-Proportions">Visualizing Proportions<a class="anchor-link" href="#Visualizing-Proportions">¶</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h3 id="Visualizing-Proportions">Visualizing Proportions<a class="anchor-link" href="#Visualizing-Proportions">&#182;</a></h3></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then use <code>nbi.hist</code> to show these proportions being computed over runs.</p>
@@ -460,7 +414,9 @@ var element = $('#9b2c52dd-a73b-457e-963e-bac38a6b41cd');
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Play the game 10 times, recording the proportion of times switching wins.</span>
 <span class="c1"># Repeat 100 times to record 100 proportions</span>
@@ -482,34 +438,29 @@ var element = $('#9b2c52dd-a73b-457e-963e-bac38a6b41cd');
 
 
 
-
-
- 
- 
-<div id="2e5e92e6-29ea-49db-8aa7-00685c7f53c5"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#2e5e92e6-29ea-49db-8aa7-00685c7f53c5');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "8b455178e17243c0a86bbcf50c3c8e74", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As with last time, it's illustrative to specify the limits of the axes:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Distribution of win proportion over 100 sets of 10 games when switching'</span><span class="p">,</span>
-    <span class="s1">'xlabel'</span><span class="p">:</span> <span class="s1">'Proportions'</span><span class="p">,</span>
-    <span class="s1">'ylabel'</span><span class="p">:</span> <span class="s1">'Percent per area'</span><span class="p">,</span>
-    <span class="s1">'xlim'</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportion over 100 sets of 10 games when switching&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Proportions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylabel&#39;</span><span class="p">:</span> <span class="s1">&#39;Percent per area&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;xlim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_up_to</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span> <span class="n">num_sets</span><span class="o">=</span><span class="n">Play</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
@@ -525,30 +476,25 @@ var element = $('#2e5e92e6-29ea-49db-8aa7-00685c7f53c5');
 
 
 
-
-
- 
- 
-<div id="066bae14-05d0-476f-98db-b26018ecde93"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#066bae14-05d0-476f-98db-b26018ecde93');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "25adb35583694c3c925437d1bbba660a", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the distribution of wins is centered at roughly 0.66 but the distribution almost spans the entire x-axis. Will increasing the sample size make our distribution more narrow? Will increasing repetitions do the trick? Or both? We can find out through simulation and interaction.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We'll start with increasing the sample size:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">varying_sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
                        <span class="k">for</span> <span class="n">sample_size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)]</span>
@@ -557,9 +503,9 @@ var element = $('#066bae14-05d0-476f-98db-b26018ecde93');
     <span class="k">return</span> <span class="n">varying_sample_size</span><span class="p">[</span><span class="n">sample_size</span> <span class="o">-</span> <span class="mi">10</span><span class="p">]</span>
 
 <span class="n">changed_options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Distribution of win proportions as sample size increases'</span><span class="p">,</span>
-    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-    <span class="s1">'bins'</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportions as sample size increases&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_for_sample_size</span><span class="p">,</span>
@@ -577,19 +523,12 @@ var element = $('#066bae14-05d0-476f-98db-b26018ecde93');
 
 
 
-
-
- 
- 
-<div id="564281e2-4b33-484c-8977-17127f0c4726"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#564281e2-4b33-484c-8977-17127f0c4726');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "e8397d20bae842b18c9b4bad32de9f95", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So increasing the sample size makes the distribution narrower. We can now see more clearly that the distribution is centered at 0.66.</p>
@@ -597,7 +536,9 @@ var element = $('#564281e2-4b33-484c-8977-17127f0c4726');
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
-<div class="inner_cell">
+<div class="inner_cell"
+  
+>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">varying_reps</span> <span class="o">=</span> <span class="p">[</span><span class="n">generate_proportions</span><span class="p">(</span><span class="n">sample_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span> <span class="k">for</span> <span class="n">reps</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)]</span>
 
@@ -605,8 +546,8 @@ var element = $('#564281e2-4b33-484c-8977-17127f0c4726');
     <span class="k">return</span> <span class="n">varying_reps</span><span class="p">[</span><span class="n">reps</span> <span class="o">-</span> <span class="mi">10</span><span class="p">]</span>
 
 <span class="n">changed_options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Distribution of win proportions as repetitions increase'</span><span class="p">,</span>
-    <span class="s1">'ylim'</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Distribution of win proportions as repetitions increase&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ylim&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
 <span class="p">}</span>
 
 <span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">props_for_reps</span><span class="p">,</span>
@@ -624,29 +565,22 @@ var element = $('#564281e2-4b33-484c-8977-17127f0c4726');
 
 
 
-
-
- 
- 
-<div id="c445a1dc-c379-432f-ad41-3547f3bbe78c"></div>
 <div class="output_subarea output_widget_view ">
-<script type="text/javascript">
-var element = $('#c445a1dc-c379-432f-ad41-3547f3bbe78c');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "01ce811b83ee470395e23bb01a994501", "version_major": 2, "version_minor": 0}
-</script></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+  
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our distribution gets smoother as the number of repetitions increases since we have more proportions to plot. However, the spread of the distribution remains the same.</p>
-<h3 id="Results">Results<a class="anchor-link" href="#Results">¶</a></h3><p>Through simulation, we've shown that increasing the sample size causes our distribution of proportions to become more narrowly distributed. Increasing the number of repetitions makes our distribution look smoother when plotted but doesn't affect the distribution spread.</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>Through simulation, we've shown that increasing the sample size causes our distribution of proportions to become more narrowly distributed. Increasing the number of repetitions makes our distribution look smoother when plotted but doesn't affect the distribution spread.</p>
 <p>We've also seen through increasing the sample size shows that our distribution is centered at 0.66. This implies that the probability of winning the Monty Hall game when switching is around 0.66, and thus the probability of winning the Monty Hall game when staying is around 0.33.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2></div></div></div>
-<div class="cell border-box-sizing text_cell rendered">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2></div></div></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Through this extended example, we've shown how interaction and visualization can help explore ideas and convincingly explain concepts. Congrats on making it through the tutorial! Let's now publish your results to the web.</p>
@@ -656,4 +590,6 @@ var element = $('#c445a1dc-c379-432f-ad41-3547f3bbe78c');
 
 </code></pre>
 <p>It will output a link to download an HTML file.</p>
-<p>You may now open your GitHub repo and upload your HTML file by dragging onto the page. Commit your changes, and you now have an interactive explanation of the Monty Hall problem to show the world!</p></div></div></div></div>
+<p>You may now open your GitHub repo and upload your HTML file by dragging onto the page. Commit your changes, and you now have an interactive explanation of the Monty Hall problem to show the world!</p></div></div></div>
+ 
+
