@@ -7,7 +7,7 @@
   ],
   "pluginsConfig": {
     "nbinteract": {
-      "baseUrl": "https://staging.mybinder.org"
+      "baseUrl": "https://mybinder.org"
     },
     "ga": {
       "token": "UA-42949369-5"
