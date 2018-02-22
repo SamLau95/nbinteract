@@ -33,7 +33,7 @@ to know / work with Javascript.</li>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Most plotting functions from other libraries (e.g. <code>matplotlib</code>) take data as input. <code>nbinteract</code>'s plotting functions take functions as input.</p></div></div></div>
+<p>Most plotting functions from other libraries (e.g. <code>matplotlib</code>) take data as input. <code>nbinteract</code>'s plotting methods instead take in functions that return data.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -82,6 +82,10 @@ to know / work with Javascript.</li>
 <span class="c1"># Whenever the user interacts with the sliders, the `normal` function</span>
 <span class="c1"># is called and the returned data are plotted.</span>
 <span class="n">nbi</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sd</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+
+<span class="c1"># Clicking the Show widget button below loads all widgets on the page.</span>
+<span class="c1"># Widgets will automatically load for all subsequent pages until you close</span>
+<span class="c1"># the tab/window.</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
