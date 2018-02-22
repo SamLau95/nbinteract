@@ -8,9 +8,9 @@ nbinteract
 
 
 `nbinteract` is a Python package that creates interactive webpages from Jupyter
-notebooks. `nbinteract` has built-in support for interactive plotting. These
-interactions are driven by data, not callbacks, allowing authors to focus on
-the logic of their programs.
+notebooks. `nbinteract` also has built-in support for interactive plotting.
+These interactions are driven by data, not callbacks, allowing authors to focus
+on the logic of their programs.
 
 `nbinteract` is most useful for:
 
