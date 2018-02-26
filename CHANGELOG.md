@@ -13,6 +13,7 @@ to keep track of.
 
 Bugs fixed:
 
-- Converting using `full.tpl` now correct hides cells with `# HIDDEN`
-  (606d814)
-- Using `nbi.publish` now works on Python versions < 3.5 (3862a6c)
+- Converting using `full.tpl` now correctly cells with `# HIDDEN`
+  (https://github.com/SamLau95/nbinteract/pull/43/)
+- Using `nbi.publish` now works on Python versions < 3.5
+  (https://github.com/SamLau95/nbinteract/pull/43/)
