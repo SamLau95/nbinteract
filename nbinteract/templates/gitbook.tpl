@@ -21,6 +21,9 @@ This makes the gitbook template the simplest one.
 {% block in_prompt -%}
 {%- endblock in_prompt %}
 
+{% block empty_in_prompt -%}
+{%- endblock empty_in_prompt %}
+
 {% block output_area_prompt %}
 {%- endblock output_area_prompt %}
 
