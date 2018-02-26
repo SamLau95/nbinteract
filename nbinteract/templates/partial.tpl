@@ -8,5 +8,9 @@ template but also loads the nbinteract library.
 {% block body %}
 {{ super() }}
 
+{% block nbinteract_script %}
+<!-- Loads nbinteract package -->
 <script src="https://unpkg.com/nbinteract"></script>
+{%- endblock nbinteract_script %}
+
 {%- endblock body %}

@@ -1,23 +1,18 @@
-{%- extends 'basic.tpl' -%}
+{%- extends 'partial.tpl' -%}
 {% from 'mathjax.tpl' import mathjax %}
 
-<!--
+{#
 This file is blatently copied from the nbconvert's full.tpl since there's no
 easy hook into the spot just before the body closes.
--->
+#}
 
 {% block body %}
 <body>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
-    <div class="container" id="notebook-container">
+    <div class="container">
       {{ super() }}
     </div>
   </div>
-
-  {% block nbinteract_script %}
-  <!-- Loads nbinteract package -->
-  <script src="https://unpkg.com/nbinteract"></script>
-  {%- endblock nbinteract_script %}
 </body>
 {%- endblock body %}
 

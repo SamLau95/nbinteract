@@ -20,7 +20,7 @@ __all__ = ['InteractExporter', 'publish']
 import os
 import logging
 import time
-from subprocess import run, PIPE
+from subprocess import check_output, STDOUT, CalledProcessError
 from IPython.display import display, Javascript, Markdown
 
 from nbconvert import HTMLExporter
@@ -32,7 +32,10 @@ Successfully converted!
 <a href="{url}" target="_blank" download>Click to download your webpage.</a>
 
 To host your webpage, see the documentation:
-https://samlau95.gitbooks.io/nbinteract/tutorial/tutorial_publishing.html
+<a href="https://www.nbinteract.com/tutorial/tutorial_publishing.html"
+        target="_blank">
+    https://www.nbinteract.com/tutorial/tutorial_publishing.html
+</a>
 '''
 
 ERROR_MESSAGE = '''
@@ -45,13 +48,9 @@ If you believe this is an error with the package, please report an issue at
 https://github.com/SamLau95/nbinteract/issues/new and include the error output
 below:
 
-stderr output:
 ==============
-{res.stderr}
 
-stdout output:
-==============
-{res.stdout}
+{error}
 '''
 
 
@@ -129,11 +128,15 @@ def publish(nb_name, save_first=True):
         _save_nb(nb_name)
 
     print('Converting notebook...')
-    process = run(['jupyter', 'nbconvert', '--to', 'interact', nb_name],
-                  stdout=PIPE,
-                  stderr=PIPE)
-    if process.returncode != 0:
-        logging.warning(ERROR_MESSAGE.format(filename=nb_name, res=process))
+    try:
+        check_output(['jupyter', 'nbconvert', '--to', 'interact', nb_name],
+                     stderr=STDOUT)
+    except CalledProcessError as err:
+        logging.warning(
+            ERROR_MESSAGE.format(
+                filename=nb_name, error=str(err.output, 'utf-8')
+            )
+        )
         return
 
     html_filename = os.path.splitext(nb_name)[0] + '.html'
