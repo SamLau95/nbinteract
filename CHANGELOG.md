@@ -14,4 +14,5 @@ to keep track of.
 Bugs fixed:
 
 - Converting using `full.tpl` now correct hides cells with `# HIDDEN`
-- Using `nbi.publish` now works on Python versions < 3.5
+  (606d814)
+- Using `nbi.publish` now works on Python versions < 3.5 (3862a6c)
