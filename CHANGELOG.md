@@ -9,6 +9,9 @@ to keep track of.
 
 ## 0.1.1
 
+**Python**
+
 Bugs fixed:
 
 - Converting using `full.tpl` now correct hides cells with `# HIDDEN`
+- Using `nbi.publish` now works on Python versions < 3.5
