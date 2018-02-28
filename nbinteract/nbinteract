@@ -2,11 +2,15 @@
 '''Converts notebooks to interactive HTML pages or Gitbook pages.
 
 Usage:
-  nbinteract NOTEBOOKS ...
-  nbinteract [options] NOTEBOOKS ...
+  nbinteract SPEC NOTEBOOKS ...
+  nbinteract [options] SPEC NOTEBOOKS ...
   nbinteract (-h | --help)
 
 Arguments:
+  SPEC       BinderHub spec for Jupyter image. Must be in the format:
+             `{username}/{repo}/{branch}`. For example:
+             'SamLau95/nbinteract-image/master'.
+
   NOTEBOOKS  List of notebooks or folders to convert. If folders are passed in,
              all the notebooks in each folder are converted. The resulting HTML
              files are created adjacent to their originating notebooks and will
@@ -44,9 +48,12 @@ from traitlets.config import Config  # noqa: E402
 from exporters import InteractExporter  # noqa: E402
 
 BLUE = "\033[0;34m"
+RED = "\033[91m"
 NOCOLOR = "\033[0m"
 
 VALID_TEMPLATES = set(['full', 'gitbook', 'partial', 'local'])
+
+SPEC_REGEX = re.compile('\S+/\S+/\S+')
 
 # Used to ensure all the closing div tags are on the same line for Markdown to
 # parse them properly
@@ -57,6 +64,14 @@ def flatmap(fn, iterable, *args, **kwargs):
     return [
         mapped for item in iterable for mapped in fn(item, *args, **kwargs)
     ]
+
+
+def log(text):
+    print('{}[nbinteract]{} {}'.format(BLUE, NOCOLOR, text))
+
+
+def error(text):
+    print('{}[nbinteract]{} {}'.format(RED, NOCOLOR, text))
 
 
 def main():
@@ -76,26 +91,42 @@ def main():
         template=arguments['--template'], extract_images=arguments['--images']
     )
 
+    log('Converting notebooks to HTML...')
+
     for notebook in notebooks:
-        convert(
+        output_file = convert(
             notebook,
             exporter=exporter,
             output_folder=arguments['--output'],
             images_folder=arguments['--images']
         )
+        log('Converted {} to {}'.format(notebook, output_file))
+
+    log('Done!')
+
+    if arguments['--images']:
+        log('Resulting images located in {}'.format(arguments['--images']))
 
 
 def check_arguments(arguments):
     if arguments['--images'] and not arguments['--output']:
-        print(
+        error(
             'If --images is specified, --output must also be specified. '
             'Exiting...'
         )
         raise DocoptExit()
+
     if arguments['--template'] not in VALID_TEMPLATES:
-        print(
+        error(
             'Unsupported template: "{}". Template must be one of: \n{}'
             .format(arguments['--template'], VALID_TEMPLATES)
+        )
+        raise DocoptExit()
+
+    if not SPEC_REGEX.match(arguments['SPEC']):
+        error(
+            'Spec must be in the format {username}/{repo}/{branch}. '
+            'Exiting...'
         )
         raise DocoptExit()
 
@@ -138,7 +169,10 @@ def init_exporter(template, extract_images):
 
 def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     """
-    Converts notebook into an HTML file and outputs
+    Converts notebook into an HTML file, outputting notebooks into
+    output_folder if set and images into images_folder if set.
+
+    Returns the path to the resulting HTML file.
     """
     if output_folder:
         os.makedirs(output_folder, exist_ok=True)
@@ -170,7 +204,8 @@ def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     # Write out HTML. If output_folder is not set, we default to the original
     # folder of the notebook
     out_folder = path if not output_folder else output_folder
-    with open(os.path.join(out_folder, outfile_name), 'w') as outfile:
+    outfile_path = os.path.join(out_folder, outfile_name)
+    with open(outfile_path, 'w') as outfile:
         outfile.write(final_output)
 
     # Write out images. If images_folder wasn't specified, resources['outputs']
@@ -178,6 +213,8 @@ def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     for image_path, image_data in resources.get('outputs', {}).items():
         with open(image_path, 'wb') as outimage:
             outimage.write(image_data)
+
+    return outfile_path
 
 
 if __name__ == '__main__':

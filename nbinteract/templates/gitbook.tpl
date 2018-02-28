@@ -7,11 +7,13 @@ This makes the gitbook template the simplest one.
 
 {%- extends 'basic.tpl' -%}
 
+{# Keep class in sync with util.js #}
+{% set nbinteract_class = 'js-nbinteract-widget' %}
+
 {# Add loading button to widget output #}
 {%- block data_widget_view scoped %}
 <div class="output_subarea output_widget_view {{ extra_class }}">
-  {# Keep class in sync with util.js #}
-  <button class="js-nbinteract-widget">
+  <button class="{{ nbinteract_class }}">
     Show Widget
   </button>
 </div>
@@ -47,7 +49,7 @@ This makes the gitbook template the simplest one.
 
 {# Keep class in sync with util.js #}
 <div class="cell border-box-sizing text_cell rendered">
-  <button class="js-nbinteract-widget">
+  <button class="{{ nbinteract_class }}">
     Show Widgets
   </button>
 </div>

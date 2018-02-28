@@ -71,7 +71,14 @@ class InteractExporter(HTMLExporter):
       environments where the nbinteract JS library is already loaded.
     """
 
-    def __init__(self, config=None, **kw):
+    def __init__(
+        self,
+        config=None,
+        spec='SamLau95/nbinteract-image/master',
+        base_url='https://mybinder.org',
+        provider='gh',
+        **kw
+    ):
         """
         Public constructor
 
@@ -79,9 +86,20 @@ class InteractExporter(HTMLExporter):
         ----------
         config : config
             User configuration instance.
+
+        spec : BinderHub spec for Jupyter image. Must be in the format:
+            `${username}/${repo}/${branch}`. Defaults to
+            'SamLau95/nbinteract-image/master'.
+
+        base_url : Binder URL to start server. Defaults to
+            'https://mybinder.org'.
+
+        provider : BinderHub provider. Defaults to 'gh' for GitHub.
+
         extra_loaders : list[of Jinja Loaders]
             ordered list of Jinja loader to find templates. Will be tried in
             order before the default FileSystem ones.
+
         template : str (optional, kw arg)
             Template to use when exporting.
         """
@@ -91,6 +109,11 @@ class InteractExporter(HTMLExporter):
         self.template_path.insert(
             0, os.path.join(os.path.dirname(__file__), 'templates')
         )
+
+        # Set variables that will be available in the template
+        self.environment.globals['spec'] = spec
+        self.environment.globals['base_url'] = base_url
+        self.environment.globals['provider'] = provider
 
     @default('template_file')
     def _template_file_default(self):
