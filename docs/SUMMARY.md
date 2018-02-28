@@ -14,6 +14,7 @@
 ----
 
 * [Recipes](recipes/README.md)
+  * [Exporting](recipes/recipes_exporting.md)
   * [Graphing](recipes/recipes_graphing.md)
   * [Interactive Questions](recipes/recipes_interactive_questions.md)
 

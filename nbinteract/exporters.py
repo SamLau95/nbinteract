@@ -71,7 +71,14 @@ class InteractExporter(HTMLExporter):
       environments where the nbinteract JS library is already loaded.
     """
 
-    def __init__(self, config=None, **kw):
+    def __init__(
+        self,
+        config=None,
+        spec='SamLau95/nbinteract-image/master',
+        base_url='https://mybinder.org',
+        provider='gh',
+        **kw
+    ):
         """
         Public constructor
 
@@ -79,9 +86,20 @@ class InteractExporter(HTMLExporter):
         ----------
         config : config
             User configuration instance.
+
+        spec : BinderHub spec for Jupyter image. Must be in the format:
+            `${username}/${repo}/${branch}`. Defaults to
+            'SamLau95/nbinteract-image/master'.
+
+        base_url : Binder URL to start server. Defaults to
+            'https://mybinder.org'.
+
+        provider : BinderHub provider. Defaults to 'gh' for GitHub.
+
         extra_loaders : list[of Jinja Loaders]
             ordered list of Jinja loader to find templates. Will be tried in
             order before the default FileSystem ones.
+
         template : str (optional, kw arg)
             Template to use when exporting.
         """
@@ -92,28 +110,47 @@ class InteractExporter(HTMLExporter):
             0, os.path.join(os.path.dirname(__file__), 'templates')
         )
 
+        # Set variables that will be available in the template
+        self.environment.globals['spec'] = spec
+        self.environment.globals['base_url'] = base_url
+        self.environment.globals['provider'] = provider
+
     @default('template_file')
     def _template_file_default(self):
         return 'full.tpl'
 
 
-def publish(nb_name, save_first=True):
+def publish(spec, nb_name, template='full', save_first=True):
     """
     Converts nb_name to an HTML file. Preserves widget functionality.
 
     Outputs a link to download HTML file after conversion if called in a
     notebook environment.
 
-    Equivalent to running `nbinteract ${nb_name}` on the command line.
+    Equivalent to running `nbinteract ${spec} ${nb_name}` on the command line.
 
     Args:
+        spec (str): BinderHub spec for Jupyter image. Must be in the format:
+            `${username}/${repo}/${branch}`.
+
         nb_name (str): Complete name of the notebook file to convert. Can be a
             relative path (eg. './foo/test.ipynb').
+
+        template (str): Template to use for conversion. Valid templates:
+
+            - 'full': Outputs a complete standalone HTML page with default
+              styling. Automatically loads the nbinteract JS library.
+            - 'partial': Outputs an HTML partial that can be embedded in
+              another page. Automatically loads the nbinteract JS library.
+            - 'gitbook': Outputs an HTML partial used to embed in a Gitbook or
+              other environments where the nbinteract JS library is already
+              loaded.
 
         save_first (bool): If True, saves the currently opened notebook before
             converting nb_name. Used to ensure notebook is written to
             filesystem before starting conversion. Does nothing if not in a
             notebook environment.
+
 
     Returns:
         None
@@ -129,7 +166,7 @@ def publish(nb_name, save_first=True):
 
     print('Converting notebook...')
     try:
-        check_output(['jupyter', 'nbconvert', '--to', 'interact', nb_name],
+        check_output(['nbinteract', '--template', template, spec, nb_name],
                      stderr=STDOUT)
     except CalledProcessError as err:
         logging.warning(

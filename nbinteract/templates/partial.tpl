@@ -10,7 +10,15 @@ template but also loads the nbinteract library.
 
 {% block nbinteract_script %}
 <!-- Loads nbinteract package -->
-<script src="https://unpkg.com/nbinteract"></script>
+<script src="https://unpkg.com/nbinteract-core"></script>
+<script>
+  var interact = new NbInteract({
+    spec: '{{ spec }}',
+    baseUrl: '{{ base_url }}',
+    provider: '{{ provider }}',
+  })
+  interact.prepare()
+</script>
 {%- endblock nbinteract_script %}
 
 {%- endblock body %}
