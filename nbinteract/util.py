@@ -3,7 +3,7 @@ Utility functions that aren't publicly exposed.
 """
 
 import inspect
-import toolz
+import toolz as tz
 
 # Parameter type for *args and **kwargs
 VAR_ARGS = {inspect.Parameter.VAR_POSITIONAL, inspect.Parameter.VAR_KEYWORD}
@@ -160,7 +160,7 @@ def pick_kwargs(kwargs: dict, required_args: list, prefix: str = None):
             'for the following parameters: {}'.format(conflicting_args)
         )
 
-    return {**picked, **prefixed}
+    return tz.merge(picked, prefixed)
 
 
 def _remove_prefix(string: str, prefix: str) -> str:

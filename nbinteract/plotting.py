@@ -642,9 +642,8 @@ def _merge_with_defaults(params):
     make sure each mark gets the default params.
     """
     marks_params = [
-        {**default, **param}
-        for default, param
-        in zip(itertools.repeat(_default_params['marks']), params['marks'])
+        tz.merge(default, param) for default, param in
+        zip(itertools.repeat(_default_params['marks']), params['marks'])
     ] if 'marks' in params else [_default_params['marks']]
 
     merged_without_marks = tz.merge_with(
@@ -652,7 +651,7 @@ def _merge_with_defaults(params):
         tz.dissoc(params, 'marks')
     )
 
-    return {**merged_without_marks, **{'marks': marks_params}}
+    return tz.merge(merged_without_marks, {'marks': marks_params})
 
 
 def _create_fig(
@@ -685,11 +684,11 @@ def _create_fig(
 
     x_sc = x_sc(**_call_params(params['x_sc'], options))
     y_sc = y_sc(**_call_params(params['y_sc'], options))
-    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+    options = tz.merge(options, {'x_sc': x_sc, 'y_sc': y_sc})
 
     x_ax = x_ax(**_call_params(params['x_ax'], options))
     y_ax = y_ax(**_call_params(params['y_ax'], options))
-    options = {**options, **{'x_ax': x_ax, 'y_ax': y_ax, 'marks': []}}
+    options = tz.merge(options, {'x_ax': x_ax, 'y_ax': y_ax, 'marks': []})
 
     fig = fig(**_call_params(params['fig'], options))
     return fig
@@ -725,7 +724,7 @@ def _create_marks(fig, marks=[bq.Mark], options={}, params={}):
     x_ax, y_ax = fig.axes
     x_sc, y_sc = x_ax.scale, y_ax.scale
 
-    options = {**options, **{'x_sc': x_sc, 'y_sc': y_sc}}
+    options = tz.merge(options, {'x_sc': x_sc, 'y_sc': y_sc})
 
     marks = [
         mark_cls(**_call_params(mark_params, options))
