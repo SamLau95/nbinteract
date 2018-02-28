@@ -23,6 +23,13 @@ Features:
 - The `nbinteract` CLI tool gets a major overhaul with options to recurse into
   subdirectories and output files in specified folders.
 
+**JS**
+
+Bug fixes:
+
+- Fixed an issue where lots of error message were getting logged to the console
+  in the GitBook (https://github.com/SamLau95/nbinteract/issues/41).
+
 ## 0.1.1
 
 **Python**
