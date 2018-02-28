@@ -45,14 +45,16 @@ def multiple_choice(question, choices, answers):
     <Button> <31>   (Correct)
     """
     if not isinstance(answers, (int, collections.Iterable)):
-        raise TypeError('The `answers` arg is expected to be of type '
-                        '(int | iterable int) but got {} instead.'
-                        .format(type(answers)))
+        raise TypeError(
+            'The `answers` arg is expected to be of type '
+            '(int | iterable int) but got {} instead.'.format(type(answers))
+        )
 
     @curry
     def check_answer(index, button):
-        is_correct = (index == answers if isinstance(answers, int)
-                      else index in answers)
+        is_correct = (
+            index == answers if isinstance(answers, int) else index in answers
+        )
         button.style.button_color = GREEN if is_correct else RED
 
     answer_choices = []
@@ -69,16 +71,20 @@ def multiple_choice(question, choices, answers):
 
         answer_choices.append(button_and_question)
 
-    display(widgets.VBox([
-        widgets.HTML(TEXT_STYLE.format(question)),
-        *answer_choices,
-    ]))
+    display(
+        widgets.
+        VBox([widgets.HTML(TEXT_STYLE.format(question))] + answer_choices)
+    )
 
 
-CHECK_ICON = ('<i class="fa fa-check" aria-hidden="true"'
-              'style="color:#71B307; font-size:2rem"></i>')
-X_ICON = ('<i class="fa fa-times" aria-hidden="true"'
-          'style="color:#F86700; font-size:2rem"></i>')
+CHECK_ICON = (
+    '<i class="fa fa-check" aria-hidden="true"'
+    'style="color:#71B307; font-size:2rem"></i>'
+)
+X_ICON = (
+    '<i class="fa fa-times" aria-hidden="true"'
+    'style="color:#F86700; font-size:2rem"></i>'
+)
 
 
 def short_answer(question, answers, explanation=None):
@@ -148,5 +154,8 @@ def short_answer(question, answers, explanation=None):
     submit_button.on_click(check_answer)
     question_tag = widgets.HTML(TEXT_STYLE.format(question))
     user_input_line = widgets.HBox([textbox, submit_button, visual_correct])
-    display(widgets.VBox(
-        [question_tag, user_input_line, error_space, explain_space]))
+    display(
+        widgets.VBox([
+            question_tag, user_input_line, error_space, explain_space
+        ])
+    )
