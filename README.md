@@ -69,17 +69,33 @@ nbi.line(x_vals, y_vals, num_rolls=(1, 300))
 From a notebook cell:
 
 ```python
-# Run in a notebook cell to convert the notebook into a
-# publishable HTML page
-nbi.publish('landing_page.ipynb')
+# Run in a notebook cell to convert the notebook into a publishable HTML page:
+#
+# nbi.publish('my_binder_spec', 'my_notebook.ipynb')
+#
+# Replace my_binder_spec with a Binder spec in the format
+# {username}/{repo}/{branch} (e.g. SamLau95/nbinteract-image/master).
+#
+# Replace my_notebook.ipynb with the name of the notebook file to convert.
+#
+# Example:
+nbi.publish('SamLau95/nbinteract-image/master', 'homepage.ipynb')
 ```
 
 From the command line:
 
 ```bash
-# Run on the command line to convert the notebook into a
-# publishable HTML page.
-nbinteract landing_page.ipynb
+# Run on the command line to convert the notebook into a publishable HTML page.
+#
+# nbinteract my_binder_spec my_notebook.ipynb
+#
+# Replace my_binder_spec with a Binder spec in the format
+# {username}/{repo}/{branch} (e.g. SamLau95/nbinteract-image/master).
+#
+# Replace my_notebook.ipynb with the name of the notebook file to convert.
+#
+# Example:
+nbinteract SamLau95/nbinteract-image/master homepage.ipynb
 ```
 
 For more information on publishing, see the [tutorial][] which has a complete
