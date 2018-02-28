@@ -7,6 +7,22 @@ to keep track of.
 
 ## master
 
+## 0.1.2
+
+**Python**
+
+Changes:
+
+- `nbi.publish()` and the `nbinteract` CLI tool now require a Binder spec as
+  input.
+
+Features:
+
+- `nbi.publish()` and the `nbinteract` CLI tool now allow for template
+  selection.
+- The `nbinteract` CLI tool gets a major overhaul with options to recurse into
+  subdirectories and output files in specified folders.
+
 ## 0.1.1
 
 **Python**
