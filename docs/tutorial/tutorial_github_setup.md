@@ -51,5 +51,28 @@ SamLau95.github.io/nbinteract-tutorial/README.md
 ```
 
 If you can visit that URL and the page contains text (not a 404 error) you've
-set up everything correctly. Let's move on to publishing your first interactive
-webpage!
+set up everything correctly.
+
+## Setting up a Binder Image
+
+`nbinteract` uses a free service called [Binder][] in order to run Python
+code and generate widgets. In order to use Binder, you will have to create a
+GitHub repository containing the packages you want to install.
+
+The easiest way to create this repo is to visit
+https://github.com/SamLau95/nbinteract-image and click the Fork button in the
+upper right hand side of the page. Forking this repo will create a copy of it
+on your personal account and you will end up with a URL that looks like:
+
+```
+https://github.com/<username>/nbinteract-image
+```
+
+Where `<username>` is replaced with your GitHub username. Now, visit
+https://mybinder.org/, enter your repository's URL into the form, and click
+Launch. If no errors occur, you've successfully set up a Binder image for your
+interactive webpages.
+
+Let's move on to publishing your first interactive webpage!
+
+[Binder]: https://mybinder.org/

@@ -5,16 +5,26 @@ cell:
 
 ```python
 import nbi
-nbi.publish('my_notebook.ipynb')
+
+nbi.publish('my_binder_spec', 'my_notebook.ipynb')
+#            Binder spec       Name of the notebook
 ```
 
-Where `my_notebook.ipynb` is replaced with the name of the notebook you are
-converting. For example, if your notebook name is `tutorial.ipynb`, you should
-run:
+Replace `my_binder_spec` with your Binder spec. This is a string that looks
+like `{username}/{repo}/{branch}`. For example, if you forked the
+`nbinteract-image` repo in the previous [GitHub Setup][gh-setup] section of the
+tutorial, your Binder spec will be `<username>/nbinteract-image/master` where
+`<username>` is replaced with your GitHub username.
+
+[gh-setup]: ./tutorial_github_setup.md
+
+Replace `my_notebook.ipynb` with the name of the notebook you are converting.
+For example, if your Binder spec is `calebs11/nbinteract-image/master` and
+notebook name is `tutorial.ipynb`, you should run:
 
 ```python
 import nbi
-nbi.publish('tutorial.ipynb')
+nbi.publish('calebs11/nbinteract-image/master', 'tutorial.ipynb')
 ```
 
 Click the link created by the code above to download the `tutorial.html` HTML
