@@ -16,17 +16,6 @@ easy hook into the spot just before the body closes.
 </body>
 {%- endblock body %}
 
-
-<!-- Add loading button to widget output -->
-{%- block data_widget_view scoped %}
-<div class="output_subarea output_widget_view {{ extra_class }}">
-  <!-- Keep class in sync with util.js -->
-  <button class="js-nbinteract-widget">
-    Show Widget
-  </button>
-</div>
-{%- endblock data_widget_view -%}
-
 {%- block header -%}
 <!DOCTYPE html>
 <html>

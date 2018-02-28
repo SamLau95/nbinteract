@@ -41,3 +41,16 @@ This makes the gitbook template the simplest one.
 {# Don't output widget state #}
 {% block footer %}
 {% endblock footer %}
+
+{# Add button at top to run all widgets #}
+{% block body %}
+
+{# Keep class in sync with util.js #}
+<div class="cell border-box-sizing text_cell rendered">
+  <button class="js-nbinteract-widget">
+    Show Widgets
+  </button>
+</div>
+
+{{ super() }}
+{% endblock body %}
