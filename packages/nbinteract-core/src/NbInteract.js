@@ -102,7 +102,7 @@ export default class NbInteract {
    */
   async runIfKernelExists() {
     try {
-      this.kernel = await this._getKernel()
+      await this._getKernelModel()
     } catch (err) {
       console.log(
         'No kernel, stopping the runIfKernelExists() call. Use the',
@@ -124,7 +124,7 @@ export default class NbInteract {
    */
   async _kernelHeartbeat(seconds_between_check = 5) {
     try {
-      const { kernelModel } = await this._getKernelModel()
+      await this._getKernelModel()
     } catch (err) {
       console.log('Looks like the kernel died:', err.toString())
       console.log('Starting a new kernel...')
