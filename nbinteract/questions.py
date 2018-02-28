@@ -71,10 +71,8 @@ def multiple_choice(question, choices, answers):
 
         answer_choices.append(button_and_question)
 
-    display(
-        widgets.
-        VBox([widgets.HTML(TEXT_STYLE.format(question))] + answer_choices)
-    )
+    question_html = [widgets.HTML(TEXT_STYLE.format(question))]
+    display(widgets.VBox(question_html + answer_choices))
 
 
 CHECK_ICON = (
