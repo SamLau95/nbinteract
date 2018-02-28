@@ -1,4 +1,12 @@
 
+
+
+<div class="cell border-box-sizing text_cell rendered">
+  <button class="js-nbinteract-widget">
+    Show Widgets
+  </button></div>
+
+
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -17,18 +25,15 @@
 <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
 <span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-Central-Limit-Theorem">The Central Limit Theorem<a class="anchor-link" href="#The-Central-Limit-Theorem">&#182;</a></h3><p>Very few of the data histograms that we have seen in this course have been bell shaped. When we have come across a bell shaped distribution, it has almost invariably been an empirical histogram of a statistic based on a random sample.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>The Central Limit Theorem says that the probability distribution of the sum or average of a large random sample drawn with replacement will be roughly normal, <em>regardless of the distribution of the population from which the sample is drawn</em>.</strong></p>
 <p>As we noted when we were studying Chebychev's bounds, results that can be applied to random samples <em>regardless of the distribution of the population</em> are very powerful, because in data science we rarely know the distribution of the population.</p>
 <p>The Central Limit Theorem makes it possible to make inferences with very little knowledge about the population, provided we have a large random sample. That is why it is central to the field of statistical inference.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Proportion-of-Purple-Flowers">Proportion of Purple Flowers<a class="anchor-link" href="#Proportion-of-Purple-Flowers">&#182;</a></h3><p>Recall Mendel's probability model for the colors of the flowers of a species of pea plant. The model says that the flower colors of the plants are like draws made at random with replacement from {Purple, Purple, Purple, White}.</p>
 <p>In a large sample of plants, about what proportion will have purple flowers? We would expect the answer to be about 0.75, the proportion purple in the model. And, because proportions are means, the Central Limit Theorem says that the distribution of the sample proportion of purple plants is roughly normal.</p>
@@ -141,7 +146,6 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div>
@@ -153,12 +157,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There's that normal curve again, as predicted by the Central Limit Theorem, centered at around 0.75 just as you would expect.</p>
 <p>How would this distribution change if we increased the sample size? We can copy our sampling code into a function and then use interaction to see how the distribution changes as the sample size increases.</p>
@@ -200,7 +202,6 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div>
@@ -212,11 +213,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>All of the above distributions are approximately normal but become more narrow as the sample size increases. For example, the proportions based on a sample size of 800 are more tightly clustered around 0.75 than those from a sample size of 200. Increasing the sample size has decreased the variability in the sample proportion.</p></div></div></div>
+

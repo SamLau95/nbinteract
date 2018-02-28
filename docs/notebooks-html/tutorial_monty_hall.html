@@ -1,26 +1,29 @@
 
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+
+
+<div class="cell border-box-sizing text_cell rendered">
+  <button class="js-nbinteract-widget">
+    Show Widgets
+  </button></div>
+
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="An-Interactive-Monty-Hall-Simulation">An Interactive Monty Hall Simulation<a class="anchor-link" href="#An-Interactive-Monty-Hall-Simulation">&#182;</a></h1></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbinteract</code> was designed to make interactive explanations easy to create. In this tutorial, we will show the process of writing a simulation from scratch and visualizing the results interactively.</p>
 <p>In this section, you will create an interactive simulation of the Monty Hall Problem. You may continue writing code in the notebook from the previous section or create a new one for this section.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="The-Monty-Hall-Problem">The Monty Hall Problem<a class="anchor-link" href="#The-Monty-Hall-Problem">&#182;</a></h2><p>The Monty Hall Problem (<a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia</a>) is a famous probability problem that has stumped many, mathematicians included. The problem goes something like this:</p>
 <blockquote><p>Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who knows what's behind the doors, opens another door, say No. 3, which has a goat. He then says to you, "Do you want to switch your choice to door No. 2?" Is it to your advantage to switch your choice?</p>
 </blockquote>
 <p>Perhaps unintuitively, you will win the prize about twice as often if you switch doors. We can show this through simulation.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Simulating-a-Game">Simulating a Game<a class="anchor-link" href="#Simulating-a-Game">&#182;</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>One way to write an interactive explanation is to write functions and create interactions for each one as applicable. Composing the functions allows you to create more complicated processes. <code>nbinteract</code> also provides tools for interactive visualizations as we will soon see.</p>
 <p>Let's start with defining a function to simulate one round of the Monty Hall Problem.</p></div></div></div>
@@ -50,8 +53,7 @@
     <span class="n">remainder</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PRIZES</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">pick</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">opened</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">pick</span><span class="p">,</span> <span class="n">remainder</span><span class="p">,</span> <span class="n">opened</span><span class="p">)</span>
 </pre></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that the <code>example_num</code> argument is passed in but not used in the <code>monty_hall</code> function. Although it's unneeded for the function, it is easier to use <code>interact</code> to call functions when they have arguments to manipulate:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -75,12 +77,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>By interacting with the function above, we are able to informally verify that the function never allows the host to open a door with a car behind it. Even though the function is random we are able to use interaction to examine its long-term behavior!</p>
 <p>We'll continue by defining a function to simulate a game of Monty Hall and output the winning strategy for that game:</p></div></div></div>
@@ -114,20 +114,16 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Again, a bit of interaction lets us quickly examine the behavior of <code>winner</code>. We can see that <code>switch</code> appears more often than <code>stay</code>.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Brief-Introduction-to-Plotting-with-nbinteract">Brief Introduction to Plotting with <code>nbinteract</code><a class="anchor-link" href="#Brief-Introduction-to-Plotting-with-nbinteract">&#182;</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's create an interactive bar chart of the number of times each strategy wins. We'll use <code>nbinteract</code>'s plotting functionality.</p>
 <p><code>nbi.bar</code> creates a bar chart:</p></div></div></div>
@@ -154,12 +150,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To make an interactive chart, pass a response function in place of one or both of <code>bar</code>'s arguments.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -196,16 +190,13 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Visualizing-the-Winners">Visualizing the Winners<a class="anchor-link" href="#Visualizing-the-Winners">&#182;</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, let's turn back to our original goal: plotting the winners as games are played.</p>
 <p>We can call <code>winner</code> many times and use <code>nbi.bar</code> to show the bar chart as it's built over the trials.</p>
@@ -249,12 +240,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Note that by default the plot will adjust its y-axis to match the limits of the data. We can manually set the y-axis limits to better visualize this plot being built up. We will also add labels to our plot:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -285,12 +274,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can get even fancy and use the <a href="http://ipywidgets.readthedocs.io/en/stable/examples/Widget%20List.html#Play-(Animation)-widget"><code>Play</code> widget</a> from <code>ipywidgets</code> to animate the plot.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -317,20 +304,16 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we have an interactive, animated bar plot showing the distribution of wins over time for both Monty Hall strategies. This is a convincing argument that switching is better than staying. In fact, the bar plot above suggests that switching is about twice as likely to win as staying!</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Simulating-Sets-of-Games">Simulating Sets of Games<a class="anchor-link" href="#Simulating-Sets-of-Games">&#182;</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Is switching actually twice as likely to win? We can again use simulation to answer this question by simulating sets of 50 games at a time. recording the proportion of times <code>switch</code> wins.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -358,12 +341,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then define a function to play sets of games and generate a list of win proportions for each set:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -394,20 +375,16 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Interacting with <code>generate_proportions</code> shows the relationship between its arguments <code>sample_size</code> and <code>repetitions</code> more quickly than reading the function itself!</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Visualizing-Proportions">Visualizing Proportions<a class="anchor-link" href="#Visualizing-Proportions">&#182;</a></h3></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can then use <code>nbi.hist</code> to show these proportions being computed over runs.</p>
 <p>Again, we pre-compute the simulations and interact with a function that takes a slice of the simulations to make the interaction faster.</p></div></div></div>
@@ -439,12 +416,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As with last time, it's illustrative to specify the limits of the axes:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -477,16 +452,13 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the distribution of wins is centered at roughly 0.66 but the distribution almost spans the entire x-axis. Will increasing the sample size make our distribution more narrow? Will increasing repetitions do the trick? Or both? We can find out through simulation and interaction.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We'll start with increasing the sample size:</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -524,12 +496,10 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So increasing the sample size makes the distribution narrower. We can now see more clearly that the distribution is centered at 0.66.</p>
 <p>We can repeat the process for the number of repetitions:</p></div></div></div>
@@ -566,28 +536,25 @@
 
 
 <div class="output_subarea output_widget_view ">
-  
   <button class="js-nbinteract-widget">
     Show Widget
   </button></div></div></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Our distribution gets smoother as the number of repetitions increases since we have more proportions to plot. However, the spread of the distribution remains the same.</p>
 <h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>Through simulation, we've shown that increasing the sample size causes our distribution of proportions to become more narrowly distributed. Increasing the number of repetitions makes our distribution look smoother when plotted but doesn't affect the distribution spread.</p>
 <p>We've also seen through increasing the sample size shows that our distribution is centered at 0.66. This implies that the probability of winning the Monty Hall game when switching is around 0.66, and thus the probability of winning the Monty Hall game when staying is around 0.33.</p></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2></div></div></div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt"></div>
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Through this extended example, we've shown how interaction and visualization can help explore ideas and convincingly explain concepts. Congrats on making it through the tutorial! Let's now publish your results to the web.</p>
-<p>Like the previous section of the tutorial, you may simply paste this code in a cell (replace <code>tutorial.ipynb</code> with the name of your notebook if needed):</p>
+<p>Like the previous section of the tutorial, you can paste this code in a cell and fill in your Binder spec in order to export your notebook as a HTML file (also replacing <code>tutorial.ipynb</code> with the name of your notebook if needed):</p>
 
-<pre><code>nbi.publish('tutorial.ipynb')
+<pre><code>nbi.publish('&lt;replace with binder spec&gt;', 'tutorial.ipynb')
 
 </code></pre>
-<p>It will output a link to download an HTML file.</p>
+<p>The code above will output a link to download an HTML file.</p>
 <p>You may now open your GitHub repo and upload your HTML file by dragging onto the page. Commit your changes, and you now have an interactive explanation of the Monty Hall problem to show the world!</p></div></div></div>
+
