@@ -154,14 +154,30 @@ to know / work with Javascript.</li>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Publishing">Publishing<a class="anchor-link" href="#Publishing">&#182;</a></h2><p>From a notebook cell:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Run in a notebook cell to convert the notebook into a</span>
-<span class="c1"># publishable HTML page</span>
-<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;landing_page.ipynb&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="c1"># Run in a notebook cell to convert the notebook into a publishable HTML page:</span>
+<span class="c1">#</span>
+<span class="c1"># nbi.publish(&#39;my_binder_spec&#39;, &#39;my_notebook.ipynb&#39;)</span>
+<span class="c1">#</span>
+<span class="c1"># Replace my_binder_spec with a Binder spec in the format</span>
+<span class="c1"># {username}/{repo}/{branch} (e.g. SamLau95/nbinteract-image/master).</span>
+<span class="c1">#</span>
+<span class="c1"># Replace my_notebook.ipynb with the name of the notebook file to convert.</span>
+<span class="c1">#</span>
+<span class="c1"># Example:</span>
+<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;SamLau95/nbinteract-image/master&#39;</span><span class="p">,</span> <span class="s1">&#39;homepage.ipynb&#39;</span><span class="p">)</span>
 </pre></div>
 <p>From the command line:</p>
-<div class="highlight"><pre><span></span><span class="c1"># Run on the command line to convert the notebook into a</span>
-<span class="c1"># publishable HTML page.</span>
-nbinteract landing_page.ipynb
+<div class="highlight"><pre><span></span><span class="c1"># Run on the command line to convert the notebook into a publishable HTML page.</span>
+<span class="c1">#</span>
+<span class="c1"># nbinteract my_binder_spec my_notebook.ipynb</span>
+<span class="c1">#</span>
+<span class="c1"># Replace my_binder_spec with a Binder spec in the format</span>
+<span class="c1"># {username}/{repo}/{branch} (e.g. SamLau95/nbinteract-image/master).</span>
+<span class="c1">#</span>
+<span class="c1"># Replace my_notebook.ipynb with the name of the notebook file to convert.</span>
+<span class="c1">#</span>
+<span class="c1"># Example:</span>
+nbinteract SamLau95/nbinteract-image/master homepage.ipynb
 </pre></div>
 <p>For more information on publishing, see the <a href="/tutorial/tutorial_getting_started.html">tutorial</a> which has a complete walkthrough on publishing a notebook to the web.</p></div></div></div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
