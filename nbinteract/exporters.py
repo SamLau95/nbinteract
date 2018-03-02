@@ -24,7 +24,7 @@ from subprocess import check_output, STDOUT, CalledProcessError
 from IPython.display import display, Javascript, Markdown
 
 from nbconvert import HTMLExporter
-from traitlets import default
+from traitlets import default, Unicode, Bool
 
 CONVERT_SUCCESS_MD = '''
 Successfully converted!
@@ -58,50 +58,62 @@ class InteractExporter(HTMLExporter):
     """
     nbconvert Exporter that converts a notebook to an HTML page with widgets
     enabled.
-
-    Valid templates:
-
-    - 'full': Outputs a complete standalone HTML page with default styling.
-      Automatically loads the nbinteract JS library.
-    - 'local': Like 'full', but uses a local copy of the JS package instead of
-      the live one. Used for development only.
-    - 'partial': Outputs an HTML partial that can be embedded in another page.
-        Automatically loads the nbinteract JS library.
-    - 'gitbook': Outputs an HTML partial used to embed in a Gitbook or other
-      environments where the nbinteract JS library is already loaded.
     """
+    spec = Unicode(
+        'SamLau95/nbinteract-image/master',
+        help='BinderHub spec for Jupyter image.'
+    )
 
-    def __init__(
-        self,
-        config=None,
-        spec='SamLau95/nbinteract-image/master',
-        base_url='https://mybinder.org',
-        provider='gh',
-        **kw
-    ):
+    base_url = Unicode(
+        'https://mybinder.org', help='Base Binder URL.'
+    ).tag(config=True)
+
+    provider = Unicode('gh', help='BinderHub provider.').tag(config=True)
+
+    button_at_top = Bool(
+        True, 'If False, only widget cell buttons are generated.'
+    ).tag(config=True)
+
+    def __init__(self, config=None, **kw):
         """
         Public constructor
 
-        Parameters
-        ----------
-        config : config
-            User configuration instance.
+        Kwargs:
+            config (traitlets.Config): User configuration instance.
 
-        spec : BinderHub spec for Jupyter image. Must be in the format:
-            `${username}/${repo}/${branch}`. Defaults to
-            'SamLau95/nbinteract-image/master'.
+            spec (str): BinderHub spec for Jupyter image. Must be in the
+                format: `${username}/${repo}/${branch}`. Defaults to
+                'SamLau95/nbinteract-image/master'.
 
-        base_url : Binder URL to start server. Defaults to
-            'https://mybinder.org'.
+            base_url (str): Base Binder URL. Defaults to
+                'https://mybinder.org'.
 
-        provider : BinderHub provider. Defaults to 'gh' for GitHub.
+            provider (str): BinderHub provider. Defaults to 'gh' for GitHub.
 
-        extra_loaders : list[of Jinja Loaders]
-            ordered list of Jinja loader to find templates. Will be tried in
-            order before the default FileSystem ones.
+            template_file (str):
+                Template to use when exporting. Valid templates:
 
-        template : str (optional, kw arg)
-            Template to use when exporting.
+                'full': Outputs a complete standalone HTML page with default
+                styling. Automatically loads the nbinteract JS library.
+
+                'local': Like 'full', but uses a local copy of the JS package
+                instead of the live one. Used for development only.
+
+                'partial': Outputs an HTML partial that can be embedded in
+                another page. Automatically loads the nbinteract JS library.
+
+                'gitbook': Outputs an HTML partial used to embed in a Gitbook
+                or other environments where the nbinteract JS library is
+                already loaded.
+
+            button_at_top (bool): If True (default), generates a button to
+                start widgets at the top of the notebook as well as one button
+                per widget cell. If False, only widget cell buttons are
+                generated.
+
+            extra_loaders (list[Jinja Loader]): ordered list of Jinja loader to
+                find templates. Will be tried in order before the default
+                FileSystem ones.
         """
         super(InteractExporter, self).__init__(config=config, **kw)
 
@@ -111,9 +123,10 @@ class InteractExporter(HTMLExporter):
         )
 
         # Set variables that will be available in the template
-        self.environment.globals['spec'] = spec
-        self.environment.globals['base_url'] = base_url
-        self.environment.globals['provider'] = provider
+        self.environment.globals['spec'] = self.spec
+        self.environment.globals['base_url'] = self.base_url
+        self.environment.globals['provider'] = self.provider
+        self.environment.globals['button_at_top'] = self.button_at_top
 
     @default('template_file')
     def _template_file_default(self):
@@ -136,6 +149,7 @@ def publish(spec, nb_name, template='full', save_first=True):
         nb_name (str): Complete name of the notebook file to convert. Can be a
             relative path (eg. './foo/test.ipynb').
 
+    Kwargs:
         template (str): Template to use for conversion. Valid templates:
 
             - 'full': Outputs a complete standalone HTML page with default
