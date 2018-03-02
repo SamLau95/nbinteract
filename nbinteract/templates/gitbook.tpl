@@ -47,12 +47,13 @@ This makes the gitbook template the simplest one.
 {# Add button at top to run all widgets #}
 {% block body %}
 
-{# Keep class in sync with util.js #}
-<div class="cell border-box-sizing text_cell rendered">
-  <button class="{{ nbinteract_class }}">
-    Show Widgets
-  </button>
-</div>
+{% if button_at_top %}
+  <div class="cell border-box-sizing text_cell rendered">
+    <button class="{{ nbinteract_class }}">
+      Show Widgets
+    </button>
+  </div>
+{% endif %}
 
 {{ super() }}
 {% endblock body %}
