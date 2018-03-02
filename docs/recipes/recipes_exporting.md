@@ -63,6 +63,8 @@ converting notebooks into HTML pages. It work identically to `nbi.publish()`
 but can be used on the command line.
 
 ```
+Converts notebooks to interactive HTML pages or Gitbook pages.
+
 Usage:
   nbinteract SPEC NOTEBOOKS ...
   nbinteract [options] SPEC NOTEBOOKS ...
@@ -87,6 +89,7 @@ Options:
                              types: full (standalone page), partial (embeddable
                              page), or gitbook (embeddable page for GitBook).
                              [default: full]
+  -B --no-top-button         If set, doesn't generate button at top of page.
   -r --recursive             Recursively convert notebooks in subdirectories.
   -o FOLDER --output=FOLDER  Outputs HTML files into FOLDER instead of
                              outputting files adjacent to their originating

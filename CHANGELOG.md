@@ -9,6 +9,11 @@ to keep track of.
 
 **Python**
 
+Features:
+
+- The `nbinteract` CLI now has a `--no-top-button` flag to remove the top-level
+  button.
+
 Bug fixes:
 
 - Python 3.4 doesn't support the `{**dict1, **dict2}` syntax, so we merge
