@@ -25,6 +25,7 @@ Options:
                              types: full (standalone page), partial (embeddable
                              page), or gitbook (embeddable page for GitBook).
                              [default: full]
+  -B --no-top-button         If set, doesn't generate button at top of page.
   -r --recursive             Recursively convert notebooks in subdirectories.
   -o FOLDER --output=FOLDER  Outputs HTML files into FOLDER instead of
                              outputting files adjacent to their originating
@@ -88,7 +89,10 @@ def main():
     )
 
     exporter = init_exporter(
-        template=arguments['--template'], extract_images=arguments['--images']
+        extract_images=arguments['--images'],
+        spec=arguments['SPEC'],
+        template_file=arguments['--template'],
+        button_at_top=(not arguments['--no-top-button'])
     )
 
     log('Converting notebooks to HTML...')
@@ -150,20 +154,19 @@ def expand_folder(notebook_or_folder, recursive=False):
         )
 
 
-def init_exporter(template, extract_images):
+def init_exporter(extract_images, **exporter_config):
     """
     Returns an initialized exporter.
     """
-    # Use ExtractOutputPreprocessor to extract the images to separate files
-    config = Config()
+    config = Config(InteractExporter=exporter_config)
+
     if extract_images:
+        # Use ExtractOutputPreprocessor to extract the images to separate files
         config.InteractExporter.preprocessors = [
             'nbconvert.preprocessors.ExtractOutputPreprocessor',
         ]
 
     exporter = InteractExporter(config=config)
-    exporter.template_file = template
-
     return exporter
 
 
