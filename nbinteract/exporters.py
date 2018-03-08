@@ -62,7 +62,7 @@ class InteractExporter(HTMLExporter):
     spec = Unicode(
         'SamLau95/nbinteract-image/master',
         help='BinderHub spec for Jupyter image.'
-    )
+    ).tag(config=True)
 
     base_url = Unicode(
         'https://mybinder.org', help='Base Binder URL.'
