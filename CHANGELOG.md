@@ -18,6 +18,7 @@ Bug fixes:
 
 - Python 3.4 doesn't support the `{**dict1, **dict2}` syntax, so we merge
   dictionaries another way to support older versions of Python
+- Fixes an issue that broke `nbinteract` CLI (#52)
 
 **JS**
 

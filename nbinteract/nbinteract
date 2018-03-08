@@ -40,13 +40,9 @@ from glob import glob
 import os
 import re
 
-# Hack to get exporter to import
-import sys
-sys.path.append(os.path.dirname(__file__))
-
-import nbformat  # noqa: E402
-from traitlets.config import Config  # noqa: E402
-from exporters import InteractExporter  # noqa: E402
+import nbformat
+from traitlets.config import Config
+from nbinteract.exporters import InteractExporter
 
 BLUE = "\033[0;34m"
 RED = "\033[91m"

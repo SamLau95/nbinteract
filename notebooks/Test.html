@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Test</title>
+<title>Notebook</title>
 
 <style type="text/css">
     /*!
@@ -11771,13 +11771,18 @@ div#notebook {
     <div class="container">
       
 
+
+
+  <div class="cell border-box-sizing text_cell rendered">
+    <button class="js-nbinteract-widget">
+      Show Widgets
+    </button></div>
+
+
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Test-Notebook">Test Notebook<a class="anchor-link" href="#Test-Notebook">&#182;</a></h1><p>This notebook is used to test whether widgets render when exported using nbinteract.</p>
-
-</div>
-</div>
-</div>
+<h1 id="Test-Notebook">Test Notebook<a class="anchor-link" href="#Test-Notebook">&#182;</a></h1><p>This notebook is used to test whether widgets render when exported using nbinteract.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11787,13 +11792,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Interaction</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">fixed</span><span class="p">,</span> <span class="n">interact_manual</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
+</pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11805,13 +11804,31 @@ div#notebook {
     <span class="k">return</span> <span class="n">num</span> <span class="o">**</span> <span class="mi">2</span>
 
 <span class="n">interact</span><span class="p">(</span><span class="n">hello</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-</pre></div>
+</pre></div></div></div></div>
 
-</div>
-</div>
-</div>
+<div class="output_wrapper">
+<div class="output">
 
-</div>
+
+<div class="output_area">
+
+
+
+
+
+<div class="output_subarea output_widget_view ">
+  <button class="js-nbinteract-widget">
+    Show Widget
+  </button></div></div>
+
+<div class="output_area">
+
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;function __main__.hello&gt;</pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11820,13 +11837,25 @@ div#notebook {
 >
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ls</span>
-</pre></div>
+</pre></div></div></div></div>
 
-</div>
-</div>
-</div>
+<div class="output_wrapper">
+<div class="output">
 
-</div>
+
+<div class="output_area">
+
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test.html                           plotly_bootstrap_example.ipynb
+Test.ipynb                          plotly_bootstrap_tutorial.ipynb
+altair_least_squares_demo.ipynb     plotly_clt_example.ipynb
+bqplot_ols_demo.html                plotly_examples.ipynb
+bqplot_ols_demo.ipynb               shape_demo.ipynb
+least_squares_demo.ipynb            short_answer.ipynb
+matplotlib_bootstrap_example.ipynb  testing_nbinteract.ipynb
+</pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -11836,18 +11865,45 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="k">as</span> <span class="nn">nbi</span>
 
-<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;Test.ipynb&#39;</span><span class="p">,</span> <span class="n">save_first</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
+<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;Test.ipynb&#39;</span><span class="p">)</span>
+</pre></div></div></div></div>
 
-</div>
-</div>
-</div>
+<div class="output_wrapper">
+<div class="output">
 
-</div>
+
+<div class="output_area">
+
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Converting notebook...
+</pre></div></div>
+
+<div class="output_area">
+
+
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Successfully converted!</p>
+<p><a href="Test.html" target="_blank" download>Click to download your webpage.</a></p>
+<p>To host your webpage, see the documentation:
+<a href="https://www.nbinteract.com/tutorial/tutorial_publishing.html"
+        target="_blank">
+    https://www.nbinteract.com/tutorial/tutorial_publishing.html
+</a></p></div></div></div></div></div>
+
 
 
 <!-- Loads nbinteract package -->
-<script src="https://unpkg.com/nbinteract"></script>
-    </div>
-  </div>
+<script src="https://unpkg.com/nbinteract-core"></script>
+<script>
+  var interact = new NbInteract({
+    spec: 'SamLau95/nbinteract-image/master',
+    baseUrl: 'https://mybinder.org',
+    provider: 'gh',
+  })
+  interact.prepare()
+</script></div></div>
 </body>
