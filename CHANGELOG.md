@@ -7,6 +7,14 @@ to keep track of.
 
 ## master
 
+**Python**
+
+**JS**
+
+Bug fixes:
+
+- Fixes console errors from cells that don't have widget output.
+
 ## 0.1.3
 
 **Python**

@@ -58,9 +58,9 @@ export class WidgetManager extends HTMLManager {
       console.error('Error in code run:', msg.content)
     }
 
-    // if (!util.isWidgetCell(cell)) {
-    //   return
-    // }
+    if (!util.isWidgetCell(cell)) {
+      return
+    }
 
     // If we have a display message, display the widget.
     const model = await util.msgToModel(msg, this)
