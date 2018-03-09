@@ -9,11 +9,15 @@ to keep track of.
 
 **Python**
 
+Features:
+
+- `nbinteract init` initializes a GitHub repo for nbinteract.
+
 **JS**
 
 Bug fixes:
 
-- Fixes console errors from cells that don't have widget output.
+- Fixes errors from cells that don't have widget output.
 
 ## 0.1.3
 
