@@ -7,6 +7,8 @@ to keep track of.
 
 ## master
 
+## 0.1.3
+
 **Python**
 
 Features:
@@ -22,6 +24,11 @@ Bug fixes:
 - The `nbinteract` CLI spec argument didn't actually set the spec properly.
 
 **JS**
+
+Bug fixes:
+
+- Fixes `nbinteract-core` so that loading it in a webpage initializes the
+  NbInteract variable properly.
 
 ## 0.1.2
 
