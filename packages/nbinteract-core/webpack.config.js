@@ -33,8 +33,6 @@ const config = {
   output: {
     filename: 'index.bundle.js',
     path: path.resolve(__dirname, 'lib'),
-    library: 'nbinteract-core',
-    libraryTarget: 'umd',
   },
   devtool: 'cheap-module-eval-source-map',
   plugins: [...shims],
@@ -56,7 +54,7 @@ const config = {
                 },
               ],
             ],
-            plugins: ["@babel/plugin-syntax-dynamic-import"],
+            plugins: ['@babel/plugin-syntax-dynamic-import'],
             cacheDirectory: true,
           },
         },
