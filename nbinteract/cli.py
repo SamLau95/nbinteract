@@ -42,7 +42,7 @@ import re
 
 import nbformat
 from traitlets.config import Config
-from nbinteract.exporters import InteractExporter
+from .exporters import InteractExporter
 
 BLUE = "\033[0;34m"
 RED = "\033[91m"

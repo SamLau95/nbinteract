@@ -77,9 +77,7 @@ setup(
     # Add exporter to nbconvert CLI:
     # https://nbconvert.readthedocs.io/en/latest/external_exporters.html
     entry_points={
-        'nbconvert.exporters': ['interact = nbinteract:InteractExporter', ],
-    },
-
-    # Add nbinteract script
-    scripts=['nbinteract/nbinteract']
+        'nbconvert.exporters': ['interact = nbinteract:InteractExporter'],
+        'console_scripts': ['nbinteract = nbinteract.cli:main'],
+    }
 )
