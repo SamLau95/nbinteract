@@ -7,6 +7,14 @@ to keep track of.
 
 ## master
 
+## 0.1.5
+
+**Python**
+
+Bug fixes:
+
+- Fixes error when some plotting functions are called.
+
 ## 0.1.4
 
 **Python**
