@@ -52,6 +52,7 @@ import sys
 from textwrap import wrap
 import subprocess
 import json
+import fnmatch
 
 import nbformat
 from traitlets.config import Config
@@ -352,16 +353,27 @@ def expand_folder(notebook_or_folder, recursive=False):
 
     If recursive is True, recurses into subdirectories.
     """
-    if os.path.isfile(notebook_or_folder):
-        return [notebook_or_folder]
-    elif os.path.isdir(notebook_or_folder):
-        matcher = '{}/**/*.ipynb' if recursive else '{}/*.ipynb'
-        return glob(matcher.format(notebook_or_folder), recursive=recursive)
-    else:
+    is_file = os.path.isfile(notebook_or_folder)
+    is_dir = os.path.isdir(notebook_or_folder)
+    if not (is_file or is_dir):
         raise ValueError(
             '{} is neither an existing file nor a folder.'
             .format(notebook_or_folder)
         )
+
+    if is_file:
+        return [notebook_or_folder]
+
+    # Now we know the input is a directory
+    if not recursive:
+        return glob('{}/*.ipynb'.format(notebook_or_folder))
+
+    # Recursive case
+    return [
+        os.path.join(folder, filename)
+        for folder, _, filenames in os.walk(notebook_or_folder)
+        for filename in fnmatch.filter(filenames, '*.ipynb')
+    ]
 
 
 def init_exporter(extract_images, **exporter_config):

@@ -182,10 +182,12 @@ class TestCli(object):
         """
         with convert_many(
             [TEST_NOTEBOOKS['nbinteract'], TEST_NOTEBOOKS['interact']], {
-                '--output': tmpdir
+                '--output': str(tmpdir)
             }
         ) as html_files:
-            assert all(basename(f) in os.listdir(tmpdir) for f in html_files)
+            assert all(
+                basename(f) in os.listdir(str(tmpdir)) for f in html_files
+            )
 
     def test_images(self, tmpdir):
         """
@@ -193,8 +195,8 @@ class TestCli(object):
         """
         with convert_many([TEST_NOTEBOOKS['empty'], TEST_NOTEBOOKS['images']],
                           {
-                              '--output': tmpdir,
-                              '--images': tmpdir,
+                              '--output': str(tmpdir),
+                              '--images': str(tmpdir),
                           }):
             assert glob('{}/*.png'.format(tmpdir))
 
@@ -233,6 +235,7 @@ class TestCli(object):
         }
         with convert_many([TEST_NOTEBOOKS_FOLDER], {
             '--recursive': True,
-            '--output': tmpdir
+            '--output': str(tmpdir)
         }):
-            assert set(map(basename, os.listdir(tmpdir))) == expected_files
+            assert set(map(basename,
+                           os.listdir(str(tmpdir)))) == expected_files

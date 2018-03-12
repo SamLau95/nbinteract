@@ -197,3 +197,4 @@ typings/
 # End of https://www.gitignore.io/api/nodebuilt
 _book
 .vscode
+.pytest_cache

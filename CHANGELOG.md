@@ -7,6 +7,12 @@ to keep track of.
 
 ## master
 
+**Python**
+
+Bug fixes:
+
+- Fixes CLI `--output` flag for Python 3.4
+
 ## 0.1.5
 
 **Python**
