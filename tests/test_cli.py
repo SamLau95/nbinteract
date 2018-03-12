@@ -23,6 +23,10 @@ TEST_SPEC = 'a/test/spec'
 
 NBINTERACT_SCRIPT = '<script src="https://unpkg.com/nbinteract-core"></script>'
 
+TOP_BUTTON_RE = re.compile(r'<button[^>]*>\s*Show All Widgets\s*</button>')
+
+WIDGET_BUTTON_RE = re.compile(r'<button[^>]*>\s*Show Widget\s*</button>')
+
 
 def args(new_args):
     return tz.merge({
@@ -109,14 +113,17 @@ class TestCli(object):
 
     def test_gitbook_template(self):
         """
-        Tests that nbinteract is not loaded in the gitbook template.
+        Tests that nbinteract is not loaded in the gitbook template but that
+        widget buttons are generated.
         """
         with convert_one(
             TEST_NOTEBOOKS['interact'], {
                 '--template': 'gitbook',
             }
         ) as f:
-            assert not any(NBINTERACT_SCRIPT in line for line in f)
+            html = ''.join(f.readlines())
+            assert NBINTERACT_SCRIPT not in html
+            assert WIDGET_BUTTON_RE.search(html)
 
     def test_partial_template(self):
         """
@@ -131,6 +138,7 @@ class TestCli(object):
             html = ''.join(f.readlines())
             assert NBINTERACT_SCRIPT in html
             assert '<html>' not in html
+            assert WIDGET_BUTTON_RE.search(html)
 
     def test_full_template(self):
         """
@@ -143,6 +151,7 @@ class TestCli(object):
             html = ''.join(f.readlines())
             assert NBINTERACT_SCRIPT in html
             assert '<html>' in html
+            assert WIDGET_BUTTON_RE.search(html)
 
     def test_top_button(self):
         """
@@ -150,17 +159,13 @@ class TestCli(object):
 
         Also tests that the --no-top-button flag switches off the button.
         """
-        top_button_re = re.compile(
-            r'<button[^>]*>\s*Show All Widgets\s*</button>'
-        )
-
         with convert_one(
             TEST_NOTEBOOKS['interact'], {
                 '--template': 'gitbook'
             }
         ) as f:
             html = ''.join(f.readlines())
-            assert top_button_re.search(html)
+            assert TOP_BUTTON_RE.search(html)
 
         with convert_one(
             TEST_NOTEBOOKS['interact'], {
@@ -169,7 +174,7 @@ class TestCli(object):
             }
         ) as f:
             html = ''.join(f.readlines())
-            assert not top_button_re.search(html)
+            assert not TOP_BUTTON_RE.search(html)
 
     def test_output(self, tmpdir):
         """
