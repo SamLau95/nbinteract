@@ -12,7 +12,7 @@ image for the project.
 
 `nbinteract NOTEBOOKS ...` converts notebooks into HTML pages. Note that
 running this command outside a GitHub project initialized with `nbinteract
-init` required you to specify the --spec SPEC option.
+init` requires you to specify the --spec SPEC option.
 
 Arguments:
   NOTEBOOKS  List of notebooks or folders to convert. If folders are passed in,
@@ -25,11 +25,11 @@ Arguments:
 
 Options:
   -h --help                  Show this screen
-  -s --spec                  BinderHub spec for Jupyter image. Must be in the
+  -s SPEC --spec SPEC        BinderHub spec for Jupyter image. Must be in the
                              format: `{username}/{repo}/{branch}`. For example:
                              'SamLau95/nbinteract-image/master'. This flag is
-                             required unless a .nbinteract.json file exists in
-                             the project root with the "spec" key.
+                             **required** unless a .nbinteract.json file exists
+                             in the project root with the "spec" key.
   -t TYPE --template TYPE    Specifies the type of HTML page to generate. Valid
                              types: full (standalone page), partial (embeddable
                              page), or gitbook (embeddable page for GitBook).
@@ -52,6 +52,7 @@ import sys
 from textwrap import wrap
 import subprocess
 import json
+import fnmatch
 
 import nbformat
 from traitlets.config import Config
@@ -60,6 +61,8 @@ from .exporters import InteractExporter
 BLUE = "\033[0;34m"
 RED = "\033[91m"
 NOCOLOR = "\033[0m"
+
+CONFIG_FILE = '.nbinteract.json'
 
 VALID_TEMPLATES = set(['full', 'gitbook', 'partial', 'local'])
 
@@ -102,7 +105,7 @@ def color(text, text_color):
 
 def log(text='', line_length=80, heading='[nbinteract] ', text_color=BLUE):
     width = line_length - len(heading)
-    for line in wrap(text, width) or ['']:
+    for line in wrap(text, width, subsequent_indent='  ') or ['']:
         print(color(heading, text_color) + line)
 
 
@@ -155,6 +158,19 @@ def main():
         return_code = init()
         sys.exit(return_code)
 
+    run_converter(arguments)
+
+
+def run_converter(arguments):
+    """
+    Converts notebooks to HTML files. Returns list of output file paths
+    """
+    # Get spec from config file
+    if os.path.isfile(CONFIG_FILE):
+        with open(CONFIG_FILE) as f:
+            config = json.load(f)
+            arguments['--spec'] = arguments['--spec'] or config['--spec']
+
     check_arguments(arguments)
 
     notebooks = flatmap(
@@ -165,13 +181,14 @@ def main():
 
     exporter = init_exporter(
         extract_images=arguments['--images'],
-        spec=arguments['SPEC'],
+        spec=arguments['--spec'],
         template_file=arguments['--template'],
         button_at_top=(not arguments['--no-top-button'])
     )
 
     log('Converting notebooks to HTML...')
 
+    output_files = []
     for notebook in notebooks:
         output_file = convert(
             notebook,
@@ -179,12 +196,15 @@ def main():
             output_folder=arguments['--output'],
             images_folder=arguments['--images']
         )
+        output_files.append(output_file)
         log('Converted {} to {}'.format(notebook, output_file))
 
     log('Done!')
 
     if arguments['--images']:
         log('Resulting images located in {}'.format(arguments['--images']))
+
+    return output_files
 
 
 def init():
@@ -244,7 +264,7 @@ def init():
     log()
 
     log('Generating .nbinteract.json file...')
-    if os.path.isfile('.nbinteract.json'):
+    if os.path.isfile(CONFIG_FILE):
         log(
             ".nbinteract.json already exists, skipping generation. If you'd "
             "like to regenerate the file, remove .nbinteract.json and rerun "
@@ -278,7 +298,7 @@ def init():
         )
 
     binder_spec = binder_spec_from_github_url(github_origin)
-    with open('.nbinteract.json', 'w') as f:
+    with open(CONFIG_FILE, 'w') as f:
         json.dump({'spec': binder_spec}, f, indent=4)
     log('Created .nbinteract.json file successfully')
     log()
@@ -295,6 +315,22 @@ def init():
 
 
 def check_arguments(arguments):
+    if not arguments['--spec']:
+        error(
+            '--spec flag not set and no .nbinteract.json file found. Rerun '
+            'this command with the --spec flag or run `nbinteract init` to '
+            'resolve this issue.'
+        )
+        raise DocoptExit()
+
+    if not SPEC_REGEX.match(arguments['--spec']):
+        error(
+            'Spec must be in the format {username}/{repo}/{branch} but got ' +
+            arguments['--spec'] + '.\n'
+            'Exiting...'
+        )
+        raise DocoptExit()
+
     if arguments['--images'] and not arguments['--output']:
         error(
             'If --images is specified, --output must also be specified. '
@@ -309,13 +345,6 @@ def check_arguments(arguments):
         )
         raise DocoptExit()
 
-    if not SPEC_REGEX.match(arguments['--spec']):
-        error(
-            'Spec must be in the format {username}/{repo}/{branch}. '
-            'Exiting...'
-        )
-        raise DocoptExit()
-
 
 def expand_folder(notebook_or_folder, recursive=False):
     """
@@ -324,16 +353,27 @@ def expand_folder(notebook_or_folder, recursive=False):
 
     If recursive is True, recurses into subdirectories.
     """
-    if os.path.isfile(notebook_or_folder):
-        return [notebook_or_folder]
-    elif os.path.isdir(notebook_or_folder):
-        matcher = '{}/**/*.ipynb' if recursive else '{}/*.ipynb'
-        return glob(matcher.format(notebook_or_folder), recursive=recursive)
-    else:
+    is_file = os.path.isfile(notebook_or_folder)
+    is_dir = os.path.isdir(notebook_or_folder)
+    if not (is_file or is_dir):
         raise ValueError(
             '{} is neither an existing file nor a folder.'
             .format(notebook_or_folder)
         )
+
+    if is_file:
+        return [notebook_or_folder]
+
+    # Now we know the input is a directory
+    if not recursive:
+        return glob('{}/*.ipynb'.format(notebook_or_folder))
+
+    # Recursive case
+    return [
+        os.path.join(folder, filename)
+        for folder, _, filenames in os.walk(notebook_or_folder)
+        for filename in fnmatch.filter(filenames, '*.ipynb')
+    ]
 
 
 def init_exporter(extract_images, **exporter_config):
