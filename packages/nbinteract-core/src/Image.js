@@ -89,18 +89,6 @@ Image.prototype.close = function() {
   }
 }
 
-Image.prototype.launch = function(url, token, filepath) {
-  // redirect a user to a running server with a token
-  if (filepath) {
-    // strip trailing /
-    url = url.replace(/\/$/, '')
-    // /tree is safe because it allows redirect to files
-    url = url + '/tree/' + encodeURI(filepath)
-  }
-  url = url + '?' + $.param({ token: token })
-  window.location.href = url
-}
-
 function v2url(repository, ref, filepath) {
   // return a v2 url from a repository, ref, and filepath
   if (repository.length === 0) {
@@ -115,69 +103,3 @@ function v2url(repository, ref, filepath) {
 }
 
 export default Image
-
-// var repo = $('#repository').val().trim();
-// var ref =  $('#ref').val().trim();
-// repo = repo.replace(/^(https?:\/\/)?github.com\//, '');
-// // trim trailing or leading '/' on repo
-// repo = repo.replace(/(^\/)|(\/?$)/g, '');
-// var image = new Image('gh', repo + '/' + ref);
-
-// var url = updateUrl();
-// // add fixed build URL to window history so that reload with refill the form
-// if (window.location.href !== url) {
-//   window.history.pushState({}, '', url);
-// }
-
-// $('#build-progress .progress-bar').addClass('hidden');
-// log.clear();
-
-// $('.on-build').removeClass('hidden');
-
-// image.onStateChange('*', function(oldState, newState, data) {
-//     if (data.message !== undefined) {
-//         log.fit();
-//         log.write(data.message);
-//     } else {
-//         console.log(data);
-//     }
-// });
-
-// image.onStateChange('waiting', function(oldState, newState, data) {
-//     $('#phase-waiting').removeClass('hidden');
-// });
-
-// image.onStateChange('building', function(oldState, newState, data) {
-//     $('#phase-building').removeClass('hidden');
-// });
-
-// image.onStateChange('pushing', function(oldState, newState, data) {
-//     $('#phase-pushing').removeClass('hidden');
-// });
-// image.onStateChange('failed', function(oldState, newState, data) {
-//     failed = true;
-//     $('#build-progress .progress-bar').addClass('hidden');
-//     $('#phase-failed').removeClass('hidden');
-//     // If we fail for any reason, we will show logs!
-//     if (!logsVisible) {
-//         $('#toggle-logs').click();
-//     }
-//     image.close();
-// });
-
-// image.onStateChange('built', function(oldState, newState, data) {
-//     if (oldState === null) {
-//         $('#phase-already-built').removeClass('hidden');
-//         $('#phase-launching').removeClass('hidden');
-//     }
-// });
-
-// image.onStateChange('ready', function(oldState, newState, data) {
-//     image.close();
-//     // fetch runtime params!
-//     var filepath = $("#filepath").val().trim();
-//     image.launch(data.url, data.token, filepath);
-// });
-
-// image.fetch();
-// return false;
