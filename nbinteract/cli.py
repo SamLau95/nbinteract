@@ -43,6 +43,11 @@ Options:
   -i FOLDER --images=FOLDER  Extracts images from HTML and writes into FOLDER
                              instead of encoding images in base64 in the HTML.
                              Requires -o option to be set as well.
+  -e --execute               Executes the notebook before converting to HTML,
+                             functioning like the equivalent flag for
+                             nbconvert. Configure NbiExecutePreprocessor to
+                             change conversion instead of the base
+                             ExecutePreprocessor.
 '''
 from docopt import docopt, DocoptExit
 from glob import glob
@@ -169,7 +174,7 @@ def run_converter(arguments):
     if os.path.isfile(CONFIG_FILE):
         with open(CONFIG_FILE) as f:
             config = json.load(f)
-            arguments['--spec'] = arguments['--spec'] or config['--spec']
+            arguments['--spec'] = arguments['--spec'] or config['spec']
 
     check_arguments(arguments)
 
@@ -183,7 +188,8 @@ def run_converter(arguments):
         extract_images=arguments['--images'],
         spec=arguments['--spec'],
         template_file=arguments['--template'],
-        button_at_top=(not arguments['--no-top-button'])
+        button_at_top=(not arguments['--no-top-button']),
+        execute=arguments['--execute'],
     )
 
     log('Converting notebooks to HTML...')
@@ -309,8 +315,8 @@ def init():
     )
     log()
     log(
-        'After you push, you should visit {} and verify that your Binder image'
-        'successfully starts.'.format(BINDER_BASE_URL + binder_spec)
+        'After you push, you should visit {} and verify that your Binder '
+        'image successfully starts.'.format(BINDER_BASE_URL + binder_spec)
     )
 
 
@@ -376,17 +382,24 @@ def expand_folder(notebook_or_folder, recursive=False):
     ]
 
 
-def init_exporter(extract_images, **exporter_config):
+def init_exporter(extract_images, execute, **exporter_config):
     """
     Returns an initialized exporter.
     """
     config = Config(InteractExporter=exporter_config)
 
+    preprocessors = []
     if extract_images:
         # Use ExtractOutputPreprocessor to extract the images to separate files
-        config.InteractExporter.preprocessors = [
-            'nbconvert.preprocessors.ExtractOutputPreprocessor',
-        ]
+        preprocessors.append(
+            'nbconvert.preprocessors.ExtractOutputPreprocessor'
+        )
+    if execute:
+        # Use the NbiExecutePreprocessor to correctly generate widget output
+        # for interact() calls.
+        preprocessors.append('nbinteract.preprocessors.NbiExecutePreprocessor')
+
+    config.InteractExporter.preprocessors = preprocessors
 
     exporter = InteractExporter(config=config)
     return exporter
