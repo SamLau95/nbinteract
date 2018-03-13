@@ -1,3 +1,4 @@
+import pytest
 import os
 import nbinteract.cli as cli
 import toolz as tz
@@ -12,11 +13,20 @@ TEST_NOTEBOOKS_FOLDER = join(curdir, 'test_notebooks')
 TEST_NOTEBOOKS_SUBFOLDER = join(TEST_NOTEBOOKS_FOLDER, 'subdir')
 
 TEST_NOTEBOOKS = {
-    'empty': join(TEST_NOTEBOOKS_FOLDER, 'empty.ipynb'),
-    'interact': join(TEST_NOTEBOOKS_FOLDER, 'basic_interact.ipynb'),
-    'nbinteract': join(TEST_NOTEBOOKS_FOLDER, 'basic_nbinteract.ipynb'),
-    'images': join(TEST_NOTEBOOKS_FOLDER, 'matplotlib_plots.ipynb'),
-    'nested': join(TEST_NOTEBOOKS_SUBFOLDER, 'nested_basic_interact.ipynb'),
+    'empty':
+        join(TEST_NOTEBOOKS_FOLDER, 'empty.ipynb'),
+    'interact':
+        join(TEST_NOTEBOOKS_FOLDER, 'basic_interact.ipynb'),
+    'nbinteract':
+        join(TEST_NOTEBOOKS_FOLDER, 'basic_nbinteract.ipynb'),
+    'cleared_interact':
+        join(TEST_NOTEBOOKS_FOLDER, 'cleared_interact.ipynb'),
+    'cleared_nbinteract':
+        join(TEST_NOTEBOOKS_FOLDER, 'cleared_nbinteract.ipynb'),
+    'images':
+        join(TEST_NOTEBOOKS_FOLDER, 'matplotlib_plots.ipynb'),
+    'nested':
+        join(TEST_NOTEBOOKS_SUBFOLDER, 'nested_basic_interact.ipynb'),
 }
 
 TEST_SPEC = 'a/test/spec'
@@ -37,6 +47,7 @@ def args(new_args):
         '--recursive': None,
         '--spec': TEST_SPEC,
         '--template': 'full',
+        '--execute': False,
         'NOTEBOOKS': [],
         'init': False
     }, new_args)
@@ -206,6 +217,7 @@ class TestCli(object):
         """
         expected_files = {
             'empty.html', 'basic_interact.html', 'basic_nbinteract.html',
+            'cleared_interact.html', 'cleared_nbinteract.html',
             'matplotlib_plots.html'
         }
         with convert_many([TEST_NOTEBOOKS_FOLDER]) as html_files:
@@ -217,6 +229,7 @@ class TestCli(object):
         """
         expected_files = {
             'empty.html', 'basic_interact.html', 'basic_nbinteract.html',
+            'cleared_interact.html', 'cleared_nbinteract.html',
             'matplotlib_plots.html', 'nested_basic_interact.html'
         }
         with convert_many([TEST_NOTEBOOKS_FOLDER], {
@@ -231,6 +244,7 @@ class TestCli(object):
         """
         expected_files = {
             'empty.html', 'basic_interact.html', 'basic_nbinteract.html',
+            'cleared_interact.html', 'cleared_nbinteract.html',
             'matplotlib_plots.html', 'nested_basic_interact.html'
         }
         with convert_many([TEST_NOTEBOOKS_FOLDER], {
@@ -239,3 +253,27 @@ class TestCli(object):
         }):
             assert set(map(basename,
                            os.listdir(str(tmpdir)))) == expected_files
+
+    @pytest.mark.slow
+    def test_execute(self):
+        """
+        Tests that converting a notebook with the --execute flag corrently
+        generates widgets for `ipywidgets.interact()` calls.
+        """
+        with convert_one(
+            TEST_NOTEBOOKS['cleared_interact'], {
+                '--execute': True,
+            }
+        ) as f:
+            html = ''.join(f.readlines())
+            assert TOP_BUTTON_RE.search(html)
+            assert WIDGET_BUTTON_RE.search(html)
+
+        with convert_one(
+            TEST_NOTEBOOKS['cleared_nbinteract'], {
+                '--execute': True,
+            }
+        ) as f:
+            html = ''.join(f.readlines())
+            assert TOP_BUTTON_RE.search(html)
+            assert WIDGET_BUTTON_RE.search(html)

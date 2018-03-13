@@ -31,6 +31,9 @@ gitbook: ## Runs gitbook locally
 test: ## Run tests
 	python setup.py test
 
+test-all: ## Run tests, including slow ones
+	python setup.py test -a '--runslow'
+
 ping_binder: ## Force-updates BinderHub image
 	curl -s https://staging.mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
 		grep -E '${BINDER_REGEXP}' |\
