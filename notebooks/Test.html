@@ -13123,7 +13123,7 @@ div#notebook {
 <div class="toc"><ul class="toc-item"><li><span><a href="#Test-Notebook" data-toc-modified-id="Test-Notebook-1">Test Notebook</a></span></li></ul></div></div></div></div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Test-Notebook">Test Notebook<a class="anchor-link" href="#Test-Notebook">&#182;</a></h1><p>This notebook is used to test whether widgets render when exported using nbinteract.</p></div></div></div>
+<h1 id="Test-Notebook">Test Notebook<a class="anchor-link" href="#Test-Notebook">&#182;</a></h1><p>This notebook is used as scratch paper to test nbinteract features.</p></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -13132,7 +13132,8 @@ div#notebook {
 >
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span>
+
+<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This should only show up in the console.&#39;</span><span class="p">)</span>
 </pre></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -13141,10 +13142,10 @@ div#notebook {
   
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">num</span> <span class="o">**</span> <span class="mi">2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
 
-<span class="n">interact</span><span class="p">(</span><span class="n">hello</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
+<span class="c1"># No error</span>
+<span class="n">interact</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -13160,26 +13161,7 @@ div#notebook {
 <div class="output_subarea output_widget_view ">
   <button class="js-nbinteract-widget">
     Show Widget
-  </button></div></div>
-
-<div class="output_area">
-
-    
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>IntSlider(value=50, description=&#39;num&#39;)
-Output()
-interact.update called
-</pre></div></div>
-
-<div class="output_area">
-
-    
-
-
-
-<div class="output_text output_subarea ">
-<pre>2500</pre></div></div></div></div></div>
+  </button></div></div></div></div></div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -13187,8 +13169,17 @@ interact.update called
   
 >
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">widgets</span> <span class="o">=</span> <span class="n">interactive</span><span class="p">(</span><span class="n">hello</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">));</span>
-<span class="n">display</span><span class="p">(</span><span class="n">widgets</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">del</span> <span class="n">interact</span>
+</pre></div></div></div></div></div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell"
+  
+>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Errors</span>
+<span class="n">interact</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
 </pre></div></div></div></div>
 
 <div class="output_wrapper">
@@ -13204,56 +13195,12 @@ interact.update called
 <div class="output_subarea output_widget_view ">
   <button class="js-nbinteract-widget">
     Show Widget
-  </button></div></div>
-
-<div class="output_area">
-
-    
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>IntSlider(value=50, description=&#39;num&#39;)
-Output()
-interact.update called
-</pre></div></div></div></div></div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell"
-  
->
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">VBox</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="n">widgets</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
-<span class="n">w</span>
-</pre></div></div></div></div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    
-
-
-
-<div class="output_subarea output_widget_view ">
-  <button class="js-nbinteract-widget">
-    Show Widget
-  </button></div></div>
-
-<div class="output_area">
-
-    
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>IntSlider(value=50, description=&#39;num&#39;)
-Output()
-</pre></div></div></div></div></div>
+  </button></div></div></div></div></div>
 
 
 
 <!-- Loads nbinteract package -->
-<script src="https://unpkg.com/nbinteract-core"></script>
+<script src="http://localhost:8000/lib/index.bundle.js"></script>
 <script>
   var interact = new NbInteract({
     spec: 'SamLau95/nbinteract-image/master',
