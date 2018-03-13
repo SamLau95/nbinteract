@@ -9,6 +9,10 @@ to keep track of.
 
 **Python**
 
+Features:
+
+- Add `--execute` flag to CLI that correctly generates widget output.
+
 Bug fixes:
 
 - Fixes CLI `--output` flag for Python 3.4

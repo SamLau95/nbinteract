@@ -378,6 +378,8 @@ def expand_folder(notebook_or_folder, recursive=False):
     return [
         os.path.join(folder, filename)
         for folder, _, filenames in os.walk(notebook_or_folder)
+        # Skip folders that start with .
+        if not os.path.basename(folder).startswith('.')
         for filename in fnmatch.filter(filenames, '*.ipynb')
     ]
 
