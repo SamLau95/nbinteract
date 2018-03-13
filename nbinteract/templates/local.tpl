@@ -7,5 +7,13 @@ instead of using unpkg.com. Used for development purposes only.
 
 {% block nbinteract_script %}
 <!-- Loads nbinteract package -->
-<script src="../built/index.bundle.js"></script>
+<script src="http://localhost:8000/lib/index.bundle.js"></script>
+<script>
+  var interact = new NbInteract({
+    spec: '{{ spec }}',
+    baseUrl: '{{ base_url }}',
+    provider: '{{ provider }}',
+  })
+  interact.prepare()
+</script>
 {%- endblock nbinteract_script %}
