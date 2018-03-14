@@ -6,4 +6,5 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 from .exporters import *
 from .plotting import *
 from .questions import *
+from .figure import *
 from . import util

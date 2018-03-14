@@ -40,7 +40,7 @@ def maybe_curry(maybe_fn, first_arg) -> 'Function | Any':
     """
     if not callable(maybe_fn):
         return maybe_fn
-    return toolz.curry(maybe_fn)(first_arg)
+    return tz.curry(maybe_fn)(first_arg)
 
 
 ##############################################################################
