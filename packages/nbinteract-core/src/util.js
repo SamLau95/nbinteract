@@ -27,7 +27,8 @@ export const codeCells = () => document.querySelectorAll('.code_cell')
 export const pageHasWidgets = () =>
   document.querySelector('.output_widget_view') !== null
 
-export const cellToCode = cell => cell.querySelector('.input_area').textContent
+export const cellToCode = cell =>
+  cell.querySelector('.input_area').textContent.trim()
 
 export const isWidgetCell = cell =>
   cell.querySelector('.output_widget_view') !== null
@@ -39,18 +40,31 @@ export const cellToWidgetOutput = cell =>
  * Functions to work with nbinteract status buttons
  * Keep CSS class in sync with nbinteract/templates/*.tpl
  */
-export const statusButtons = () =>
-  document.querySelectorAll('.js-nbinteract-widget')
+export const statusButtons = (cell = document) =>
+  cell.querySelectorAll('.js-nbinteract-widget')
 
-export const setButtonsStatus = message => {
-  statusButtons().forEach(button => {
+export const setButtonsStatus = (message, cell = document) => {
+  statusButtons(cell).forEach(button => {
     button.disabled = true
     button.innerHTML = message
   })
 }
 
-export const removeButtons = () => {
-  statusButtons().forEach(button => button.remove())
+export const setButtonsError = (message, cell = document) => {
+  statusButtons(cell).forEach(button => {
+    button.disabled = true
+
+    const error = document.createElement('pre')
+    error.innerText = message
+    error.style.cssText = 'text-align: left; font-size: 0.9em;'
+
+    button.innerHTML = ''
+    button.appendChild(error)
+  })
+}
+
+export const removeButtons = (cell = document) => {
+  statusButtons(cell).forEach(button => button.remove())
 }
 
 /**
