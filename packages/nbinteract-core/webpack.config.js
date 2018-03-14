@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
@@ -35,7 +36,10 @@ const config = {
     path: path.resolve(__dirname, 'lib'),
   },
   devtool: 'cheap-module-eval-source-map',
-  plugins: [...shims],
+  devServer: {
+    contentBase: './',
+  },
+  plugins: [new CleanWebpackPlugin(['lib']), ...shims],
   module: {
     rules: [
       {

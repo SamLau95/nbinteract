@@ -1,13 +1,14 @@
 {#
 Like the full.tpl template but loads a local copy of the nbinteract library
-instead of using unpkg.com. Used for development purposes only.
+instead of using unpkg.com. Used for development purposes only alongside the
+webpack-dev-server.
 #}
 
 {%- extends 'full.tpl' -%}
 
 {% block nbinteract_script %}
 <!-- Loads nbinteract package -->
-<script src="http://localhost:8000/lib/index.bundle.js"></script>
+<script src="http://localhost:8080/index.bundle.js"></script>
 <script>
   var interact = new NbInteract({
     spec: '{{ spec }}',

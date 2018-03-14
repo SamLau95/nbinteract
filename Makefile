@@ -53,7 +53,7 @@ start_notebook:
 	python -m notebook $(NOTEBOOK_OPTS)
 
 start_webpack:
-	lerna run watch --stream --scope nbinteract-core
+	lerna run serve --stream
 
 build_py: ## Build python package
 	rm -rf dist/*
