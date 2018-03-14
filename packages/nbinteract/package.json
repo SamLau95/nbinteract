@@ -1,6 +1,6 @@
 {
   "name": "nbinteract",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Script to allow public interactive Jupyter notebooks",
   "main": "built/index.bundle.js",
   "scripts": {
@@ -13,7 +13,13 @@
     "type": "git",
     "url": "git+https://github.com/SamLau95/nbinteract.git"
   },
-  "keywords": ["jupyter", "notebook", "html", "interactive", "widgets"],
+  "keywords": [
+    "jupyter",
+    "notebook",
+    "html",
+    "interactive",
+    "widgets"
+  ],
   "author": "Sam Lau",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -21,6 +27,6 @@
   },
   "homepage": "https://github.com/SamLau95/nb-interact#readme",
   "dependencies": {
-    "nbinteract-core": "^0.1.5"
+    "nbinteract-core": "^0.1.6"
   }
 }
