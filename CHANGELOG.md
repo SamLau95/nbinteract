@@ -7,6 +7,8 @@ to keep track of.
 
 ## master
 
+## 0.1.6
+
 **Python**
 
 Features:
@@ -16,6 +18,12 @@ Features:
 Bug fixes:
 
 - Fixes CLI `--output` flag for Python 3.4
+
+**JS**
+
+Features:
+
+- Errors in widget code get displayed in the status buttons.
 
 ## 0.1.5
 
