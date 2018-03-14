@@ -55,12 +55,23 @@ export class WidgetManager extends HTMLManager {
    */
   async _displayWidget(cell, msg) {
     if (util.isErrorMsg(msg)) {
-      console.error('Error in code run:', msg.content)
+      const code = util.cellToCode(cell)
+      // Remove ASCII color codes from traceback
+      const traceback = msg.content.traceback
+        .join('\n')
+        .replace(/\u001b\[.*?m/g, '')
+      console.error(`${code}\n${traceback}`.trim())
+
+      // Display error in the widget status button so that the user knows
+      // something went wrong.
+      if (util.isWidgetCell(cell)) {
+        util.setButtonsError(traceback, cell)
+      }
     }
 
-    // if (!util.isWidgetCell(cell)) {
-    //   return
-    // }
+    if (!util.isWidgetCell(cell)) {
+      return
+    }
 
     // If we have a display message, display the widget.
     const model = await util.msgToModel(msg, this)
@@ -68,9 +79,7 @@ export class WidgetManager extends HTMLManager {
       const outputEl = util.cellToWidgetOutput(cell)
       this.display_model(msg, model, { el: outputEl })
 
-      // TODO(sam): Move this logic into Nbinteract:prepare() since it's a DOM
-      // update, not a widget update.
-      util.removeButtons()
+      util.removeButtons(cell)
     }
   }
 

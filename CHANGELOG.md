@@ -7,6 +7,46 @@ to keep track of.
 
 ## master
 
+## 0.1.6
+
+**Python**
+
+Features:
+
+- Add `--execute` flag to CLI that correctly generates widget output.
+
+Bug fixes:
+
+- Fixes CLI `--output` flag for Python 3.4
+
+**JS**
+
+Features:
+
+- Errors in widget code get displayed in the status buttons.
+
+## 0.1.5
+
+**Python**
+
+Bug fixes:
+
+- Fixes error when some plotting functions are called.
+
+## 0.1.4
+
+**Python**
+
+Features:
+
+- `nbinteract init` initializes a GitHub repo for nbinteract.
+
+**JS**
+
+Bug fixes:
+
+- Fixes errors from cells that don't have widget output.
+
 ## 0.1.3
 
 **Python**

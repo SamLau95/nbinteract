@@ -50,7 +50,7 @@ This makes the gitbook template the simplest one.
 {% if button_at_top %}
   <div class="cell border-box-sizing text_cell rendered">
     <button class="{{ nbinteract_class }}">
-      Show Widgets
+      Show All Widgets
     </button>
   </div>
 {% endif %}

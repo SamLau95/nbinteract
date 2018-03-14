@@ -68,10 +68,6 @@ export default class NbInteract {
 
     util.statusButtons().forEach(button => {
       button.addEventListener('click', e => {
-        // The logic to remove the status buttons is temporarily in
-        // manager.js:_displayWidget since it's tricky to implement here.
-        // TODO(sam): Move the logic here instead.
-        util.setButtonsStatus('Initializing widgets...')
         this.run()
       })
     })
@@ -83,6 +79,11 @@ export default class NbInteract {
    * Starts kernel if needed, runs code on page, and initializes widgets.
    */
   async run() {
+    // The logic to remove the status buttons is temporarily in
+    // manager.js:_displayWidget since it's tricky to implement here.
+    // TODO(sam): Move the logic here instead.
+    util.setButtonsStatus('Initializing widgets...')
+
     const firstRun = !this.kernel || !this.manager
     try {
       this.kernel = await this._getOrStartKernel()

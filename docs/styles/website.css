@@ -11,6 +11,11 @@
   padding: 0.4em 1em;
 }
 
+.js-nbinteract-widget:disabled,
+.js-nbinteract-widget[disabled] {
+  background-color: #909090;
+}
+
 #ipython-notebook .interact-button:hover,
 #ipython-notebook .interact-button:focus {
   text-decoration: none;
