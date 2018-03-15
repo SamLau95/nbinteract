@@ -5,51 +5,30 @@ Methods of the Figure and Plot class to create more complex plots.
 import bqplot as bq
 import ipywidgets as widgets
 import toolz.curried as tz
+from collections import namedtuple
 from IPython.display import display
 from . import util
 from . import plotting
 
-__all__ = ['Hist', 'Bar', 'Scatter', 'Line', 'Plot']
+__all__ = ['Hist', 'Bar', 'Scatter', 'Line', 'Figure']
 
-
-def Hist(hist_function, *, options={}):
-    """
-    Creates a Hist object used to pass into the Plot object,
-    """
-    return {'marker': 'hist', 'x_fn': hist_function, 'options': options}
-
-
-def Bar(x_fn, y_fn, *, options={}):
-    """
-    Creates a Bar object used to pass into the Plot object.
-    """
-    return {'marker': 'bar', 'x_fn': x_fn, 'y_fn': y_fn, 'options': options}
-
-
-def Scatter(x_fn, y_fn, *, options={}):
-    """
-     Creates a Scatter object used to pass into the Plot object.
-    """
-    return {
-        'marker': 'scatter',
-        'x_fn': x_fn,
-        'y_fn': y_fn,
-        'options': options
-    }
-
-
-def Line(x_fn, y_fn, options={}):
-    """
-    Creates a Line object used to pass into the Plot object.
-    """
-    return {'marker': 'line', 'x_fn': x_fn, 'y_fn': y_fn, 'options': options}
+Hist = namedtuple('Hist', ['x_fn', 'options'])
+Bar = namedtuple('Bar', ['x_fn', 'y_fn', 'options'])
+Scatter = namedtuple('Scatter', ['x_fn', 'y_fn', 'options'])
+Line = namedtuple('Line', ['x_fn', 'y_fn', 'options'])
+"""
+Sets options to be an empty dict by default for the namedtuples above.
+https://stackoverflow.com/a/18348004
+"""
+for mark_type in [Hist, Bar, Scatter, Line]:
+    mark_type.__new__.__defaults__ = {},
 
 
 @plotting.use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'bins', 'normalized'
 ])
-def _Hist(x_fn, *, options={}):
+def _Hist(fig, x_fn, *, options={}):
     """
     Internal Hist function that generates the Hist marker and the wrapper
     functions for the histogram.
@@ -65,22 +44,19 @@ def _Hist(x_fn, *, options={}):
         }],
     }
     [hist] = plotting._create_marks(
-        fig=options.get('_fig'),
-        marks=[bq.Hist],
-        options=options,
-        params=params
+        fig=fig, marks=[bq.Hist], options=options, params=params
     )
 
     def x_fn_wrapped(**interact_params):
         hist.sample = util.maybe_call(x_fn, interact_params)
 
-    return {'mark': hist, 'fns': [x_fn_wrapped]}
+    return hist, [x_fn_wrapped]
 
 
 @plotting.use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'ylim'
 ])
-def _Bar(x_fn, y_fn, *, options={}):
+def _Bar(fig, x_fn, y_fn, *, options={}):
     params = {
         'marks': [{
             'x':
@@ -92,10 +68,7 @@ def _Bar(x_fn, y_fn, *, options={}):
         }]
     }
     [bar] = plotting._create_marks(
-        fig=options.get('_fig'),
-        marks=[bq.Bars],
-        options=options,
-        params=params
+        fig=fig, marks=[bq.Bars], options=options, params=params
     )
 
     def x_fn_wrapped(**interact_params):
@@ -106,14 +79,14 @@ def _Bar(x_fn, y_fn, *, options={}):
         y_data = util.maybe_call(y_fn, interact_params, prefix='y')
         bar.y = y_data
 
-    return {'mark': bar, 'fns': [x_fn_wrapped, y_fn_wrapped]}
+    return bar, [x_fn_wrapped, y_fn_wrapped]
 
 
 @plotting.use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim', 'marker'
 ])
-def _Scatter(x_fn, y_fn, *, options={}):
+def _Scatter(fig, x_fn, y_fn, *, options={}):
     params = {
         'marks': [{
             'x': plotting._array_or_placeholder(x_fn),
@@ -122,10 +95,7 @@ def _Scatter(x_fn, y_fn, *, options={}):
         }]
     }
     [scat] = plotting._create_marks(
-        fig=options.get('_fig'),
-        marks=[bq.Scatter],
-        options=options,
-        params=params
+        fig=fig, marks=[bq.Scatter], options=options, params=params
     )
 
     def x_fn_wrapped(**interact_params):
@@ -136,22 +106,20 @@ def _Scatter(x_fn, y_fn, *, options={}):
         y_data = util.maybe_call(y_fn, interact_params, prefix='y')
         scat.y = y_data
 
-    return {'mark': scat, 'fns': [x_fn_wrapped, y_fn_wrapped]}
+    return scat, [x_fn_wrapped, y_fn_wrapped]
 
 
 @plotting.use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
     'ylim'
 ])
-def _Line(x_fn, y_fn, *, options={}):
+def _Line(fig, x_fn, y_fn, *, options={}):
     """
     Internal Line function that generates the Line marker and the wrapper
     functions for the line.
     """
 
-    [line] = plotting._create_marks(
-        fig=options.get('_fig'), marks=[bq.Lines], options=options
-    )
+    [line] = plotting._create_marks(fig=fig, marks=[bq.Lines], options=options)
 
     def x_fn_wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -161,25 +129,32 @@ def _Line(x_fn, y_fn, *, options={}):
         y_data = util.maybe_call(y_fn, interact_params, prefix='y')
         line.y = y_data
 
-    return {'mark': line, 'fns': [x_fn_wrapped, y_fn_wrapped]}
+    return line, [x_fn_wrapped, y_fn_wrapped]
 
 
-class Plot(object):
+class Figure(object):
 
-    NAME_TO_FN = {
-        'hist': _Hist,
-        'bar': _Bar,
-        'scatter': _Scatter,
-        'line': _Line
+    MARK_TO_MARK_GENERATORS = {
+        Hist: _Hist,
+        Bar: _Bar,
+        Scatter: _Scatter,
+        Line: _Line
     }
 
     def __init__(self, options={}, widgets={}, functions={}, marks={}):
+        """
+        nbi.Plot(
+            options = {'xlim': (0, 100), 'ylim':(0,100)},
+            widgets={'widget_x': widgets.IntSlider(5, 0, 50)},
+            functions={x_values: ['widget_x'], y_values: ['widget_x']},
+            marks={'scat1': nbi.Scatter(x_values, y_values)}
+        )
+        """
         self.options = options
         self.widgets = widgets
         self.functions = functions
-        self.marks = marks.values()
+        self.marks = list(marks.values())
         self.figure = plotting._create_fig_with_options(options=options)
-        self.plot = plotting._create_fig_with_options(options=options)
         self._create_plot()
 
     def _create_plot(self):
@@ -187,57 +162,43 @@ class Plot(object):
         Generates the appropriate plot markers for each marker in the marks
         dictionary and links them with the specified widgets.
         """
-        for mark_features_dict in self.marks:
-            mark_name = mark_features_dict['marker']
-            mark_fn = Plot.NAME_TO_FN[mark_name]
-            # add in self.figure to options
-            mark_features_dict['options'] = tz.assoc(
-                mark_features_dict['options'], '_fig', self.figure
-            )
-            # removed mark from dictionary because it's not a param of
-            # the plotting function
-            no_marks_dict = tz.dissoc(mark_features_dict, 'marker')
-            output_dict = mark_fn(**no_marks_dict)
-            mark, wrapped_fns = output_dict['mark'], output_dict['fns']
-            self.figure.marks = self.figure.marks + [mark]
-            if 'x_fn' in mark_features_dict:
-                self._link_interactive(
-                    mark_features_dict['x_fn'], wrapped_fns[0]
-                )
-            if 'y_fn' in mark_features_dict:
-                self._link_interactive(
-                    mark_features_dict['y_fn'], wrapped_fns[1]
-                )
-        return self
+        for mark in self.marks:
+            mark_fn = self.MARK_TO_MARK_GENERATORS[type(mark)]
+            bq_mark, wrapped_fns = mark_fn(self.figure, **mark._asdict())
+            self.figure.marks = self.figure.marks + [bq_mark]
 
-    def _link_interactive(self, original_fn, wrapped_fn):
+            if 'x_fn' in mark._fields:
+                self._link_widgets_to_function(mark.x_fn, wrapped_fns[0])
+            if 'y_fn' in mark._fields:
+                self._link_widgets_to_function(mark.y_fn, wrapped_fns[1])
+
+    def _link_widgets_to_function(self, original_fn, wrapped_fn):
         """
-        Creates a trailet link that maps the wrapper function to the
-        appropriate widget as specified in the widgets dictionary. The widget
-        specified by the API for the original_function will now be linekd
-        with the wrapped function which allows dynamic updating.
+        Original_fn returns data, wrapped_fn wraps the original_fn so that
+        its data outputs modify the figure marks. This function links the
+        widgets passed in by the user to the parameters of wrapped_fn.
+
+        In order initial output, we make one call to wrapped_fn with
+        the initial values of the widgets. If the original_fn is not callable,
+        e.g. is data, wrapped_fn takes in no parameters so we call it without
+        linking widgets.
         """
-        if callable(original_fn):
-            req_arguments = util.get_required_args(original_fn)
-            req_widget_names = self.functions.get(original_fn)
-            argument_dict = dict(
-                zip(
-                    req_arguments,
-                    [self.widgets.get(name) for name in req_widget_names]
-                )
-            )
-            interactive_obj = widgets.interactive(wrapped_fn, **argument_dict)
-            initial_values = dict(
-                zip(
-                    req_arguments, [
-                        self.widgets.get(name).get_interact_value()
-                        for name in req_widget_names
-                    ]
-                )
-            )
-            wrapped_fn(**initial_values)
-        else:
+        if not callable(original_fn):
             wrapped_fn()
+            return
+
+        args = util.get_all_args(original_fn)
+        widget_names = self.functions[original_fn]
+        fn_widgets = [self.widgets[name] for name in widget_names]
+        initial_widget_values = [w.get_interact_value() for w in fn_widgets]
+
+        widget_args = dict(zip(args, fn_widgets))
+        # this links widgets to the wrapped_fn
+        widgets.interactive(wrapped_fn, **widget_args)
+
+        initial_values = dict(zip(args, initial_widget_values))
+        # calling wrapped_fn generates initial plot mark
+        wrapped_fn(**initial_values)
 
     def _ipython_display_(self):
         """
