@@ -24,7 +24,7 @@ import toolz.curried as tz
 from IPython.display import display
 from . import util
 
-__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line', 'Figure']
+__all__ = ['hist', 'bar', 'scatter_drag', 'scatter', 'line']
 
 PLACEHOLDER_ZEROS = np.zeros(10)
 PLACEHOLDER_RANGE = np.arange(10)
@@ -504,6 +504,18 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
     controls = widgets.interactive(wrapped, **interact_params)
 
     return widgets.VBox([controls, fig])
+
+
+@use_options([
+    'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
+    'ylim'
+])
+def _create_fig_with_options(*, options={}):
+    """
+    Creates an empty figure that uses the default options. This method is just
+    used to validate options for the Figure class.
+    """
+    return _create_fig(options=options)
 
 
 ##############################################################################
