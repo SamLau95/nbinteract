@@ -1,10 +1,6 @@
 {
   "root": "docs",
-  "plugins": [
-    "nbinteract",
-    "ga",
-    "katex@git+https://github.com/SamLau95/plugin-katex"
-  ],
+  "plugins": ["ga", "katex@git+https://github.com/SamLau95/plugin-katex"],
   "pluginsConfig": {
     "nbinteract": {
       "baseUrl": "https://mybinder.org"
