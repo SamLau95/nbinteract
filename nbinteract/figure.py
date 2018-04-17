@@ -107,15 +107,22 @@ def _Scatter(fig, x_fn, y_fn, *, options={}):
 
 @plotting.use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
+    'ylim', 'line_style'
 ])
 def _Line(fig, x_fn, y_fn, *, options={}):
     """
     Internal Line function that generates the Line marker and the wrapper
     functions for the line.
     """
+    params = {
+        'marks': [{
+            'line_style': plotting._get_option('line_style'),
+        }]
+    }
 
-    [line] = plotting._create_marks(fig=fig, marks=[bq.Lines], options=options)
+    [line] = plotting._create_marks(
+        fig=fig, marks=[bq.Lines], options=options, params=params
+    )
 
     def fn_wrapped(**interact_params):
         x_data = util.maybe_call(x_fn, interact_params, prefix='x')
@@ -182,14 +189,18 @@ class Figure(object):
             wrapped_fn()
             return
 
-        args = list(tz.concat([util.get_all_args(fn) for fn in fns]))
-        widget_names = list(tz.concat([self.functions[fn] for fn in fns]))
+        args = list(
+            tz.concat([util.get_all_args(fn) for fn in fns if callable(fn)])
+        )
+        widget_names = list(
+            tz.concat([self.functions[fn] for fn in fns if callable(fn)])
+        )
         fn_widgets = [self.widgets[name] for name in widget_names]
         initial_widget_values = [w.get_interact_value() for w in fn_widgets]
 
         widget_args = dict(zip(args, fn_widgets))
         # this links widgets to the wrapped_fn
-        widgets.interactive_output(wrapped_fn, widget_args)
+        _interactive_output(wrapped_fn, widget_args)
 
         initial_values = dict(zip(args, initial_widget_values))
         # calling wrapped_fn generates initial plot mark
@@ -201,3 +212,23 @@ class Figure(object):
         automagically display the widgets and Figure.
         """
         display(widgets.VBox(list(self.widgets.values()) + [self.figure]))
+
+
+def _interactive_output(f, controls):
+    """Connect widget controls to a function.
+    This function does not generate a user interface for the widgets (unlike `interact`).
+    This enables customisation of the widget user interface layout.
+    The user interface layout must be defined and displayed manually.
+    """
+
+    out = widgets.Output()
+
+    def observer(change):
+        kwargs = {k: v.value for k, v in controls.items()}
+        with out:
+            f(**kwargs)
+
+    for k, w in controls.items():
+        w.observe(observer, 'value')
+    observer(None)
+    return out

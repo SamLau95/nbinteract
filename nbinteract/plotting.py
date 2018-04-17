@@ -48,6 +48,7 @@ default_options = {
     'bins': 10,
     'normalized': True,
     'marker': 'circle',
+    'line_style': 'solid',
 }
 
 options_docstring = '''options (dict): Options for the plot. Available options:
@@ -81,6 +82,7 @@ option_doc = {
         '"diamond", "square", "triangle-down", "triangle-up", "arrow", '
         '"rectangle", "ellipse"}'
     ),
+    'line_style': ('{"solid", "dashed", "dotted", "dash_dotted"}'),
 
     # Private options for internal use
     '_fig':
@@ -446,7 +448,7 @@ def scatter(x_fn, y_fn, *, options={}, **interact_params):
 
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
+    'ylim', 'line_style'
 ])
 def line(x_fn, y_fn, *, options={}, **interact_params):
     """
