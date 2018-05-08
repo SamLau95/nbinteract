@@ -7,6 +7,22 @@ to keep track of.
 
 ## master
 
+## 0.1.8
+
+**JS**
+
+Bug fixes:
+
+- Fixes nbinteract-core loading on unpkg.
+
+## 0.1.7
+
+**Python**
+
+Bug fixes:
+
+- Ensures template files are included in package
+
 ## 0.1.6
 
 **Python**

@@ -12,7 +12,7 @@ from os import path
 import sys
 
 # Package version
-version = '0.1.6'
+version = '0.1.8'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -66,7 +66,7 @@ setup(
     ],
     keywords='jupyter nbconvert interact',
     packages=['nbinteract'],
-    package_data={'nbinteract': ['*.tpl']},
+    package_data={'nbinteract': ['templates/*.tpl']},
     install_requires=install_requires,
     extras_require={
         'dev': ['check-manifest'],
