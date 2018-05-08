@@ -10,7 +10,7 @@ from IPython.display import display
 from . import util
 from . import plotting
 
-__all__ = ['Hist', 'Bar', 'Scatter', 'Line', 'Figure']
+__all__ = ['Hist', 'Bar', 'Scatter', 'Line', 'Figure', 'MultiFigure']
 
 Hist = namedtuple('Hist', ['x_fn', 'options'])
 Bar = namedtuple('Bar', ['x_fn', 'y_fn', 'options'])
@@ -133,7 +133,7 @@ def _Line(fig, x_fn, y_fn, *, options={}):
     return line, fn_wrapped
 
 
-class Figure(object):
+class Figure(widgets.Box):
 
     MARK_TO_MARK_GENERATORS = {
         Hist: _Hist,
@@ -144,7 +144,7 @@ class Figure(object):
 
     def __init__(self, options={}, widgets={}, functions={}, marks={}):
         """
-        nbi.Plot(
+        nbi.Figure(
             options = {'xlim': (0, 100), 'ylim':(0,100)},
             widgets={'widget_x': widgets.IntSlider(5, 0, 50)},
             functions={x_values: ['widget_x'], y_values: ['widget_x']},
@@ -156,7 +156,6 @@ class Figure(object):
         self.functions = functions
         self.marks = list(marks.values())
         self.figure = plotting._create_fig_with_options(options=options)
-        self._create_plot()
 
     def _create_plot(self):
         """
@@ -211,7 +210,56 @@ class Figure(object):
         Called when a Plot is returned on the last line of a Jupyter cell to
         automagically display the widgets and Figure.
         """
+        self._create_plot()
         display(widgets.VBox(list(self.widgets.values()) + [self.figure]))
+
+
+class MultiFigure(object):
+    def __init__(self, figures, widgets=None):
+        """
+        nbi.MultiFigure(
+            widgets={'test': widget.IntSlider(0, 10)},
+            plots=widgets.HBox([
+                nbi.Figure(
+                    options={'x_lim': 10,
+                             'y_lim': 10},
+                    widgets={
+                        'size': widget.IntSlider(0, 10),
+                        'count': widget.FloatSlider(0, 10)
+                    },
+                    func={squared: ['test'],
+                          power_of: ['size', 'count']},
+                    marks={
+                        'random_bar_chart':
+                            nbi.Bar(squared, power_of, options={}),
+                        'great_line_chart':
+                            nbi.Line(np.arange(10), squared, options={})
+                    }
+                )
+            ])
+        )
+        """
+        self.figures = figures
+        self.widgets = widgets
+        self._add_widget(figures)
+
+    def _add_widget(self, obj):
+        if (
+            type(obj) is widgets.widget_box.HBox
+            or type(obj) is widgets.widget_box.VBox
+        ):
+            for item in obj.children:
+                self._add_widget(item)
+        elif type(obj) is Figure:
+            obj.widgets = tz.merge(obj.widgets, self.widgets)
+            obj._create_plot()
+
+    def _ipython_display_(self):
+        """
+        Called when a Plot is returned on the last line of a Jupyter cell to
+        automagically display the widgets and Figure.
+        """
+        display(self.figures)
 
 
 def _interactive_output(f, controls):
@@ -219,6 +267,7 @@ def _interactive_output(f, controls):
     This function does not generate a user interface for the widgets (unlike `interact`).
     This enables customisation of the widget user interface layout.
     The user interface layout must be defined and displayed manually.
+    Modified from ipywidgets library to remove "clear_output" calls.
     """
 
     out = widgets.Output()

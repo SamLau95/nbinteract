@@ -49,6 +49,13 @@ default_options = {
     'normalized': True,
     'marker': 'circle',
     'line_style': 'solid',
+    'layout': widgets.Layout(min_width='125px'),
+    'fig_margin': {
+        'top': 60,
+        'bottom': 60,
+        'left': 60,
+        'right': 60
+    },
 }
 
 options_docstring = '''options (dict): Options for the plot. Available options:
@@ -87,6 +94,10 @@ option_doc = {
     # Private options for internal use
     '_fig':
         'Existing figure to plot mark on instead of creating a new one.',
+    'layout':
+        'ipywidget layout object. Can be used to set attributes of the figure',
+    'fig-margin':
+        'Dictionary containing the top, bottom, left and right margins.',
 }
 
 
@@ -510,7 +521,7 @@ def line(x_fn, y_fn, *, options={}, **interact_params):
 
 @use_options([
     'title', 'aspect_ratio', 'animation_duration', 'xlabel', 'ylabel', 'xlim',
-    'ylim'
+    'ylim', 'layout', 'fig_margin'
 ])
 def _create_fig_with_options(*, options={}):
     """
@@ -554,6 +565,8 @@ _default_params = {
         'title': _get_option('title'),
         'max_aspect_ratio': _get_option('aspect_ratio'),
         'animation_duration': _get_option('animation_duration'),
+        'layout': _get_option('layout'),
+        'fig_margin': _get_option('fig_margin')
     },
 }
 
