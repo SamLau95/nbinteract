@@ -433,9 +433,13 @@ def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     }
 
     notebook = nbformat.read(notebook_path, as_version=4)
+
+    resources_to_exporter = {'metadata': notebook.metadata.copy()}
+    resources_to_exporter.update(extract_output_config)
+
     html, resources = exporter.from_notebook_node(
         notebook,
-        resources=extract_output_config,
+        resources=resources_to_exporter,
     )
 
     # Remove newlines before closing div tags
