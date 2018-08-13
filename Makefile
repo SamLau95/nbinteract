@@ -35,7 +35,7 @@ test-all: ## Run tests, including slow ones
 	python setup.py test -a '--runslow'
 
 ping_binder: ## Force-updates BinderHub image
-	curl -s https://staging.mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
+	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
 		grep -E '${BINDER_REGEXP}' |\
 		sed -E 's/${BINDER_REGEXP}/\1/' &
 
@@ -62,7 +62,6 @@ build_py: ## Build python package
 build_js: ## Build Javascript bundle
 	lerna run build --stream
 	lerna run load
-	lerna run link
 	git add packages
 	git commit -m 'Build JS'
 
