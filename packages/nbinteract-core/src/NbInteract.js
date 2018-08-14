@@ -60,8 +60,10 @@ export default class NbInteract {
    * needing button click.
    */
   async prepare() {
+    util.setButtonsStatus(`Show Widgets`)
+
     this.binder.registerCallback('failed', (oldState, newState, data) => {
-      util.setButtonsStatus(
+      util.setButtonsError(
         `Error, try refreshing the page:<br>${data.message}`,
       )
     })
@@ -93,7 +95,7 @@ export default class NbInteract {
       if (firstRun) this._kernelHeartbeat()
     } catch (err) {
       debugger
-      console.log('Error in widget initialization!')
+      console.log('Error in widget initialization :(')
       throw err
     }
   }
@@ -227,7 +229,7 @@ export default class NbInteract {
       return kernel
     } catch (err) {
       debugger
-      console.error('Error in kernel initialization!')
+      console.error('Error in kernel initialization :(')
       throw err
     }
   }
