@@ -173,7 +173,7 @@ def run_converter(arguments):
     """
     # Get spec from config file
     if os.path.isfile(CONFIG_FILE):
-        with open(CONFIG_FILE) as f:
+        with open(CONFIG_FILE, encoding='utf-8') as f:
             config = json.load(f)
             arguments['--spec'] = arguments['--spec'] or config['spec']
 
@@ -255,7 +255,7 @@ def init():
         )
         if yes:
             # TODO(sam): Don't hard-code requirements.txt
-            with open('requirements.txt', 'w') as f:
+            with open('requirements.txt', 'w', encoding='utf-8') as f:
                 f.writelines(['numpy\n', 'nbinteract\n'])
             log(
                 'Created requirements.txt. Edit this file now to include the '
@@ -305,7 +305,7 @@ def init():
         )
 
     binder_spec = binder_spec_from_github_url(github_origin)
-    with open(CONFIG_FILE, 'w') as f:
+    with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
         json.dump({'spec': binder_spec}, f, indent=4)
     log('Created .nbinteract.json file successfully')
     log()
@@ -450,7 +450,7 @@ def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     # folder of the notebook
     out_folder = path if not output_folder else output_folder
     outfile_path = os.path.join(out_folder, outfile_name)
-    with open(outfile_path, 'w') as outfile:
+    with open(outfile_path, 'w', encoding='utf-8') as outfile:
         outfile.write(final_output)
 
     # Write out images. If images_folder wasn't specified, resources['outputs']

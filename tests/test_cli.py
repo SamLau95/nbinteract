@@ -75,7 +75,7 @@ def convert_one(notebook, cli_args={}, name_only=False):
     if name_only:
         yield html_file
     else:
-        with open(html_file) as f:
+        with open(html_file, encoding='utf-8') as f:
             yield f
 
     os.remove(html_file)
