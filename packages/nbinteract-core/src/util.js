@@ -45,7 +45,6 @@ export const statusButtons = (cell = document) =>
 
 export const setButtonsStatus = (message, cell = document) => {
   statusButtons(cell).forEach(button => {
-    button.disabled = true
     button.innerHTML = message
   })
 }

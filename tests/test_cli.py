@@ -31,11 +31,13 @@ TEST_NOTEBOOKS = {
 
 TEST_SPEC = 'a/test/spec'
 
-NBINTERACT_SCRIPT = '<script src="https://unpkg.com/nbinteract-core"></script>'
+NBINTERACT_SCRIPT = (
+    '<script src="https://unpkg.com/nbinteract-core" async></script>'
+)
 
-TOP_BUTTON_RE = re.compile(r'<button[^>]*>\s*Show All Widgets\s*</button>')
+TOP_BUTTON_RE = re.compile(r'<div class="cell text_cell">')
 
-WIDGET_BUTTON_RE = re.compile(r'<button[^>]*>\s*Show Widget\s*</button>')
+WIDGET_BUTTON_RE = re.compile(r'<button class="js-nbinteract-widget">')
 
 
 def args(new_args):
@@ -122,14 +124,14 @@ class TestCli(object):
                 "spec: '{}'".format('another/test/spec') in line for line in f
             )
 
-    def test_gitbook_template(self):
+    def test_plain_template(self):
         """
-        Tests that nbinteract is not loaded in the gitbook template but that
+        Tests that nbinteract is not loaded in the plain template but that
         widget buttons are generated.
         """
         with convert_one(
             TEST_NOTEBOOKS['interact'], {
-                '--template': 'gitbook',
+                '--template': 'plain',
             }
         ) as f:
             html = ''.join(f.readlines())
@@ -170,17 +172,15 @@ class TestCli(object):
 
         Also tests that the --no-top-button flag switches off the button.
         """
-        with convert_one(
-            TEST_NOTEBOOKS['interact'], {
-                '--template': 'gitbook'
-            }
-        ) as f:
+        with convert_one(TEST_NOTEBOOKS['interact'], {
+            '--template': 'plain'
+        }) as f:
             html = ''.join(f.readlines())
             assert TOP_BUTTON_RE.search(html)
 
         with convert_one(
             TEST_NOTEBOOKS['interact'], {
-                '--template': 'gitbook',
+                '--template': 'plain',
                 '--no-top-button': True,
             }
         ) as f:

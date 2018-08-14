@@ -1,8 +1,12 @@
 {#
-Gitbook templates don't load the nbinteract JS since they use
-gitbook-plugin-nbinteract instead.
+This template doesn't load the nbinteract JS since it assumes that the
+embedding page loads and sets up nbinteract.
 
-This makes the gitbook template the simplest one.
+This page produces basically the same output as...
+
+jupyter nbconvert --to html --template basic
+
+...but replaces widgets with buttons to start nbinteract.
 #}
 
 {%- extends 'basic.tpl' -%}
@@ -10,11 +14,13 @@ This makes the gitbook template the simplest one.
 {# Keep class in sync with util.js #}
 {% set nbinteract_class = 'js-nbinteract-widget' %}
 
+{% set nbinteract_button_text = 'Loading widgets...' %}
+
 {# Add loading button to widget output #}
 {%- block data_widget_view scoped %}
 <div class="output_subarea output_widget_view {{ extra_class }}">
   <button class="{{ nbinteract_class }}">
-    Show Widget
+    {{ nbinteract_button_text }}
   </button>
 </div>
 {%- endblock data_widget_view -%}
@@ -48,9 +54,9 @@ This makes the gitbook template the simplest one.
 {% block body %}
 
 {% if button_at_top %}
-  <div class="cell border-box-sizing text_cell rendered">
+  <div class="cell text_cell">
     <button class="{{ nbinteract_class }}">
-      Show All Widgets
+      Loading widgets...
     </button>
   </div>
 {% endif %}

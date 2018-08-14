@@ -26,7 +26,7 @@ config.InteractExporter.preprocessors = [
 
 # Output a HTML partial, not a complete page
 html_exporter = InteractExporter(config=config)
-html_exporter.template_file = 'gitbook'
+html_exporter.template_file = 'plain'
 
 INPUT_NOTEBOOKS = 'textbook/*.ipynb'
 
