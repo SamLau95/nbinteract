@@ -2,10 +2,6 @@
  * Methods for starting kernels using BinderHub.
  */
 
-import { Kernel, ServerConnection } from '@jupyterlab/services'
-
-import Image from './Image'
-
 // States that you can register callbacks on
 // Keep in sync with https://github.com/jupyterhub/binderhub/blob/master/doc/api.rst#events
 const VALID_STATES = new Set([
@@ -101,7 +97,7 @@ export default class BinderHub {
       this.registerCallback('failed', (oldState, newState, data) => {
         console.error(
           'Failed to build Binder image. Stopping nbinteract...',
-          err,
+          data,
         )
         eventSource.close()
         reject(new Error(data))

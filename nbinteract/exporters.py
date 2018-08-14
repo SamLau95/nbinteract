@@ -102,9 +102,10 @@ class InteractExporter(HTMLExporter):
                 'partial': Outputs an HTML partial that can be embedded in
                 another page. Automatically loads the nbinteract JS library.
 
-                'gitbook': Outputs an HTML partial used to embed in a Gitbook
-                or other environments where the nbinteract JS library is
-                already loaded.
+                'plain': Outputs an HTML partial to embed in another page. The
+                partial does not include the nbinteract JS library; the
+                embedding page must load and initialize the nbinteract JS
+                library itself.
 
             button_at_top (bool): If True (default), generates a button to
                 start widgets at the top of the notebook as well as one button

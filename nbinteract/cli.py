@@ -1,4 +1,4 @@
-'''Converts notebooks to interactive HTML pages or Gitbook pages.
+'''Converts notebooks to interactive HTML pages.
 
 Usage:
   nbinteract init
@@ -32,7 +32,8 @@ Options:
                              in the project root with the "spec" key.
   -t TYPE --template TYPE    Specifies the type of HTML page to generate. Valid
                              types: full (standalone page), partial (embeddable
-                             page), or gitbook (embeddable page for GitBook).
+                             page with library), or plain (embeddable page
+                             without JS).
                              [default: full]
   -B --no-top-button         If set, doesn't generate button at top of page.
   -r --recursive             Recursively convert notebooks in subdirectories.
@@ -69,7 +70,7 @@ NOCOLOR = "\033[0m"
 
 CONFIG_FILE = '.nbinteract.json'
 
-VALID_TEMPLATES = set(['full', 'gitbook', 'partial', 'local'])
+VALID_TEMPLATES = set(['full', 'plain', 'partial', 'local'])
 
 SPEC_REGEX = re.compile('\S+/\S+/\S+')
 
