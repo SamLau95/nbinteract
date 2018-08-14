@@ -1,5 +1,5 @@
 /**
- * Publicly usable class that has methods for starting kernels using BinderHub
+ * Methods for starting kernels using BinderHub.
  */
 
 import { Kernel, ServerConnection } from '@jupyterlab/services'
@@ -48,13 +48,27 @@ export default class BinderHub {
   constructor(
     { spec, baseUrl, provider, callbacks = {}, local = false } = {},
   ) {
-    this.image = new Image({ spec, baseUrl, provider })
     this.local = local
 
-    // Register all callbacks at once
-    Object.entries(callbacks).map(([state, cb]) =>
-      this.registerCallback(state, cb),
-    )
+    this.baseUrl = baseUrl
+    this.provider = provider
+    this.spec = spec
+
+    this.callbacks = callbacks
+    this.state = null
+
+    // Logs all messages sent by Binder
+    this.registerCallback('*', (oldState, newState, data) => {
+      if (data.message !== undefined) {
+        console.log(data.message)
+      } else {
+        console.log(data)
+      }
+    })
+  }
+
+  apiUrl() {
+    return `${this.baseUrl}/build/${this.provider}/${this.spec}`
   }
 
   startServer() {
@@ -65,20 +79,40 @@ export default class BinderHub {
     }
 
     return new Promise((resolve, reject) => {
-      this.registerCallback('*', (oldState, newState, data) => {
-        if (data.message !== undefined) {
-          console.log(data.message)
-        } else {
-          console.log(data)
+      const eventSource = new EventSource(this.apiUrl())
+
+      eventSource.onerror = err => {
+        console.error(
+          'Failed to connect to Binder. Stopping nbinteract...',
+          err,
+        )
+        eventSource.close()
+        reject(new Error(err))
+      }
+
+      eventSource.onmessage = event => {
+        const data = JSON.parse(event.data)
+
+        if (data.phase) {
+          this.changeState(data.phase.toLowerCase(), data)
         }
+      }
+
+      this.registerCallback('failed', (oldState, newState, data) => {
+        console.error(
+          'Failed to build Binder image. Stopping nbinteract...',
+          err,
+        )
+        eventSource.close()
+        reject(new Error(data))
       })
 
+      // When the Binder server is ready, `data` contains the information
+      // needed to connect.
       this.registerCallback('ready', (oldState, newState, data) => {
-        this.image.close()
+        eventSource.close()
         resolve(data)
       })
-
-      this.image.fetch()
     })
   }
 
@@ -88,6 +122,23 @@ export default class BinderHub {
       return
     }
 
-    this.image.onStateChange(state, cb)
+    if (this.callbacks[state] === undefined) {
+      this.callbacks[state] = [cb]
+    } else {
+      this.callbacks[state].push(cb)
+    }
+  }
+
+  changeState(newState, data) {
+    ;[newState, '*'].map(key => {
+      const callbacks = this.callbacks[key]
+      if (callbacks) {
+        callbacks.forEach(callback => callback(this.state, newState, data))
+      }
+    })
+
+    if (newState) {
+      this.state = newState
+    }
   }
 }
