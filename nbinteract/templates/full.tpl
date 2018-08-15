@@ -22,7 +22,9 @@ easy hook into the spot just before the body closes.
 <head>
 {%- block html_head -%}
 <meta charset="utf-8" />
-<title>{{resources['metadata']['name']}}</title>
+
+{% set nb_title = nb.metadata.get('title', '') or resources['metadata']['name'] %}
+<title>{{nb_title}}</title>
 
 {% for css in resources.inlining.css -%}
     <style type="text/css">

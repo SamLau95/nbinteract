@@ -59,6 +59,7 @@ from textwrap import wrap
 import subprocess
 import json
 import fnmatch
+from collections import defaultdict
 
 import nbformat
 from traitlets.config import Config
@@ -73,10 +74,6 @@ CONFIG_FILE = '.nbinteract.json'
 VALID_TEMPLATES = set(['full', 'plain', 'partial', 'local'])
 
 SPEC_REGEX = re.compile('\S+/\S+/\S+')
-
-# Used to ensure all the closing div tags are on the same line for Markdown to
-# parse them properly
-CLOSING_DIV_REGEX = re.compile('\s+</div>')
 
 BINDER_BASE_URL = 'https://mybinder.org/v2/gh/'
 REQUIREMENTS_DOCS = 'http://mybinder.readthedocs.io/en/latest/using.html#id8'
@@ -408,6 +405,22 @@ def init_exporter(extract_images, execute, **exporter_config):
     return exporter
 
 
+def make_exporter_resources(nb_name, out_folder, images_folder=None):
+    """
+    Creates resources dict for the exporter
+    """
+    resources = defaultdict(str)
+    resources['metadata'] = defaultdict(str)
+    resources['metadata']['name'] = nb_name
+    resources['metadata']['path'] = out_folder
+
+    # This results in images like AB_5_1.png for a notebook called AB.ipynb
+    resources['unique_key'] = nb_name
+    resources['output_files_dir'] = images_folder
+
+    return resources
+
+
 def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     """
     Converts notebook into an HTML file, outputting notebooks into
@@ -427,31 +440,21 @@ def convert(notebook_path, exporter, output_folder=None, images_folder=None):
     # Computes <name>.html from notebooks/<name>.ipynb
     outfile_name = basename + '.html'
 
-    extract_output_config = {
-        # This results in images like AB_5_1.png for a notebook called AB.ipynb
-        'unique_key': basename,
-        'output_files_dir': images_folder,
-    }
+    # If output_folder is not set, we default to the original folder of the
+    # notebook.
+    out_folder = path if not output_folder else output_folder
+    outfile_path = os.path.join(out_folder, outfile_name)
 
     notebook = nbformat.read(notebook_path, as_version=4)
 
-    resources_to_exporter = {'metadata': notebook.metadata.copy()}
-    resources_to_exporter.update(extract_output_config)
-
     html, resources = exporter.from_notebook_node(
         notebook,
-        resources=resources_to_exporter,
+        resources=make_exporter_resources(basename, out_folder, images_folder),
     )
 
-    # Remove newlines before closing div tags
-    final_output = CLOSING_DIV_REGEX.sub('</div>', html)
-
-    # Write out HTML. If output_folder is not set, we default to the original
-    # folder of the notebook
-    out_folder = path if not output_folder else output_folder
-    outfile_path = os.path.join(out_folder, outfile_name)
+    # Write out HTML
     with open(outfile_path, 'w', encoding='utf-8') as outfile:
-        outfile.write(final_output)
+        outfile.write(html)
 
     # Write out images. If images_folder wasn't specified, resources['outputs']
     # is None so this loop won't run
