@@ -181,8 +181,10 @@ def publish(spec, nb_name, template='full', save_first=True):
 
     print('Converting notebook...')
     try:
-        check_output(['nbinteract', '--template', template, spec, nb_name],
-                     stderr=STDOUT)
+        check_output(
+            ['nbinteract', '--template', template, '--spec', spec, nb_name],
+            stderr=STDOUT
+        )
     except CalledProcessError as err:
         logging.warning(
             ERROR_MESSAGE.format(

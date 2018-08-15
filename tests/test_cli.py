@@ -209,7 +209,7 @@ class TestCli(object):
                               '--output': str(tmpdir),
                               '--images': str(tmpdir),
                           }):
-            assert glob('{}/*.png'.format(tmpdir))
+            assert len(glob('{}/*.png'.format(tmpdir))) == 2
 
     def test_folder(self):
         """
