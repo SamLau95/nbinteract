@@ -1,6 +1,6 @@
 {
   "name": "nbinteract-core",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Library to allow public interactive Jupyter notebooks",
   "main": "lib/index.bundle.js",
   "module": "src/index.js",
@@ -10,8 +10,7 @@
     "watch": "webpack --watch",
     "serve": "webpack-dev-server --open",
     "stats": "webpack --profile --json > stats.json",
-    "stats-prod":
-      "webpack --profile --json --mode production > stats-prod.json",
+    "stats-prod": "webpack --profile --json --mode production > stats-prod.json",
     "analyze": "webpack-bundle-analyzer -p 9999 stats.json",
     "analyze-prod": "webpack-bundle-analyzer -p 9999 stats-prod.json",
     "clean": "rimraf lib/*"
@@ -20,7 +19,13 @@
     "type": "git",
     "url": "git+https://github.com/SamLau95/nbinteract.git"
   },
-  "keywords": ["jupyter", "notebook", "html", "interactive", "widgets"],
+  "keywords": [
+    "jupyter",
+    "notebook",
+    "html",
+    "interactive",
+    "widgets"
+  ],
   "author": "Sam Lau",
   "license": "BSD-3-Clause",
   "bugs": {
