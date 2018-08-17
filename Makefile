@@ -61,9 +61,6 @@ build_py: ## Build python package
 
 build_js: ## Build Javascript bundle
 	lerna run build --stream
-	lerna run load
-	git add packages
-	git commit -m 'Build JS'
 
 publish_py: build_py ## Publish nbinteract to PyPi and updates Binder image
 	twine upload dist/*
