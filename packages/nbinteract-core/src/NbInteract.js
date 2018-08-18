@@ -60,7 +60,9 @@ export default class NbInteract {
    * needing button click.
    */
   async prepare() {
-    util.setButtonsStatus(`Show Widgets`)
+    // The widget buttons show loading indicator text by default. At this
+    // point, nbinteract is ready to run so we change the button text to match.
+    util.setButtonsStatus('Show Widgets')
 
     this.binder.registerCallback('failed', (oldState, newState, data) => {
       util.setButtonsError(
@@ -85,6 +87,14 @@ export default class NbInteract {
     // manager.js:_displayWidget since it's tricky to implement here.
     // TODO(sam): Move the logic here instead.
     util.setButtonsStatus('Initializing widgets...')
+
+    // Normally, we wait until one widget displays before removing the show
+    // widget buttons. However, if there are no widgets on the page, we should
+    // just remove all buttons since the top level button is generated
+    // regardless of whether the page contains widgets.
+    if (util.codeCells().length === 0) {
+      util.removeButtons()
+    }
 
     const firstRun = !this.kernel || !this.manager
     try {
@@ -202,9 +212,7 @@ export default class NbInteract {
    */
   async _startKernel() {
     try {
-      console.time('start_server')
       const { url, token } = await this.binder.startServer()
-      console.timeEnd('start_server')
 
       // Connect to the notebook webserver.
       const serverSettings = ServerConnection.makeSettings({
@@ -213,13 +221,12 @@ export default class NbInteract {
         token: token,
       })
 
-      console.time('start_kernel')
+      // Start a kernel
       const kernelSpecs = await Kernel.getSpecs(serverSettings)
       const kernel = await Kernel.startNew({
         name: kernelSpecs.default,
         serverSettings,
       })
-      console.timeEnd('start_kernel')
 
       // Store the params in localStorage for later use
       localStorage.serverParams = JSON.stringify({ url, token })

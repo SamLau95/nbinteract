@@ -76,10 +76,12 @@ export class WidgetManager extends HTMLManager {
     // If we have a display message, display the widget.
     const model = await util.msgToModel(msg, this)
     if (model) {
+      // Remove all widget buttons
+      util.removeButtons(cell)
+
+      // Display widget
       const outputEl = util.cellToWidgetOutput(cell)
       this.display_model(msg, model, { el: outputEl })
-
-      util.removeButtons(cell)
     }
   }
 
