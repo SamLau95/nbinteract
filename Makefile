@@ -1,4 +1,4 @@
-.PHONY: help serve build publish book install clean book bump_binder
+.PHONY: help serve build publish docs install clean book bump_binder notebooks
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
