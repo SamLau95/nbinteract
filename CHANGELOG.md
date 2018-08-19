@@ -7,6 +7,39 @@ to keep track of.
 
 ## master
 
+## 0.2.0
+
+**JS**
+
+Bug fixes:
+
+- Correctly remove top level widget button (https://github.com/SamLau95/nbinteract/commit/a3658f8105f01c1e63e0e719944a99afc58dac51)
+
+**Python**
+
+Features:
+
+- Add layout flags (https://github.com/SamLau95/nbinteract/pull/88)
+
+## 0.1.9
+
+**JS**
+
+Changes:
+
+- Stop supporting Gitbook plugin (https://github.com/SamLau95/nbinteract/pull/83)
+
+**Python**
+
+Changes:
+
+- Rename `gitbook` template to `plain` (https://github.com/SamLau95/nbinteract/pull/83)
+
+Bug fixes:
+
+- Fixes unicode issue on Windows (https://github.com/SamLau95/nbinteract/pull/84)
+- Fixes spec issue in publish method (https://github.com/SamLau95/nbinteract/pull/85)
+
 ## 0.1.8
 
 **JS**
