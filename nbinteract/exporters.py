@@ -24,7 +24,9 @@ from subprocess import check_output, STDOUT, CalledProcessError
 from IPython.display import display, Javascript, Markdown
 
 from nbconvert import HTMLExporter
-from traitlets import default, Unicode, Bool
+from traitlets import default, Unicode, Bool, validate, TraitError
+
+SPEC_DIVIDER = '/'
 
 CONVERT_SUCCESS_MD = '''
 Successfully converted!
@@ -82,8 +84,9 @@ class InteractExporter(HTMLExporter):
             config (traitlets.Config): User configuration instance.
 
             spec (str): BinderHub spec for Jupyter image. Must be in the
-                format: `${username}/${repo}/${branch}`. Defaults to
-                'SamLau95/nbinteract-image/master'.
+                format: `${username}/${repo}/${branch}` or
+                `${username}/${repo}`, in which case `branch` defaults to
+                `master`. Defaults to 'SamLau95/nbinteract-image/master'.
 
             base_url (str): Base Binder URL. Defaults to
                 'https://mybinder.org'.
@@ -133,6 +136,20 @@ class InteractExporter(HTMLExporter):
     def _template_file_default(self):
         return 'full.tpl'
 
+    @validate('spec')
+    def _valid_spec(self, proposal):
+        spec = proposal['value']
+        spec_parts = len(spec.split(SPEC_DIVIDER))
+        if spec_parts == 3:
+            return spec
+        elif spec_parts == 2:
+            return spec + '/master'
+        else:
+            raise TraitError(
+                'spec must contain two or three components but only got '
+                '{} (original spec: {})'.format(spec_parts, spec)
+            )
+
 
 def publish(spec, nb_name, template='full', save_first=True):
     """
@@ -156,10 +173,11 @@ def publish(spec, nb_name, template='full', save_first=True):
             - 'full': Outputs a complete standalone HTML page with default
               styling. Automatically loads the nbinteract JS library.
             - 'partial': Outputs an HTML partial that can be embedded in
-              another page. Automatically loads the nbinteract JS library.
-            - 'gitbook': Outputs an HTML partial used to embed in a Gitbook or
-              other environments where the nbinteract JS library is already
-              loaded.
+              another page. Automatically loads the nbinteract JS library but
+              has no styling.
+            - 'plain': Outputs an HTML partial used to embed in an HTML page
+              where the nbinteract JS library is already loaded. Does not load
+              JS library or styling
 
         save_first (bool): If True, saves the currently opened notebook before
             converting nb_name. Used to ensure notebook is written to

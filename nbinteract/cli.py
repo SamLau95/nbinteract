@@ -29,7 +29,8 @@ Options:
                              format: `{username}/{repo}/{branch}`. For example:
                              'SamLau95/nbinteract-image/master'. This flag is
                              **required** unless a .nbinteract.json file exists
-                             in the project root with the "spec" key.
+                             in the project root with the "spec" key. If branch
+                             is not specified, default to `master`.
   -t TYPE --template TYPE    Specifies the type of HTML page to generate. Valid
                              types: full (standalone page), partial (embeddable
                              page with library), or plain (embeddable page
@@ -73,7 +74,7 @@ CONFIG_FILE = '.nbinteract.json'
 
 VALID_TEMPLATES = set(['full', 'plain', 'partial', 'local'])
 
-SPEC_REGEX = re.compile('\S+/\S+/\S+')
+SPEC_REGEX = re.compile('\S+/\S+(/\S+)?')
 
 BINDER_BASE_URL = 'https://mybinder.org/v2/gh/'
 REQUIREMENTS_DOCS = 'http://mybinder.readthedocs.io/en/latest/using.html#id8'
