@@ -8,8 +8,6 @@ title: "nbinteract"
 author: Samuel Lau and Caleb Siu
 email: samlau95@berkeley.edu
 
-source: "docs"
-
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://www.nbinteract.com" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -18,12 +16,7 @@ js_url: "/assets/js" # Path to JS files
 
 defaults:
   - scope:
-      path: "docs"
-    values:
-      layout: "default"
-  - scope:
       path: ""
-      type: "pages"
     values:
       layout: "default"
 
@@ -40,7 +33,7 @@ ga_id: UA-42949369-5
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
 exclude:
-  - docs/notebooks/
+  - notebooks/
   - convert_notebooks_to_html_partial.py
   - Gemfile
   - Gemfile.lock

@@ -22,8 +22,8 @@ install: ## Installs Python package locally
 notebooks: ## Convert notebooks to HTML for Gitbooks
 	cd docs && python convert_notebooks_to_html_partial.py
 
-docs: doc_notebooks ## Runs documentation locally
-	guard
+docs: notebooks ## Runs documentation locally
+	cd docs && guard
 
 test: ## Run tests
 	python setup.py test
