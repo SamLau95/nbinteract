@@ -19,10 +19,8 @@ publish: publish_py publish_js ## Build python package and JS bundle
 install: ## Installs Python package locally
 	pip install -e .
 
-doc_notebooks: ## Convert notebooks to HTML for Gitbooks
+notebooks: ## Convert notebooks to HTML for Gitbooks
 	cd docs && python convert_notebooks_to_html_partial.py
-	git add docs
-	git commit -m "Build doc notebooks"
 
 docs: doc_notebooks ## Runs documentation locally
 	guard
