@@ -9,6 +9,12 @@ to keep track of.
 
 ## 0.2.1
 
+**JS**
+
+Bug fixes:
+
+- Ensure top level button gets removed when widgets render (https://github.com/SamLau95/nbinteract/pull/92)
+
 **Python**
 
 Features:
