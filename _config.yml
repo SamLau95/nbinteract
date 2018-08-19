@@ -1,0 +1,70 @@
+# Welcome to Jekyll!
+#
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: "nbinteract"
+author: Samuel Lau and Caleb Siu
+email: samlau95@berkeley.edu
+
+source: "docs"
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://www.nbinteract.com" # the base hostname & protocol for your site, e.g. http://example.com
+
+css_url: "/assets/css" # Path to static CSS files
+js_url: "/assets/js" # Path to JS files
+
+defaults:
+  - scope:
+      path: "docs"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Build settings
+markdown: kramdown
+
+sass:
+  style: compressed
+
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+exclude:
+  - docs/notebooks/
+  - convert_notebooks_to_html_partial.py
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - LICENSE.txt
+  - MANIFEST.in
+  - Makefile
+  - __pycache__
+  - _config.yml
+  - build
+  - conftest.py
+  - dist
+  - lerna.json
+  - nbinteract
+  - nbinteract.egg-info
+  - node_modules
+  - notebooks/
+  - package.json
+  - packages
+  - prettier.config.js
+  - requirements.txt
+  - setup.cfg
+  - setup.py
+  - tests
+  - yarn.lock

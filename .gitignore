@@ -198,3 +198,7 @@ typings/
 _book
 .vscode
 .pytest_cache
+
+# Jekyll
+_site
+.sass-cache
