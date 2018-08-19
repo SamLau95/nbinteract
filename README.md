@@ -1,12 +1,12 @@
 nbinteract
 =================
 
+[![Read the Docs](https://img.shields.io/badge/docs-nbinteract.com-green.svg)][docs]
+[![Gitter](https://badges.gitter.im/owner/repo.png)][gitter]
+
 [![Build Status](https://travis-ci.org/SamLau95/nbinteract.svg?branch=master)](https://travis-ci.org/SamLau95/nbinteract)
 [![PyPI](https://img.shields.io/pypi/v/nbinteract.svg)](https://pypi.python.org/pypi/nbinteract/)
 [![npm](https://img.shields.io/npm/v/nbinteract.svg)](https://www.npmjs.com/package/nbinteract)
-
-[![Read the Docs](https://img.shields.io/badge/docs-gitbook-green.svg)][docs]
-[![Gitter](https://badges.gitter.im/owner/repo.png)][gitter]
 
 
 `nbinteract` is a Python package that creates interactive webpages from Jupyter
