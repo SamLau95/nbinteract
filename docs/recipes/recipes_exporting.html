@@ -1,0 +1,150 @@
+---
+prev_page: '/recipes/recipes_intro.html'
+next_page: '/recipes/recipes_graphing.html'
+---
+
+{% raw %}
+
+<div id="ipython-notebook">
+    <div class="buttons">
+        <button class="interact-button js-nbinteract-widget">
+            Show Widgets
+        </button>
+    </div>
+    
+
+
+
+
+
+
+
+  
+
+  <div class="nbinteract-hide_in
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="c1"># Clear previously defined variables</span>
+<span class="o">%</span><span class="k">reset</span> -f
+
+<span class="c1"># Set directory for data loading to work properly</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/notebooks/recipes&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exporting-With-nbinteract">Exporting With <code>nbinteract</code><a class="anchor-link" href="#Exporting-With-nbinteract">&#182;</a></h2><p><code>nbinteract</code> comes with two options for exporting Jupyter notebooks into
+standalone HTML pages: running <code>nbi.publish()</code> in a
+notebook cell and using the <code>nbinteract</code> command line tool.</p>
+<h3 id="nbi.publish()"><code>nbi.publish()</code><a class="anchor-link" href="#nbi.publish()">&#182;</a></h3><p>The <code>nbi.publish()</code> method can be run inside a Jupyter notebook cell. It has
+the following signature:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nbinteract</span> <span class="kn">as</span> <span class="nn">nbi</span>
+
+<span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">nb_name</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">save_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Converts nb_name to an HTML file. Preserves widget functionality.</span>
+
+<span class="sd">Outputs a link to download HTML file after conversion if called in a</span>
+<span class="sd">notebook environment.</span>
+
+<span class="sd">Equivalent to running `nbinteract ${spec} ${nb_name}` on the command line.</span>
+
+<span class="sd">Args:</span>
+<span class="sd">    spec (str): BinderHub spec for Jupyter image. Must be in the format:</span>
+<span class="sd">        `${username}/${repo}/${branch}`.</span>
+
+<span class="sd">    nb_name (str): Complete name of the notebook file to convert. Can be a</span>
+<span class="sd">        relative path (eg. &#39;./foo/test.ipynb&#39;).</span>
+
+<span class="sd">    template (str): Template to use for conversion. Valid templates:</span>
+
+<span class="sd">        - &#39;full&#39;: Outputs a complete standalone HTML page with default</span>
+<span class="sd">          styling. Automatically loads the nbinteract JS library.</span>
+<span class="sd">        - &#39;partial&#39;: Outputs an HTML partial that can be embedded in</span>
+<span class="sd">          another page. Automatically loads the nbinteract JS library.</span>
+<span class="sd">        - &#39;gitbook&#39;: Outputs an HTML partial used to embed in a Gitbook or</span>
+<span class="sd">          other environments where the nbinteract JS library is already</span>
+<span class="sd">          loaded.</span>
+
+<span class="sd">    save_first (bool): If True, saves the currently opened notebook before</span>
+<span class="sd">        converting nb_name. Used to ensure notebook is written to</span>
+<span class="sd">        filesystem before starting conversion. Does nothing if not in a</span>
+<span class="sd">        notebook environment.</span>
+
+
+<span class="sd">Returns:</span>
+<span class="sd">    None</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+<p>For example, to convert a notebook called <code>Hello.ipynb</code> using the Binder spec
+<code>calebs11/nbinteract-image/master</code>:</p>
+<div class="highlight"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;calebs11/nbinteract-image/master&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello.ipynb&#39;</span><span class="p">)</span>
+</pre></div>
+<h3 id="The-nbinteract-CLI-tool">The <code>nbinteract</code> CLI tool<a class="anchor-link" href="#The-nbinteract-CLI-tool">&#182;</a></h3><p>Installing the <code>nbinteract</code> package also installs a command-line tool for
+converting notebooks into HTML pages. It work identically to <code>nbi.publish()</code>
+but can be used on the command line.</p>
+
+<pre><code>Converts notebooks to interactive HTML pages or Gitbook pages.
+
+Usage:
+  nbinteract SPEC NOTEBOOKS ...
+  nbinteract [options] SPEC NOTEBOOKS ...
+  nbinteract (-h | --help)
+
+Arguments:
+  SPEC       BinderHub spec for Jupyter image. Must be in the format:
+             `{username}/{repo}/{branch}`. For example:
+             'SamLau95/nbinteract-image/master'.
+
+  NOTEBOOKS  List of notebooks or folders to convert. If folders are passed in,
+             all the notebooks in each folder are converted. The resulting HTML
+             files are created adjacent to their originating notebooks and will
+             clobber existing files of the same name.
+
+             By default, notebooks in subfolders will not be converted; use the
+             --recursive flag to recursively convert notebooks in subfolders.
+
+Options:
+  -h --help                  Show this screen
+  -t TYPE --template TYPE    Specifies the type of HTML page to generate. Valid
+                             types: full (standalone page), partial (embeddable
+                             page), or gitbook (embeddable page for GitBook).
+                             [default: full]
+  -B --no-top-button         If set, doesn't generate button at top of page.
+  -r --recursive             Recursively convert notebooks in subdirectories.
+  -o FOLDER --output=FOLDER  Outputs HTML files into FOLDER instead of
+                             outputting files adjacent to their originating
+                             notebooks. All files will be direct descendants of
+                             the folder even if --recursive is set.
+  -i FOLDER --images=FOLDER  Extracts images from HTML and writes into FOLDER
+                             instead of encoding images in base64 in the HTML.
+                             Requires -o option to be set as well.</code></pre>
+<p>For example, to convert a notebook called <code>Hello.ipynb</code> using the Binder spec
+<code>calebs11/nbinteract-image/master</code>:</p>
+<div class="highlight"><pre><span></span>nbinteract calebs11/nbinteract-image/master Hello.ipynb
+</pre></div>
+<p>One advantage of the command line tool is that it can convert notebooks in
+folders as well as individual notebooks:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Using the -r flag tells nbinteract to recursively search for .ipynb files</span>
+<span class="c1"># in nb_folder</span>
+nbinteract -r calebs11/nbinteract-image/master nb_folder/
+</pre></div>
+
+</div>
+</div>
+</div>
+
+
+</div>
+
+{% endraw %}
