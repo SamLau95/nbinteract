@@ -83,6 +83,12 @@ DOCKER_DOCS = 'https://mybinder.readthedocs.io/en/latest/dockerfile.html'
 ERROR = 1
 SUCCESS = 0
 
+DEFAULT_REQUIREMENTS_TXT = '''
+numpy
+ipywidgets
+nbinteract
+'''.strip()
+
 
 def binder_spec_from_github_url(github_url):
     """
@@ -254,7 +260,7 @@ def init():
         if yes:
             # TODO(sam): Don't hard-code requirements.txt
             with open('requirements.txt', 'w', encoding='utf-8') as f:
-                f.writelines(['numpy\n', 'nbinteract\n'])
+                f.write(DEFAULT_REQUIREMENTS_TXT)
             log(
                 'Created requirements.txt. Edit this file now to include the '
                 'rest of your dependencies, then rerun nbinteract init.'
