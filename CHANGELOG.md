@@ -7,6 +7,15 @@ to keep track of.
 
 ## master
 
+## 0.2.1
+
+**Python**
+
+Features:
+
+- When publishing, the branch name of the spec is now optional (defaults to
+  `master`) (https://github.com/SamLau95/nbinteract/pull/91).
+
 ## 0.2.0
 
 **JS**
