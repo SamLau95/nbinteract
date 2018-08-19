@@ -31,7 +31,8 @@ a 1-level nesting; we will label 1.2, but not 1.2.1.
       {% comment %}
       If the entry is the current page, assign a CSS class to highlight it.
       {% endcomment %}
-      {% if chapter.url == page.url %}
+      {% if chapter.url == page.url
+          or (chapter.url == '/index.html' and page.url == '/') %}
         {% assign active_class = "c-sidebar__entry--active" %}
       {% else %}
         {% assign active_class = "" %}
