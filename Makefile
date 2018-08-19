@@ -1,4 +1,4 @@
-.PHONY: help serve build publish book install clean gitbook bump_binder
+.PHONY: help serve build publish docs install clean book bump_binder notebooks
 
 NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
@@ -19,14 +19,11 @@ publish: publish_py publish_js ## Build python package and JS bundle
 install: ## Installs Python package locally
 	pip install -e .
 
-book: ## Convert notebooks to HTML for Gitbooks
-	cd docs && python convert_notebooks_to_html_partial.py && touch SUMMARY.md
-	git add docs book.json
-	git commit -m "Convert notebooks"
+notebooks: ## Convert notebooks to HTML for Gitbooks
+	cd docs && python convert_notebooks_to_html_partial.py
 
-gitbook: ## Runs gitbook locally
-	gitbook install
-	gitbook serve
+docs: doc_notebooks ## Runs documentation locally
+	guard
 
 test: ## Run tests
 	python setup.py test

@@ -1,0 +1,77 @@
+# This file contains the order and numbering for all sections in the book.
+# _includes/sidebar.html renders this as a sidebar.
+#
+# Each entry has the following schema:
+#
+# title: Title of chapter or section
+# url: URL of section. Use absolute URLs to link between pages
+# sections: Contains chapter's sections
+# not_numbered: true if the section shouldn't have a number in the sidebar
+#   (e.g. Introduction or appendices)
+# divider: true if this entry should just be rendered as a horizontal divider
+#   in the sidebar. All other values are ignored.
+
+
+- title: nbinteract Docs
+  url: /index.html
+  not_numbered: true
+- title: Motivation
+  url: /motivation.html
+  not_numbered: true
+- divider: true
+- title: Getting Started
+  url: /tutorial/tutorial_intro.html
+  not_numbered: true
+  sections:
+  - title: Setting up GitHub Pages
+    url: /tutorial/tutorial_github_setup.html
+    not_numbered: true
+  - title: Simple Interactive Webpage
+    url: /tutorial/tutorial_interact.html
+    not_numbered: true
+  - title: Publishing Your Webpage
+    url: /tutorial/tutorial_publishing.html
+    not_numbered: true
+  - title: "Walkthrough: Monty Hall Simulation"
+    url: /tutorial/tutorial_monty_hall.html
+    not_numbered: true
+- divider: true
+- title: Recipes
+  url: /recipes/recipes_intro.html
+  not_numbered: true
+  sections:
+  - title: Exporting
+    url: /recipes/recipes_exporting.html
+    not_numbered: true
+  - title: Graphing
+    url: /recipes/recipes_graphing.html
+    not_numbered: true
+  - title: Interactive Questions
+    url: /recipes/recipes_interactive_questions.html
+    not_numbered: true
+- divider: true
+- title: Examples
+  url: /examples/examples_intro.html
+  not_numbered: true
+  sections:
+  - title: Empirical Distributions
+    url: /examples/examples_empirical_distributions.html
+    not_numbered: true
+  - title: Sampling from a Population
+    url: /examples/examples_sampling_from_a_population.html
+    not_numbered: true
+  - title: Variability of the Sample Mean
+    url: /examples/examples_variability_of_the_sample_mean.html
+    not_numbered: true
+  - title: Correlation
+    url: /examples/examples_correlation.html
+    not_numbered: true
+  - title: Linear Regression
+    url: /examples/examples_linear_regression.html
+    not_numbered: true
+  - title: Probability Distribution Plots
+    url: /examples/examples_probability_distribution_plots.html
+    not_numbered: true
+  - title: Central Limit Theorem
+    url: /examples/examples_central_limit_theorem.html
+    not_numbered: true

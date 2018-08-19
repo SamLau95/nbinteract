@@ -1,0 +1,104 @@
+---
+prev_page: '/tutorial/tutorial_intro.html'
+next_page: '/tutorial/tutorial_interact.html'
+---
+
+{% raw %}
+
+<div id="ipython-notebook">
+    <div class="buttons">
+        <button class="interact-button js-nbinteract-widget">
+            Show Widgets
+        </button>
+    </div>
+    
+
+
+
+
+
+
+
+  
+
+  <div class="nbinteract-hide_in
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="c1"># Clear previously defined variables</span>
+<span class="o">%</span><span class="k">reset</span> -f
+
+<span class="c1"># Set directory for data loading to work properly</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/notebooks/tutorial&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Setting-Up-GitHub-Pages">Setting Up GitHub Pages<a class="anchor-link" href="#Setting-Up-GitHub-Pages">&#182;</a></h1><p>GitHub Pages is one of the simplest ways to host webpages for others to view.
+We will walk through the necessary steps here to set up a repo that we will use
+later in the tutorial to publish your webpage to the internet.</p>
+<p>If you would prefer not to publish your webpage, you may skip this page of the
+tutorial.</p>
+<h2 id="Creating-an-Account-and-Repo">Creating an Account and Repo<a class="anchor-link" href="#Creating-an-Account-and-Repo">&#182;</a></h2><p>To begin, visit <a href="https://github.com/">https://github.com/</a> and create an account. If you already have
+an account, you should log in.</p>
+<p>Then, create a new repo. You may do this using the GitHub UI or visiting
+<a href="https://github.com/new">https://github.com/new</a> . Name the repo <code>nbinteract-tutorial</code>. If you'd like a
+different name, feel free to name it something else. However, we will use this
+repo name in later parts of the tutorial.</p>
+<p>Make sure your repo is public, and click the checkbox to initialize your repo
+with a README. Your page should look like:</p>
+<p><img src="https://user-images.githubusercontent.com/2468904/34801736-1837d22a-f61f-11e7-92e3-8eddf7d5da0f.png"
+  alt="gh-repo-setup"
+  width="80%"
+  style="margin: 0 10%;"
+></p>
+<p>Now, click on the Settings link for the repo near the top of the page, scroll
+down to the GitHub Pages section, and select the <code>master</code> branch as the GitHub
+pages source. Click the Save button to save your changes.</p>
+<p><img src="https://user-images.githubusercontent.com/2468904/34801810-650af35c-f61f-11e7-8650-cb90c8ec60b1.png"
+  alt="gh-pages-setup"
+  width="80%"
+  style="margin: 0 10%;"
+></p>
+<p>Now, any file you upload to this repo will have a public URL. For example, the
+<code>README.md</code> file in the repo has the following URL:</p>
+
+<pre><code>&lt;username&gt;.github.io/nbinteract-tutorial/README.md</code></pre>
+<p>Where <code>&lt;username&gt;</code> is replaced with your GitHub username. For example, if my
+username is <code>SamLau95</code>, my URL is:</p>
+
+<pre><code>SamLau95.github.io/nbinteract-tutorial/README.md</code></pre>
+<p>If you can visit that URL and the page contains text (not a 404 error) you've
+set up everything correctly.</p>
+<h2 id="Setting-up-a-Binder-Image">Setting up a Binder Image<a class="anchor-link" href="#Setting-up-a-Binder-Image">&#182;</a></h2><p><code>nbinteract</code> uses a free service called <a href="https://mybinder.org/">Binder</a> in order to run Python
+code and generate widgets. In order to use Binder, you will have to create a
+GitHub repository containing the packages you want to install.</p>
+<p>The easiest way to create this repo is to visit
+<a href="https://github.com/SamLau95/nbinteract-image">https://github.com/SamLau95/nbinteract-image</a> and click the Fork button in the
+upper right hand side of the page. Forking this repo will create a copy of it
+on your personal account and you will end up with a URL that looks like:</p>
+
+<pre><code>https://github.com/&lt;username&gt;/nbinteract-image</code></pre>
+<p>Where <code>&lt;username&gt;</code> is replaced with your GitHub username. Now, visit
+<a href="https://mybinder.org/">https://mybinder.org/</a>, enter your repository's URL into the form, and click
+Launch. If no errors occur, you've successfully set up a Binder image for your
+interactive webpages.</p>
+<p>Let's move on to publishing your first interactive webpage!</p>
+
+</div>
+</div>
+</div>
+
+
+</div>
+
+{% endraw %}
