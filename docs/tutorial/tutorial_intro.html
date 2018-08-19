@@ -1,0 +1,79 @@
+---
+prev_page: '/motivation.html'
+next_page: '/tutorial/tutorial_github_setup.html'
+---
+
+{% raw %}
+
+<div id="ipython-notebook">
+    <div class="buttons">
+        <button class="interact-button js-nbinteract-widget">
+            Show Widgets
+        </button>
+    </div>
+    
+
+
+
+
+
+
+
+  
+
+  <div class="nbinteract-hide_in
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
+<span class="c1"># Clear previously defined variables</span>
+<span class="o">%</span><span class="k">reset</span> -f
+
+<span class="c1"># Set directory for data loading to work properly</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/notebooks/tutorial&#39;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started">&#182;</a></h1><p>In the following set of pages, we will show you how to use <code>nbinteract</code> and its
+related tools. At the end of this tutorial, you will have a publicly viewable
+interactive webpage to share with the world!</p>
+<h2 id="Following-Along">Following Along<a class="anchor-link" href="#Following-Along">&#182;</a></h2><p>The simplest way to follow this tutorial is to click the button below. It will
+launch a Jupyter server using Binder that comes pre-built with the necessary
+libraries.</p>
+<p><a href="https://staging.mybinder.org/v2/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb"><img src="https://mybinder.org/badge.svg" alt="Binder"></a></p>
+<p>Clicking the button above opens an empty Jupyter Notebook you can fill in
+while going through the rest of this tutorial. (We've assumed you've worked
+with Jupyter notebooks before, so we won't go over how to use Jupyter.)</p>
+<p>Once you have your notebook open, you may skip to the next page of this
+tutorial.</p>
+<h3 id="Installing-Locally">Installing Locally<a class="anchor-link" href="#Installing-Locally">&#182;</a></h3><p>If you prefer to work on your local machine, you can install the <code>nbinteract</code>
+package. To install the package, you must first have
+<a href="http://jupyter.readthedocs.io/en/latest/install.html">Jupyter Notebook installed</a>. Then, run:</p>
+
+<pre><code>pip install nbinteract
+# The next two commands can be skipped for notebook version 5.3 and above
+jupyter nbextension enable --py --sys-prefix bqplot
+jupyter nbextension enable --py --sys-prefix widgetsnbextension</code></pre>
+<p>Then, start your Jupyter notebook server using</p>
+
+<pre><code>jupyter notebook</code></pre>
+<p>Create a new notebook called <code>tutorial.ipynb</code> (we will use this filename in
+later parts of this tutorial).</p>
+
+</div>
+</div>
+</div>
+
+
+</div>
+
+{% endraw %}
