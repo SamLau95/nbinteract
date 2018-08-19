@@ -77,7 +77,7 @@ export class WidgetManager extends HTMLManager {
     const model = await util.msgToModel(msg, this)
     if (model) {
       // Remove all widget buttons
-      util.removeButtons(cell)
+      util.removeButtons()
 
       // Display widget
       const outputEl = util.cellToWidgetOutput(cell)
