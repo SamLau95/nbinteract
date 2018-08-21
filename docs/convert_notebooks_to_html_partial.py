@@ -16,7 +16,6 @@ Arguments:
 """
 
 import glob
-import re
 import os
 import yaml
 import toolz.curried as t
@@ -149,7 +148,7 @@ def _preamble_cell(path):
 
     # Set directory for data loading to work properly
     import os
-    os.chdir(os.path.expanduser('~/{}'))
+    os.chdir(os.path.expanduser('~/docs/{}'))
     '''.format(path)
     )
     return nbformat.v4.new_code_cell(source=code)
