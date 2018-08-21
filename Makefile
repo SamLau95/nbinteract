@@ -1,6 +1,6 @@
 .PHONY: help serve build publish docs install clean book bump_binder notebooks
 
-NOTEBOOK_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
+NB_SERVER_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --NotebookApp.disable_check_xsrf=True --NotebookApp.token='' --MappingKernelManager.cull_idle_timeout=300
 
 BINDER_REGEXP=.*"message": "([^"]+)".*
 
@@ -32,7 +32,7 @@ test-all: ## Run tests, including slow ones
 	python setup.py test -a '--runslow'
 
 ping_binder: ## Force-updates BinderHub image
-	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master?filepath=tutorial.ipynb |\
+	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master |\
 		grep -E '${BINDER_REGEXP}' |\
 		sed -E 's/${BINDER_REGEXP}/\1/' &
 
@@ -47,7 +47,7 @@ bump_binder: ## Updates Binder nbinteract version and rebuilds image
 	make ping_binder
 
 start_notebook:
-	python -m notebook $(NOTEBOOK_OPTS)
+	python -m notebook $(NB_SERVER_OPTS)
 
 start_webpack:
 	lerna run serve --stream

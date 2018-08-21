@@ -46,6 +46,9 @@
   - title: Graphing
     url: /recipes/recipes_graphing.html
     not_numbered: true
+  - title: Page Layout / Dashboarding
+    url: /recipes/recipes_layout.html
+    not_numbered: true
   - title: Interactive Questions
     url: /recipes/recipes_interactive_questions.html
     not_numbered: true
