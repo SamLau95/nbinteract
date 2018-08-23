@@ -32,6 +32,7 @@ test-all: ## Run tests, including slow ones
 	python setup.py test -a '--runslow'
 
 ping_binder: ## Force-updates BinderHub image
+	sleep 5 && \
 	curl -s https://mybinder.org/build/gh/SamLau95/nbinteract-image/master |\
 		grep -E '${BINDER_REGEXP}' |\
 		sed -E 's/${BINDER_REGEXP}/\1/' &
