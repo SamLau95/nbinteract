@@ -4,27 +4,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 
-const escape = s => {
-  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-}
-
-// These modules will get a stubbed version when required. Used to cut down
+// Use the shim() function to stub out unneeded modules. Used to cut down
 // bundle size since tree-shaking doesn't work with Typescript modules.
-const shimmed_modules = [
-  'moment',
-  'comment-json',
-  '@jupyterlab/apputils',
-  '@jupyterlab/codemirror',
-]
-const shims = shimmed_modules.map(
-  mod =>
-    new webpack.NormalModuleReplacementPlugin(
-      new RegExp(escape(mod)),
-      resource => {
-        resource.request = path.resolve(__dirname, `src/shims/${mod}`)
-      },
-    ),
-)
+const shimJS = path.resolve(__dirname, 'src', 'emptyshim.js')
+function shim(regExp) {
+  return new webpack.NormalModuleReplacementPlugin(regExp, shimJS)
+}
 
 const config = {
   mode: 'development',
@@ -39,7 +24,35 @@ const config = {
   devServer: {
     contentBase: './',
   },
-  plugins: [new CleanWebpackPlugin(['lib']), ...shims],
+  plugins: [
+    shim(/moment/),
+    shim(/comment-json/),
+
+    shim(/@jupyterlab\/apputils/),
+    shim(/@jupyterlab\/codemirror/),
+    shim(/codemirror\/keymap\/vim/),
+    shim(/codemirror\/addon\/search/),
+
+    shim(/elliptic/),
+    shim(/bn\.js/),
+    shim(/readable\-stream/),
+
+    // shim out some unused phosphor
+    shim(
+      /@phosphor\/widgets\/lib\/(commandpalette|box|dock|grid|menu|scroll|split|stacked|tab).*/,
+    ),
+    shim(/@phosphor\/(dragdrop|commands).*/),
+
+    shim(/@jupyterlab\/codeeditor\/lib\/jsoneditor/),
+    shim(/@jupyterlab\/coreutils\/lib\/(time|settingregistry|.*menu.*)/),
+    shim(/@jupyterlab\/services\/lib\/(session|contents|terminal)\/.*/),
+
+    new CleanWebpackPlugin(['lib']),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+    }),
+  ],
   module: {
     rules: [
       {
