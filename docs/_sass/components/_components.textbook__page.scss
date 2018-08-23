@@ -41,6 +41,8 @@
  */
 
 #ipython-notebook {
+  @include inuit-clearfix();
+
   .input_area pre,
   .output_text pre {
     background-color: $color-light-gray;
@@ -77,36 +79,36 @@
       margin-bottom: 0;
     }
   }
-}
 
-.cell.nbinteract-left {
+  .cell.nbinteract-left {
     width: 50%;
     float: left;
-}
+  }
 
-.cell.nbinteract-right {
+  .cell.nbinteract-right {
     width: 50%;
     float: right;
-}
+  }
 
-.cell.nbinteract-hide_in > .input {
+  .cell.nbinteract-hide_in > .input {
     display: none;
-}
+  }
 
-.cell.nbinteract-hide_out > .output_wrapper {
+  .cell.nbinteract-hide_out > .output_wrapper {
     display: none;
-}
+  }
 
-.cell:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  .cell:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
 
-div.output_subarea {
+  div.output_subarea {
     max-width: initial;
-}
+  }
 
-.jp-OutputPrompt {
+  .jp-OutputPrompt {
     display: none;
+  }
 }
