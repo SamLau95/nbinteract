@@ -145,10 +145,6 @@ def _preamble_cell(path):
     # HIDDEN
     # Clear previously defined variables
     %reset -f
-
-    # Set directory for data loading to work properly
-    import os
-    os.chdir(os.path.expanduser('~/docs/{}'))
     '''.format(path)
     )
     return nbformat.v4.new_code_cell(source=code)
