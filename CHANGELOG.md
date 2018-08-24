@@ -7,6 +7,15 @@ to keep track of.
 
 ## master
 
+## 0.2.2
+
+**JS**
+
+Features:
+
+- Bundle size reduced to 1.23 MB unzipped (https://github.com/SamLau95/nbinteract/commit/cdb053f0018bdda0f4554ce5f0840b719a3af05e).
+
+
 ## 0.2.1
 
 **JS**
