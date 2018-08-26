@@ -30,10 +30,6 @@ next_page: '/tutorial/tutorial_intro.html'
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># HIDDEN</span>
 <span class="c1"># Clear previously defined variables</span>
 <span class="o">%</span><span class="k">reset</span> -f
-
-<span class="c1"># Set directory for data loading to work properly</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/docs/notebooks&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -43,21 +39,17 @@ next_page: '/tutorial/tutorial_intro.html'
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h1><p>The goal of nbinteract is to allow authors and educators to easily create
-interactive demos.</p>
-<p>Interactive explanations of concepts are useful for commmunicating and
-explaining tricky concepts. Consider these explanations for <a href="http://setosa.io/ev/ordinary-least-squares-regression/">linear
-regression</a> and <a href="https://students.brown.edu/seeing-theory/compound-probability/index.html#third">conditional probability</a>, for example.</p>
-<p>However, making an interactive webpage is challenging since it requires deep
-knowledge of web technologies and especially Javascript. Python developers/data
-scientists might not have this skillset but can create interactive demos in a
-Jupyter notebook through <a href="http://jupyter.org/widgets.html">Jupyter widgets</a>. Unfortunately, sharing
-these demos requires other users to download the notebook and run a notebook
-server on their own machines.</p>
-<p>nbinteract provides an easy way to convert Jupyter notebooks into HTML pages
-with interactive widgets. In addition, nbinteract has helper methods built on
-top of <code>ipywidgets</code> that allow users to create complicated visualizations with
-single function calls.</p>
+<h1 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>nbinteract</code> aims to enable authors and educators to easily create and share interactive web pages.</p>
+<p>Interactive explanations of concepts are useful for communicating and explaining tricky concepts. Consider these explanations for <a href="http://setosa.io/ev/ordinary-least-squares-regression/">linear regression</a> and <a href="https://students.brown.edu/seeing-theory/compound-probability/index.html#third">conditional probability</a>, for example.</p>
+<p>However, making an interactive webpage often requires significant knowledge of web technologies and especially Javascript. While <a href="http://jupyter.org/widgets.html">Jupyter widgets</a> allow authors to generate interactive interfaces directly in a Jupyter notebook, sharing these demos typically requires readers to run the notebook. This causes issues when the reader's computer lacks (correct versions of) the packages needed to completely run the notebook.</p>
+<p><code>nbinteract</code> provides a single binary that converts Jupyter notebooks into HTML pages. The resulting HTML pages can be shared with the public, keeping any interactivity created using Jupyter widgets. For example, the interactive parts of this website are entirely generated from notebooks using <code>nbinteract</code>.</p>
+<p>In addition, <code>nbinteract</code> provides a Python package. Once imported, <code>nbinteract</code> provides helper methods that allow users to create simple interactive visualizations with single function calls.</p>
 
 </div>
 </div>
