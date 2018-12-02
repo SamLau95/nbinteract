@@ -15,6 +15,11 @@ Features:
 
 - Bundle size reduced to 1.23 MB unzipped (https://github.com/SamLau95/nbinteract/commit/cdb053f0018bdda0f4554ce5f0840b719a3af05e).
 
+**Python**
+
+Bug fixes:
+
+- Require jinja2 version to be at least 2.10
 
 ## 0.2.1
 
