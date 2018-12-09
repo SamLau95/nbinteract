@@ -98,7 +98,7 @@ def binder_spec_from_github_url(github_url):
     git@github.com:SamLau95/nbinteract.git -> SamLau95/nbinteract/master
     https://github.com/Calebs97/riemann_book -> Calebs97/riemann_book/master
     """
-    tokens = re.split(r'\W+', github_url.replace('.git', ''))
+    tokens = re.split(r'/|:', github_url.replace('.git', ''))
     # The username and reponame are the last two tokens
     return '{}/{}/master'.format(tokens[-2], tokens[-1])
 

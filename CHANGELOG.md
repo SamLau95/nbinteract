@@ -7,6 +7,14 @@ to keep track of.
 
 ## master
 
+## 0.2.3
+
+**Python**
+
+Bug fixes:
+
+- Fix bug in initialization script for repos with dashes in the name.
+
 ## 0.2.2
 
 **JS**
