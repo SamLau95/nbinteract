@@ -13,13 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/SamLau95/nbinteract.git"
   },
-  "keywords": [
-    "jupyter",
-    "notebook",
-    "html",
-    "interactive",
-    "widgets"
-  ],
+  "keywords": ["jupyter", "notebook", "html", "interactive", "widgets"],
   "author": "Sam Lau",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -29,5 +23,6 @@
   "dependencies": {
     "nbinteract-core": "^0.2.1"
   },
+  "devDependencies": {},
   "gitHead": "9f00f654748b85702463b60a98751943c0107486"
 }
