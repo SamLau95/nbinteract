@@ -7,6 +7,14 @@ to keep track of.
 
 ## master
 
+## 0.2.4
+
+**JS**
+
+- Enable users to specify notebook server instead of Binder server through the
+  `nbUrl` config option when initializing the `NbInteract` object
+  (https://github.com/SamLau95/nbinteract/pull/102).
+
 ## 0.2.3
 
 **Python**
