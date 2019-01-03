@@ -25,6 +25,10 @@ notebooks: ## Convert notebooks to HTML for Gitbooks
 docs: notebooks ## Runs documentation locally
 	cd docs && guard
 
+internal_examples: ## Converts internal examples for development
+	nbinteract -t local packages/nbinteract-core/example-notebooks/* \
+	  -o packages/nbinteract-core/examples
+
 test: ## Run tests
 	python setup.py test
 
