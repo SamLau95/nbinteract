@@ -16,9 +16,6 @@ const VALID_STATES = new Set([
   'ready',
 ])
 
-// This is hard-coded to the server started using `make start_notebook`
-const LOCAL_SERVER_URL = 'http://localhost:8889/'
-
 /**
  * Implements the Binder API to start kernels.
  */
@@ -38,17 +35,24 @@ export default class BinderHub {
    * @param {Object} [config.callbacks] - Mapping from state to callback fired
    *     when BinderHub transitions to that state.
    *
-   * @param {Boolean} [config.local] - If true, uses locally running notebook
-   *     server instead of mybinder.org server. Used for development only.
+   * @param {String} [config.nbUrl] - Full URL of a running notebook server.
+   *     If set, NbInteract ignores all Binder config and will directly request
+   *     Python kernels from the notebook server.
+   *
+   *     Defaults to `false`; by default we use Binder to start a notebook
+   *     server.
    */
-  constructor(
-    { spec, baseUrl, provider, callbacks = {}, local = false } = {},
-  ) {
-    this.local = local
-
+  constructor({
+    spec,
+    baseUrl,
+    provider,
+    callbacks = {},
+    nbUrl = false,
+  } = {}) {
     this.baseUrl = baseUrl
     this.provider = provider
     this.spec = spec
+    this.nbUrl = nbUrl
 
     this.callbacks = callbacks
     this.state = null
@@ -68,9 +72,9 @@ export default class BinderHub {
   }
 
   startServer() {
-    if (this.local) {
+    if (this.nbUrl) {
       return Promise.resolve({
-        url: LOCAL_SERVER_URL,
+        url: this.nbUrl,
       })
     }
 

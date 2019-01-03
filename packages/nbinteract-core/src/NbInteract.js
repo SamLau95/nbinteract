@@ -30,21 +30,27 @@ export default class NbInteract {
    *
    * @param {String} [config.provider] - BinderHub provider. Defaults to 'gh'
    *     for GitHub.
+   *
+   * @param {String} [config.nbUrl] - Full URL of a running notebook server.
+   *     If set, NbInteract ignores all Binder config and will directly request
+   *     Python kernels from the notebook server.
+   *
+   *     Defaults to `false`; by default we use Binder to start a notebook
+   *     server.
    */
-  constructor(
-    {
-      spec = DEFAULT_SPEC,
-      baseUrl = DEFAULT_BASE_URL,
-      provider = DEFAULT_PROVIDER,
-    } = {},
-  ) {
+  constructor({
+    spec = DEFAULT_SPEC,
+    baseUrl = DEFAULT_BASE_URL,
+    provider = DEFAULT_PROVIDER,
+    nbUrl = false,
+  } = {}) {
     this.run = debounce(this.run, 500, {
       leading: true,
       trailing: false,
     })
     this._kernelHeartbeat = this._kernelHeartbeat.bind(this)
 
-    this.binder = new BinderHub({ spec, baseUrl, provider, local: false })
+    this.binder = new BinderHub({ spec, baseUrl, provider, nbUrl })
 
     // Keep track of properties for debugging
     this.kernel = null

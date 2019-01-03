@@ -11,9 +11,7 @@ webpack-dev-server.
 <script src="http://localhost:8080/index.bundle.js"></script>
 <script>
   var interact = new NbInteract({
-    spec: '{{ spec }}',
-    baseUrl: '{{ base_url }}',
-    provider: '{{ provider }}',
+    nbUrl: 'http://localhost:8889/',
   })
   interact.prepare()
 </script>
