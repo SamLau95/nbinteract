@@ -4,6 +4,8 @@ NB_SERVER_OPTS = --port 8889 --no-browser --NotebookApp.allow_origin="*" --Noteb
 
 BINDER_REGEXP=.*"message": "([^"]+)".*
 
+LERNA = node_modules/.bin/lerna
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -55,22 +57,22 @@ start_notebook:
 	python -m notebook $(NB_SERVER_OPTS)
 
 start_webpack:
-	lerna run serve --stream
+	$(LERNA) run serve --stream
 
 build_py: ## Build python package
 	rm -rf dist/*
 	python setup.py bdist_wheel
 
 build_js: ## Build Javascript bundle
-	lerna run build --stream
+	$(LERNA) run build --stream
 
 publish_py: build_py ## Publish nbinteract to PyPi and updates Binder image
 	twine upload dist/*
 	make bump_binder
 
 publish_js: build_js ## Publish nbinteract to npm
-	lerna publish --force-publish=* -m "Publish js %s"
+	$(LERNA) publish --force-publish=* -m "Publish js %s"
 
 clean: ## Clean built Python and JS files
 	rm -rf build/* dist/*
-	lerna run clean
+	$(LERNA) run clean
