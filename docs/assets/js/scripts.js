@@ -147,7 +147,7 @@ const setupNbinteract = () => {
     console.log('Initializing nbinteract...')
     interact = new window.NbInteract({
       baseUrl: 'https://mybinder.org',
-      spec: 'DS-100/textbook/master',
+      spec: 'SamLau95/nbinteract/master',
       provider: 'gh',
     })
     window.interact = interact
