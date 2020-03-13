@@ -12,7 +12,7 @@ from os import path
 import sys
 
 # Package version
-version = '0.2.4'
+version = '0.2.5'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -47,6 +47,7 @@ setup(
     version=version,
     description='Export interactive HTML pages from Jupyter Notebooks',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/SamLau95/nbinteract',
     author='Sam Lau',
     author_email='samlau95@gmail.com',
