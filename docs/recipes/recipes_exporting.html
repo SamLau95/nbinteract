@@ -48,8 +48,8 @@ next_page: '/recipes/recipes_graphing.html'
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-nbinteract-CLI-tool">The <code>nbinteract</code> CLI tool<a class="anchor-link" href="#The-nbinteract-CLI-tool">&#182;</a></h3><p>Installing the <code>nbinteract</code> package installs a command-line tool for converting notebooks into HTML pages.</p>
 <p>For example, to convert a notebook called <code>Hello.ipynb</code> using the Binder spec
-<code>calebs11/nbinteract-image/master</code>:</p>
-<div class="highlight"><pre><span></span><span class="c1"># `master` is optional since it is the default</span>
+<code>calebs11/nbinteract-image/main</code>:</p>
+<div class="highlight"><pre><span></span><span class="c1"># `main` is optional since it is the default</span>
 nbinteract Hello.ipynb -s calebs11/nbinteract-image
 </pre></div>
 <p>After running <code>nbinteract init</code>, you may omit the <code>-s</code> flag and simply write:</p>
@@ -90,7 +90,7 @@ Options:
                              'SamLau95/nbinteract-image/master'. This flag is
                              **required** unless a .nbinteract.json file exists
                              in the project root with the "spec" key. If branch
-                             is not specified, default to `master`.
+                             is not specified, default to `main`.
   -t TYPE --template TYPE    Specifies the type of HTML page to generate. Valid
                              types: full (standalone page), partial (embeddable
                              page with library), or plain (embeddable page
@@ -157,8 +157,8 @@ the following signature:</p>
 <span class="sd">&#39;&#39;&#39;</span>
 </pre></div>
 <p>For example, to convert a notebook called <code>Hello.ipynb</code> using the Binder spec
-<code>calebs11/nbinteract-image/master</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;calebs11/nbinteract-image/master&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello.ipynb&#39;</span><span class="p">)</span>
+<code>calebs11/nbinteract-image/main</code>:</p>
+<div class="highlight"><pre><span></span><span class="n">nbi</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s1">&#39;calebs11/nbinteract-image/main&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello.ipynb&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>

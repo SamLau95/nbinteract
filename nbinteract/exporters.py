@@ -62,7 +62,7 @@ class InteractExporter(HTMLExporter):
     enabled.
     """
     spec = Unicode(
-        'SamLau95/nbinteract-image/main',
+        'SamLau95/nbinteract-image/master',
         help='BinderHub spec for Jupyter image.'
     ).tag(config=True)
 
@@ -86,7 +86,7 @@ class InteractExporter(HTMLExporter):
             spec (str): BinderHub spec for Jupyter image. Must be in the
                 format: `${username}/${repo}/${branch}` or
                 `${username}/${repo}`, in which case `branch` defaults to
-                `main`. Defaults to 'SamLau95/nbinteract-image/main'.
+                `main`. Defaults to 'SamLau95/nbinteract-image/master'.
 
             base_url (str): Base Binder URL. Defaults to
                 'https://mybinder.org'.
