@@ -86,7 +86,7 @@ class InteractExporter(HTMLExporter):
             spec (str): BinderHub spec for Jupyter image. Must be in the
                 format: `${username}/${repo}/${branch}` or
                 `${username}/${repo}`, in which case `branch` defaults to
-                `master`. Defaults to 'SamLau95/nbinteract-image/master'.
+                `main`. Defaults to 'SamLau95/nbinteract-image/master'.
 
             base_url (str): Base Binder URL. Defaults to
                 'https://mybinder.org'.
@@ -143,7 +143,7 @@ class InteractExporter(HTMLExporter):
         if spec_parts == 3:
             return spec
         elif spec_parts == 2:
-            return spec + '/master'
+            return spec + '/main'
         else:
             raise TraitError(
                 'spec must contain two or three components but only got '
