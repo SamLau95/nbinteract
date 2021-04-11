@@ -1,5 +1,5 @@
 {%- extends 'partial.tpl' -%}
-{% from 'mathjax.tpl' import mathjax %}
+{% from 'mathjax' import mathjax %}
 {% from 'nbinteract_css.tpl' import nbinteract_css %}
 
 {#
