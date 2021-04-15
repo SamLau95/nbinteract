@@ -1,6 +1,6 @@
 numpy>=1, <2
 IPython>=6, <8
-nbconvert>=6
+nbconvert>=6, <7
 traitlets>=4.3, <5
 toolz>=0.8, <1
 docopt>=0.6.2, <1
