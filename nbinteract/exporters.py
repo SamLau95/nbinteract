@@ -119,12 +119,18 @@ class InteractExporter(HTMLExporter):
                 find templates. Will be tried in order before the default
                 FileSystem ones.
         """
-        super(InteractExporter, self).__init__(config=config, **kw)
+        # nbconvert 6 expects the full path for 5.x style .tpl files
+        if 'template_file' in kw:
+            kw['template_file'] = os.path.join(
+                os.path.dirname(__file__), 'templates',
+                kw['template_file'] + '.tpl')
+        if config is not None:
+            if config.InteractExporter.has_key('template_file'):
+                config.InteractExporter.template_file = os.path.join(
+                    os.path.dirname(__file__), 'templates',
+                    config.InteractExporter.template_file + '.tpl')
 
-        # Add current dir to template_path so we can find the template
-        self.template_path.insert(
-            0, os.path.join(os.path.dirname(__file__), 'templates')
-        )
+        super(InteractExporter, self).__init__(config=config, **kw)
 
         # Set variables that will be available in the template
         self.environment.globals['spec'] = self.spec
@@ -134,7 +140,8 @@ class InteractExporter(HTMLExporter):
 
     @default('template_file')
     def _template_file_default(self):
-        return 'full.tpl'
+        return os.path.join(
+            os.path.dirname(__file__), 'templates', 'full.tpl')
 
     @validate('spec')
     def _valid_spec(self, proposal):
