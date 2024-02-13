@@ -1,3 +1,5 @@
+‼️ `nbinteract` is an old research project and is no longer actively maintained. Try https://github.com/voila-dashboards/voila instead. ‼️
+
 nbinteract
 =================
 
