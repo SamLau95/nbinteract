@@ -9,7 +9,7 @@ author: Samuel Lau and Caleb Siu
 email: samlau95@berkeley.edu
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://www.nbinteract.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.samlau.me/nbinteract" # the base hostname & protocol for your site, e.g. http://example.com
 
 css_url: "/assets/css" # Path to static CSS files
 js_url: "/assets/js" # Path to JS files
